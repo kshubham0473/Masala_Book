@@ -2,7 +2,12 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Masala Book">
+<meta name="theme-color" content="#1A1208">
 <title>Masala Book</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -239,14 +244,95 @@ input[readonly]{background:var(--paper);color:var(--muted)}
 .filter-btn.active{background:var(--saffron);color:#fff;border-color:var(--saffron)}
 .stock-val{font-size:.78rem;color:var(--cardamom);background:#EEF4E8;padding:2px 8px;border-radius:20px;font-weight:600}
 
+
+/* ══════════════════════════════════════════════════════════
+   BOTTOM NAV — mobile only
+   ══════════════════════════════════════════════════════════ */
+.bottom-nav{display:none}
+
 @media(max-width:700px){
-  header{padding:0 12px;gap:8px}
-  nav button{padding:8px 8px;font-size:.68rem;letter-spacing:.2px}
+  /* ── Header: logo + status dot only, no nav ── */
+  header{padding:0 14px;gap:8px}
+  nav{display:none}   /* top nav hidden on mobile */
+  .header-right .api-status-text{display:none}
+  .btn-refresh span{display:none} /* hide "Sync" text, show icon only */
+
+  /* ── Body needs bottom padding so content clears the nav bar ── */
+  body{padding-bottom:68px}
+  main{padding:16px 12px 24px}
+
+  /* ── Bottom navigation bar ── */
+  .bottom-nav{
+    display:flex;
+    position:fixed;bottom:0;left:0;right:0;
+    background:var(--ink);
+    border-top:2px solid var(--saffron);
+    z-index:300;
+    padding:0;
+    padding-bottom:env(safe-area-inset-bottom);
+  }
+  .bn-item{
+    flex:1;display:flex;flex-direction:column;align-items:center;
+    justify-content:center;padding:8px 2px 6px;
+    color:#7A6B55;font-size:.58rem;font-weight:700;letter-spacing:.3px;
+    text-transform:uppercase;cursor:pointer;border:none;background:none;
+    font-family:"DM Sans",sans-serif;gap:3px;transition:color .15s;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .bn-item .bn-icon{font-size:1.3rem;line-height:1}
+  .bn-item.active,.bn-item:active{color:var(--saffron)}
+  .bn-item.active .bn-icon{filter:drop-shadow(0 0 4px var(--saffron))}
+
+  /* ── Layout ── */
   .fg-row.c2,.fg-row.c3,.fg-row.c4{grid-template-columns:1fr}
+  .stat-grid{grid-template-columns:1fr 1fr;gap:10px}
+  .stat-val{font-size:1.35rem}
+  .stat{padding:14px}
+
+  /* ── Tables: horizontal scroll on mobile ── */
+  .card,.pending-card{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  table{min-width:480px}
+  th,td{padding:9px 10px;font-size:.78rem}
+
+  /* ── Forms ── */
+  .form-card{padding:14px}
+  input,select,textarea{font-size:16px !important} /* prevents iOS zoom */
+  .btn{padding:10px 16px;font-size:.85rem}
+  .btn-sm{padding:7px 12px;font-size:.78rem}
+
+  /* ── Recipe editor ── */
   .recipe-row,.recipe-rows-header{grid-template-columns:2fr 1fr 1fr 32px}
-  .stat-val{font-size:1.5rem}
+
+  /* ── Order type buttons ── */
   .order-type-group{gap:6px}
-  .otype-btn{padding:6px 10px;font-size:.76rem}
+  .otype-btn{padding:8px 10px;font-size:.78rem;flex:1}
+
+  /* ── Settings dark card ── */
+  .settings-section{padding:16px}
+
+  /* ── WhatsApp tab ── */
+  .scan-config{flex-direction:column;gap:10px}
+  .rc-item-row{grid-template-columns:1fr 60px auto}
+
+  /* ── Collapse cards ── */
+  .collapse-body{padding:0 14px 16px}
+}
+
+/* Slightly tighten tablet too */
+@media(max-width:900px) and (min-width:701px){
+  nav button{padding:8px 10px;font-size:.72rem}
+}
+
+/* ── iOS: prevent auto-zoom on input focus (requires font-size >= 16px on mobile) ── */
+@media(max-width:700px){
+  input,select,textarea{ font-size:16px !important; }
+  /* Nicer touch targets for buttons */
+  .btn,.btn-sm,.bn-item{ min-height:44px; }
+  .btn-sm{ min-height:36px; }
+  /* Sticky headers for tables */
+  th{ position:sticky;top:0;z-index:1; }
+  /* Scrollable tables */
+  .card>table,.pending-card>table{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch}
 }
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
@@ -276,6 +362,28 @@ input[readonly]{background:var(--paper);color:var(--muted)}
 
 <div class="saving-badge" id="saving-badge"><span class="loader"></span> Saving…</div>
 <div id="toast-container"></div>
+
+<!-- ── Bottom nav (mobile only) ── -->
+<nav class="bottom-nav" id="bottom-nav">
+  <button class="bn-item active" onclick="nav('dashboard',this)" data-section="dashboard">
+    <span class="bn-icon">📊</span>Home
+  </button>
+  <button class="bn-item" onclick="nav('orders',this)" data-section="orders">
+    <span class="bn-icon">🛒</span>Orders
+  </button>
+  <button class="bn-item" onclick="nav('masalas',this)" data-section="masalas">
+    <span class="bn-icon">🌶</span>Masalas
+  </button>
+  <button class="bn-item" onclick="nav('inventory',this)" data-section="inventory">
+    <span class="bn-icon">🌿</span>Stock
+  </button>
+  <button class="bn-item" onclick="nav('whatsapp',this)" data-section="whatsapp">
+    <span class="bn-icon">💬</span>WA
+  </button>
+  <button class="bn-item" onclick="nav('settings',this)" data-section="settings">
+    <span class="bn-icon">⚙️</span>Settings
+  </button>
+</nav>
 
 <main>
 
@@ -666,9 +774,18 @@ let _optimisticRendered = false;
 // ══════════════════════════════════════════════════════════════
 function nav(id, btn) {
   document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  // Sync both top nav and bottom nav active states
+  document.querySelectorAll('nav button, .bottom-nav .bn-item').forEach(b => b.classList.remove('active'));
   document.getElementById(id).classList.add('active');
   if (btn) btn.classList.add('active');
+  // Keep bottom nav in sync even when top nav button clicked
+  document.querySelectorAll('.bottom-nav .bn-item').forEach(b => {
+    if (b.dataset.section === id) b.classList.add('active');
+  });
+  // Keep top nav in sync even when bottom nav button clicked
+  document.querySelectorAll('header nav button').forEach(b => {
+    if (b.getAttribute('onclick')?.includes("'" + id + "'")) b.classList.add('active');
+  });
   if (id === 'dashboard') renderDashboard();
   if (id === 'orders')    { renderOrdersTable(); resetOrderForm(); }
   if (id === 'masalas')   renderMasalasTable();
@@ -676,6 +793,8 @@ function nav(id, btn) {
   if (id !== 'whatsapp' && waScanPollTimer) { clearInterval(waScanPollTimer); waScanPollTimer = null; }
   if (id === 'whatsapp') initWaSection();
   if (id === 'settings')  document.getElementById('script-url').value = SCRIPT_URL;
+  // Scroll to top on mobile when switching tabs
+  window.scrollTo({ top: 0, behavior: 'instant' });
 }
 
 // ══════════════════════════════════════════════════════════════
@@ -2118,7 +2237,83 @@ window.addEventListener('DOMContentLoaded', () => {
   } else {
     loadData();
   }
+  registerSW();
+  showInstallBanner();
 });
+
+// ── PWA: Service Worker registration ──────────────────────
+function registerSW() {
+  if (!('serviceWorker' in navigator)) return;
+  // Inline service worker as a blob — works from file:// and any server
+  const swCode = `
+const CACHE = 'masala-book-v1';
+const ASSETS = []; // single-file app, nothing extra to precache
+self.addEventListener('install', e => { self.skipWaiting(); });
+self.addEventListener('activate', e => { e.waitUntil(clients.claim()); });
+self.addEventListener('fetch', e => {
+  // Only cache same-origin GET requests; pass through API calls
+  const url = new URL(e.request.url);
+  if (e.request.method !== 'GET') return;
+  if (url.hostname === 'localhost') return; // bridge server — never cache
+  if (url.hostname.includes('script.google.com')) return; // sheets API — never cache
+  // Cache-first for fonts/CDN assets, network-first for the app itself
+  if (url.hostname !== location.hostname && url.hostname !== '') {
+    e.respondWith(
+      caches.open(CACHE).then(c => c.match(e.request).then(r => r || fetch(e.request).then(res => { c.put(e.request, res.clone()); return res; })))
+    );
+  }
+});
+  `;
+  const blob = new Blob([swCode], { type: 'application/javascript' });
+  const swUrl = URL.createObjectURL(blob);
+  navigator.serviceWorker.register(swUrl).catch(() => {});
+}
+
+// ── PWA: "Add to Home Screen" install prompt ──────────────
+let _installPrompt = null;
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();
+  _installPrompt = e;
+  showInstallBanner();
+});
+
+function showInstallBanner() {
+  // Show "Add to Home Screen" tip only on mobile and only once
+  if (window.matchMedia('(display-mode: standalone)').matches) return; // already installed
+  if (localStorage.getItem('pwa_dismissed')) return;
+  if (!/Mobi|Android/i.test(navigator.userAgent)) return;
+
+  const banner = document.createElement('div');
+  banner.id = 'pwa-banner';
+  banner.style.cssText = 'position:fixed;bottom:70px;left:12px;right:12px;background:var(--ink);color:var(--cream);border:1.5px solid var(--saffron);border-radius:12px;padding:12px 14px;font-size:.82rem;z-index:400;display:flex;align-items:center;gap:10px;box-shadow:0 4px 20px rgba(0,0,0,.3)';
+  banner.innerHTML = `
+    <span style="font-size:1.4rem">🌶</span>
+    <div style="flex:1">
+      <strong>Add to Home Screen</strong><br>
+      <span style="color:#9B8B72;font-size:.75rem">Tap Share → Add to Home Screen for app-like access</span>
+    </div>
+    <button onclick="document.getElementById('pwa-banner').remove();localStorage.setItem('pwa_dismissed','1')"
+      style="background:none;border:none;color:var(--saffron);font-size:1.2rem;cursor:pointer;padding:4px">✕</button>
+  `;
+
+  // On Android Chrome, we can trigger the real prompt
+  if (_installPrompt) {
+    const installBtn = document.createElement('button');
+    installBtn.textContent = 'Install';
+    installBtn.style.cssText = 'background:var(--saffron);color:#fff;border:none;border-radius:6px;padding:6px 12px;font-weight:700;cursor:pointer;font-size:.8rem;white-space:nowrap';
+    installBtn.onclick = async () => {
+      _installPrompt.prompt();
+      const { outcome } = await _installPrompt.userChoice;
+      banner.remove();
+      if (outcome === 'accepted') localStorage.setItem('pwa_dismissed','1');
+    };
+    banner.insertBefore(installBtn, banner.lastElementChild);
+  }
+
+  document.body.appendChild(banner);
+  // Auto-dismiss after 8s
+  setTimeout(() => banner.remove(), 8000);
+}
 </script>
 </body>
 </html>
