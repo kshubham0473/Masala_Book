@@ -243,6 +243,25 @@ input[readonly]{background:var(--paper);color:var(--muted)}
 .filter-btn{padding:5px 13px;border-radius:20px;border:1.5px solid var(--border);background:var(--white);font-size:.75rem;font-weight:600;cursor:pointer;transition:all .18s;font-family:'DM Sans',sans-serif;color:var(--muted)}
 .filter-btn.active{background:var(--saffron);color:#fff;border-color:var(--saffron)}
 .stock-val{font-size:.78rem;color:var(--cardamom);background:#EEF4E8;padding:2px 8px;border-radius:20px;font-weight:600}
+/* ─── READY STOCK ─── */
+.ready-stock-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-bottom:4px}
+.rs-card{background:var(--white);border:1.5px solid var(--border);border-radius:12px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;transition:border-color .2s}
+.rs-card:hover{border-color:var(--saffron)}
+.rs-card.low-stock{border-color:#FCD34D;background:#FFFBEB}
+.rs-card.out-of-stock{border-color:#FCA5A5;background:#FFF1F1}
+.rs-name{font-weight:700;font-size:.9rem}
+.rs-count{font-family:"Playfair Display",serif;font-size:1.8rem;font-weight:700;line-height:1;color:var(--ink)}
+.rs-count.out{color:var(--chili)}
+.rs-count.low{color:#D97706}
+.rs-sub{font-size:.72rem;color:var(--muted)}
+.rs-actions{display:flex;gap:6px;margin-top:4px}
+.rs-btn{flex:1;padding:6px 8px;border-radius:7px;border:none;font-family:"DM Sans",sans-serif;font-weight:700;font-size:.78rem;cursor:pointer;transition:all .18s;min-height:36px}
+.rs-btn.add{background:#E8F8EE;color:var(--success)}
+.rs-btn.add:hover{background:var(--success);color:#fff}
+.rs-btn.sub{background:#FDECEA;color:var(--chili)}
+.rs-btn.sub:hover{background:var(--chili);color:#fff}
+.rs-log-form{background:var(--paper);border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:16px;display:none}
+.rs-log-form.open{display:block}
 
 
 /* ══════════════════════════════════════════════════════════
@@ -557,9 +576,59 @@ input[readonly]{background:var(--paper);color:var(--muted)}
     </div>
   </div>
 
+  <!-- ── Ready-made stock panel ── -->
+  <div class="sec-title" style="margin-top:8px">
+    Ready-Made Stock
+    <span style="font-size:.72rem;color:var(--muted);font-family:'DM Sans',sans-serif;font-weight:400;margin-left:8px">packets sitting ready to sell</span>
+  </div>
+
+  <!-- Quick log form (hidden by default) -->
+  <div class="rs-log-form" id="rs-log-form">
+    <div style="font-weight:700;font-size:.88rem;margin-bottom:12px" id="rs-log-title">Log Batch</div>
+    <div class="fg-row c3">
+      <div class="fg">
+        <label>Masala</label>
+        <select id="rs-masala-sel" onchange="rsCalcValue()">
+          <option value="">— Select —</option>
+        </select>
+      </div>
+      <div class="fg">
+        <label>Packets made</label>
+        <input type="number" id="rs-qty" placeholder="e.g. 12" min="1" oninput="rsCalcValue()">
+      </div>
+      <div class="fg">
+        <label>Type</label>
+        <select id="rs-type">
+          <option value="add">➕ Add (made extra)</option>
+          <option value="sub">➖ Remove (damaged / used)</option>
+          <option value="set">📌 Set exact count</option>
+        </select>
+      </div>
+    </div>
+    <div class="fg">
+      <label>Note (optional)</label>
+      <input id="rs-note" placeholder="e.g. Made 2 batches, 4 extra packs">
+    </div>
+    <div id="rs-value-preview" style="font-size:.82rem;color:var(--muted);margin-bottom:10px"></div>
+    <div class="form-actions">
+      <button class="btn btn-primary btn-sm" onclick="saveReadyStock()">Save</button>
+      <button class="btn btn-secondary btn-sm" onclick="closeRsForm()">Cancel</button>
+    </div>
+  </div>
+
+  <div class="ready-stock-grid" id="rs-grid">
+    <div style="color:var(--muted);font-size:.85rem;grid-column:1/-1;padding:20px 0;text-align:center">
+      Add masalas below to track their ready stock.
+    </div>
+  </div>
+
+  <div style="margin-bottom:20px;display:flex;gap:8px;flex-wrap:wrap">
+    <button class="btn btn-ghost btn-sm" onclick="openRsForm()">＋ Log Batch / Adjustment</button>
+  </div>
+
   <div class="sec-title">Masala Products</div>
   <div class="card"><table>
-    <thead><tr><th>Masala</th><th>Batch</th><th>Recipe</th><th>Raw Cost</th><th>Total Cost</th><th>Selling ₹</th><th>Margin</th><th>Actions</th></tr></thead>
+    <thead><tr><th>Masala</th><th>Batch</th><th>Ready Stock</th><th>Recipe</th><th>Raw Cost</th><th>Total Cost</th><th>Selling ₹</th><th>Margin</th><th>Actions</th></tr></thead>
     <tbody id="t-masalas"></tbody>
   </table></div>
 </div>
@@ -1403,7 +1472,7 @@ function editMasala(id) {
 function renderMasalasTable() {
   const tb = document.getElementById('t-masalas');
   if (!DB.masalas.length) {
-    tb.innerHTML='<tr><td colspan="8"><div class="empty"><div class="empty-icon">🫙</div>No masalas added yet. Click "Add New Masala" above.</div></td></tr>';
+    tb.innerHTML='<tr><td colspan="9"><div class="empty"><div class="empty-icon">🫙</div>No masalas added yet. Click "Add New Masala" above.</div></td></tr>';
     return;
   }
   tb.innerHTML = DB.masalas.map(m => {
@@ -1413,12 +1482,17 @@ function renderMasalasTable() {
     const margin     = sell ? (((sell-totalCost)/sell)*100).toFixed(0) : null;
     const recipeRows = DB.recipes.filter(r => r.MasalaName === m.Name);
     const hasRecipe  = recipeRows.length > 0;
+    const stock      = parseInt(m.StockPacks) || 0;
+    const stockHtml  = stock === 0
+      ? '<span style="color:var(--chili);font-weight:700;font-size:.8rem">Out</span>'
+      : `<span class="stock-val" style="${stock<=2?'background:#FFF3CD;color:#856404':''}">${stock} pk${stock!==1?'s':''}</span>`;
     return `<tr>
       <td>
         <strong>${m.Name}</strong>
         ${m.Notes ? `<br><span style="font-size:.73rem;color:var(--muted)">${m.Notes}</span>` : ''}
       </td>
       <td>${m.BatchSizeG}g</td>
+      <td>${stockHtml}</td>
       <td>
         <span class="recipe-status ${hasRecipe?'has-recipe':'no-recipe'}">
           ${hasRecipe ? `✓ ${recipeRows.length} ingredient${recipeRows.length>1?'s':''}` : '⚠ No recipe'}
@@ -1434,6 +1508,7 @@ function renderMasalasTable() {
       </td>
     </tr>`;
   }).join('');
+  renderReadyStockGrid();
 }
 
 async function deleteMasala(id) {
@@ -1450,6 +1525,149 @@ async function deleteMasala(id) {
   } catch(e) {
     DB.masalas = original; _optimisticRendered = false; renderMasalasTable();
     toast('Error: ' + e.message, 'err');
+  } finally { setSaving(false); }
+}
+
+// ══════════════════════════════════════════════════════════════
+//  READY STOCK — finished masala packet inventory
+// ══════════════════════════════════════════════════════════════
+
+function renderReadyStockGrid() {
+  const grid = document.getElementById('rs-grid');
+  if (!DB.masalas.length) {
+    grid.innerHTML = '<div style="color:var(--muted);font-size:.85rem;grid-column:1/-1;padding:20px 0;text-align:center">Add masalas first to track ready stock.</div>';
+    return;
+  }
+
+  grid.innerHTML = DB.masalas.map(m => {
+    const stock = parseInt(m.StockPacks) || 0;
+    const sell  = parseFloat(m.SellingPrice) || 0;
+    const value = (stock * sell).toFixed(0);
+    const isOut = stock === 0;
+    const isLow = stock > 0 && stock <= 3;
+    return `<div class="rs-card ${isOut?'out-of-stock':isLow?'low-stock':''}">
+      <div class="rs-name">${m.Name}</div>
+      <div class="rs-count ${isOut?'out':isLow?'low':''}">${stock}</div>
+      <div class="rs-sub">${isOut ? 'Out of stock' : isLow ? 'Running low' : 'packets ready'}
+        ${sell && stock ? ` · ₹${value} value` : ''}
+      </div>
+      <div class="rs-actions">
+        <button class="rs-btn add" onclick="quickRsAdjust('${m.ID}',1)" title="Add 1 packet">+1</button>
+        <button class="rs-btn sub" onclick="quickRsAdjust('${m.ID}',-1)" title="Remove 1 packet" ${isOut?'disabled':''}>−1</button>
+        <button class="rs-btn" style="background:var(--paper);color:var(--ink);font-size:.72rem"
+          onclick="openRsForm('${m.ID}')">Log batch</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// Quick +1 / -1 directly from the grid card
+async function quickRsAdjust(masalaId, delta) {
+  const masala = DB.masalas.find(m => m.ID === masalaId);
+  if (!masala) return;
+  const current = parseInt(masala.StockPacks) || 0;
+  const newVal  = Math.max(0, current + delta);
+  await updateMasalaStock(masalaId, newVal, delta > 0 ? '+1 packet' : '-1 packet');
+}
+
+// Open the detailed log form
+function openRsForm(masalaId) {
+  const form = document.getElementById('rs-log-form');
+  form.classList.add('open');
+
+  // Populate masala dropdown
+  const sel = document.getElementById('rs-masala-sel');
+  sel.innerHTML = '<option value="">— Select —</option>' +
+    DB.masalas.map(m => `<option value="${m.ID}" ${m.ID===masalaId?'selected':''}>${m.Name}</option>`).join('');
+
+  document.getElementById('rs-type').value = 'add';
+  document.getElementById('rs-qty').value  = '';
+  document.getElementById('rs-note').value = '';
+  document.getElementById('rs-value-preview').textContent = '';
+  document.getElementById('rs-log-title').textContent = 'Log Batch / Adjustment';
+
+  form.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  document.getElementById('rs-qty').focus();
+}
+
+function closeRsForm() {
+  document.getElementById('rs-log-form').classList.remove('open');
+}
+
+function rsCalcValue() {
+  const masalaId = document.getElementById('rs-masala-sel').value;
+  const qty      = parseInt(document.getElementById('rs-qty').value) || 0;
+  const type     = document.getElementById('rs-type').value;
+  const masala   = DB.masalas.find(m => m.ID === masalaId);
+  if (!masala || !qty) { document.getElementById('rs-value-preview').textContent = ''; return; }
+
+  const current = parseInt(masala.StockPacks) || 0;
+  const sell    = parseFloat(masala.SellingPrice) || 0;
+  const cost    = getMasalaTotalCost(masala);
+
+  let newStock;
+  if (type === 'add') newStock = current + qty;
+  else if (type === 'sub') newStock = Math.max(0, current - qty);
+  else newStock = qty; // set
+
+  const diff    = newStock - current;
+  const valAdded = diff * sell;
+
+  document.getElementById('rs-value-preview').innerHTML =
+    `<span style="color:var(--muted)">Current: <strong>${current} packs</strong> → New: <strong>${newStock} packs</strong>
+    ${sell ? ` · Stock value change: <strong style="color:${diff>=0?'var(--success)':'var(--chili)'}">${diff>=0?'+':''}₹${(diff*sell).toFixed(0)}</strong>` : ''}
+    ${cost ? ` · Cost of batch: ₹${(Math.abs(diff)*cost).toFixed(0)}` : ''}
+    </span>`;
+}
+
+async function saveReadyStock() {
+  const masalaId = document.getElementById('rs-masala-sel').value;
+  const qty      = parseInt(document.getElementById('rs-qty').value);
+  const type     = document.getElementById('rs-type').value;
+  const note     = document.getElementById('rs-note').value.trim();
+
+  if (!masalaId) { toast('Select a masala', 'warn'); return; }
+  if (!qty || qty <= 0) { toast('Enter a valid quantity', 'warn'); return; }
+
+  const masala = DB.masalas.find(m => m.ID === masalaId);
+  if (!masala) return;
+
+  const current = parseInt(masala.StockPacks) || 0;
+  let newStock;
+  if (type === 'add')      newStock = current + qty;
+  else if (type === 'sub') newStock = Math.max(0, current - qty);
+  else                     newStock = qty;
+
+  await updateMasalaStock(masalaId, newStock, note || `${type} ${qty} packs`);
+  closeRsForm();
+}
+
+// Core function: save updated StockPacks to DB and API
+async function updateMasalaStock(masalaId, newStockPacks, logNote) {
+  const masala = DB.masalas.find(m => m.ID === masalaId);
+  if (!masala) return;
+
+  const oldStock    = parseInt(masala.StockPacks) || 0;
+  masala.StockPacks = newStockPacks;
+
+  // Optimistic UI update
+  _optimisticRendered = true;
+  renderMasalasTable();
+
+  setSaving(true);
+  try {
+    const res = await api({
+      action: 'saveMasala',
+      data:   { ...masala, StockPacks: newStockPacks }
+    });
+    if (res.error) throw new Error(res.error);
+    toast(`${masala.Name}: ${oldStock} → ${newStockPacks} packs`, 'ok');
+    await loadData(true);
+  } catch(e) {
+    masala.StockPacks = oldStock;
+    _optimisticRendered = false;
+    renderMasalasTable();
+    toast('Error saving: ' + e.message, 'err');
   } finally { setSaving(false); }
 }
 
