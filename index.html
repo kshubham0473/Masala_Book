@@ -7,2531 +7,1178 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Masala Book">
-<meta name="theme-color" content="#1A1208">
+<meta name="theme-color" content="#231407">
 <title>Masala Book</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="manifest" href="data:application/json,{&quot;name&quot;:&quot;Masala Book&quot;,&quot;short_name&quot;:&quot;Masala&quot;,&quot;start_url&quot;:&quot;.&quot;,&quot;display&quot;:&quot;standalone&quot;,&quot;background_color&quot;:&quot;%23231407&quot;,&quot;theme_color&quot;:&quot;%23231407&quot;,&quot;icons&quot;:[{&quot;src&quot;:&quot;data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%23231407'/><text y='.9em' font-size='72' x='14'>🌶</text></svg>&quot;,&quot;sizes&quot;:&quot;any&quot;,&quot;type&quot;:&quot;image/svg+xml&quot;}]}">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,900&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-:root {
-  --saffron: #E8831A;
-  --saffron-light: #FFF3E0;
-  --turmeric: #F5C518;
-  --chili: #C0392B;
-  --cardamom: #2D5016;
-  --cream: #FDF8F0;
-  --paper: #FAF2E0;
-  --ink: #1A1208;
-  --muted: #8B7355;
-  --border: #E8D5B0;
-  --white: #FFFFFF;
-  --success: #1E8449;
-  --success-bg: #E8F8EE;
-  --danger-bg: #FDECEA;
-  --shadow-sm: 0 1px 3px rgba(26,18,8,.07);
-  --shadow-md: 0 4px 16px rgba(26,18,8,.10);
-  --radius: 12px;
+/* ═══════════ MOBILE-FIRST DESIGN SYSTEM ═══════════ */
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{
+  --ink:#231407; --ink2:#3D2B14;
+  --paper:#FAF4EA; --card:#FFFFFF;
+  --saffron:#E8641C; --saffron-soft:#FDEEE3;
+  --turmeric:#EFA71C; --turmeric-soft:#FDF5E0;
+  --leaf:#4C7A3F; --leaf-soft:#EBF3E7;
+  --chili:#C0392B; --chili-soft:#FBEAE8;
+  --violet:#7C5CBF; --violet-soft:#F1ECFA;
+  --muted:#8A7A66; --line:#EDE3D4;
+  --r:16px; --r-sm:11px;
+  --shadow:0 2px 12px rgba(35,20,7,.07);
+  --shadow-lg:0 -8px 40px rgba(35,20,7,.18);
 }
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--ink);min-height:100vh;font-size:14px}
+html{font-size:16px}
+body{
+  font-family:'DM Sans',sans-serif;background:var(--paper);color:var(--ink);
+  padding-bottom:calc(76px + env(safe-area-inset-bottom));
+  -webkit-font-smoothing:antialiased;min-height:100vh;
+}
+h1,h2,h3,.serif{font-family:'Fraunces',serif}
 
-/* ─── HEADER ─── */
-header{background:var(--ink);display:flex;align-items:center;justify-content:space-between;padding:0 24px;position:sticky;top:0;z-index:200;border-bottom:3px solid var(--saffron);gap:12px}
-.logo{font-family:'Playfair Display',serif;font-size:1.35rem;font-weight:900;color:var(--cream);padding:14px 0;letter-spacing:-.5px;white-space:nowrap}
-.logo em{color:var(--saffron);font-style:normal}
-nav{display:flex;gap:2px;flex:1;justify-content:center}
-nav button{background:none;border:none;color:#9B8B72;padding:9px 14px;font-family:'DM Sans',sans-serif;font-size:.78rem;font-weight:600;cursor:pointer;border-radius:6px;text-transform:uppercase;letter-spacing:.5px;transition:all .18s;white-space:nowrap}
-nav button.active,nav button:hover{background:var(--saffron);color:#fff}
-.header-right{display:flex;align-items:center;gap:10px;flex-shrink:0}
-.api-dot{width:8px;height:8px;border-radius:50%;background:#555;display:inline-block;transition:background .4s;flex-shrink:0}
-.api-dot.ok{background:#27AE60}
-.api-dot.err{background:#C0392B}
-.api-dot.loading{background:var(--turmeric);animation:pulse .8s ease-in-out infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-.api-status-text{font-size:.72rem;color:#9B8B72}
-.btn-refresh{background:none;border:1.5px solid #3A3020;color:#9B8B72;padding:5px 10px;border-radius:6px;font-size:.75rem;cursor:pointer;display:flex;align-items:center;gap:5px;transition:all .2s;font-family:'DM Sans',sans-serif;font-weight:600}
-.btn-refresh:hover{background:#3A3020;color:var(--cream)}
-.btn-refresh.spinning{animation:spin .8s linear infinite}
+/* ── Top bar ── */
+.topbar{
+  position:sticky;top:0;z-index:90;background:var(--ink);color:var(--paper);
+  padding:calc(12px + env(safe-area-inset-top)) 18px 12px;
+  display:flex;align-items:center;gap:10px;
+}
+.topbar .logo{font-family:'Fraunces',serif;font-weight:900;font-size:1.15rem;letter-spacing:.2px}
+.topbar .logo span{color:var(--turmeric)}
+.top-actions{margin-left:auto;display:flex;align-items:center;gap:12px}
+.sync-btn{background:none;border:none;color:var(--paper);font-size:1.15rem;cursor:pointer;padding:4px;line-height:1}
+.sync-btn.spin{animation:spin 1s linear infinite;display:inline-block}
 @keyframes spin{to{transform:rotate(360deg)}}
+.api-dot{width:9px;height:9px;border-radius:50%;background:#666}
+.api-dot.ok{background:#5BC46A}.api-dot.err{background:#E85C4A}
+.api-dot.loading{background:var(--turmeric);animation:pulse 1s infinite}
+@keyframes pulse{50%{opacity:.35}}
 
-/* ─── SETUP BANNER ─── */
-#setup-banner{background:var(--chili);color:#fff;text-align:center;padding:10px 20px;font-size:.85rem;display:none}
-#setup-banner a{color:var(--turmeric);font-weight:700;cursor:pointer}
+/* ── Screens ── */
+.screen{display:none;padding:18px 16px 28px;max-width:640px;margin:0 auto}
+.screen.active{display:block}
+.screen-title{font-size:1.5rem;font-weight:900;margin-bottom:4px}
+.screen-sub{font-size:.82rem;color:var(--muted);margin-bottom:18px}
 
-/* ─── TOAST ─── */
-#toast-container{position:fixed;bottom:24px;right:24px;display:flex;flex-direction:column;gap:8px;z-index:9999;pointer-events:none}
-.toast{background:var(--ink);color:var(--cream);padding:10px 16px;border-radius:9px;font-size:.83rem;font-weight:600;display:flex;align-items:center;gap:8px;box-shadow:var(--shadow-md);opacity:0;transform:translateX(20px);transition:all .3s ease;border-left:3px solid var(--saffron);max-width:320px}
-.toast.show{opacity:1;transform:none}
-.toast.toast-ok{border-left-color:var(--success)}
-.toast.toast-err{border-left-color:var(--chili)}
-.toast.toast-warn{border-left-color:var(--turmeric)}
-
-/* ─── LAYOUT ─── */
-main{max-width:1020px;margin:0 auto;padding:24px 18px 60px}
-.section{display:none}.section.active{display:block}
-
-/* ─── CARDS ─── */
-.card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:20px;box-shadow:var(--shadow-sm)}
-.form-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:20px;box-shadow:var(--shadow-sm)}
-.card-title{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700;margin-bottom:16px;color:var(--ink)}
-
-/* ─── COLLAPSIBLE CARD ─── */
-.collapse-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:20px;box-shadow:var(--shadow-sm);overflow:hidden}
-.collapse-header{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;cursor:pointer;user-select:none;transition:background .15s}
-.collapse-header:hover{background:#FDFAF5}
-.collapse-header .card-title{margin-bottom:0}
-.collapse-chevron{font-size:.85rem;color:var(--muted);transition:transform .25s;flex-shrink:0}
-.collapse-chevron.open{transform:rotate(180deg)}
-.collapse-body{padding:0 20px 20px 20px;border-top:1px solid var(--border);display:none}
-.collapse-body.open{display:block}
-
-/* ─── STATS ─── */
-.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin-bottom:24px}
-.stat{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:18px;position:relative;overflow:hidden;box-shadow:var(--shadow-sm)}
-.stat::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
-.stat.rev::before{background:var(--success)}
-.stat.cost::before{background:var(--chili)}
-.stat.profit::before{background:var(--saffron)}
-.stat.ord::before{background:var(--cardamom)}
-.stat-label{font-size:.68rem;text-transform:uppercase;letter-spacing:.9px;color:var(--muted);font-weight:700;margin-bottom:8px}
-.stat-val{font-family:'Playfair Display',serif;font-size:1.75rem;font-weight:700;line-height:1}
-.stat-sub{font-size:.73rem;color:var(--muted);margin-top:6px}
-.sec-title{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:10px;color:var(--ink)}
-.sec-title::before{content:'';width:4px;height:18px;background:var(--saffron);border-radius:2px;flex-shrink:0}
-
-/* ─── TABLE ─── */
-table{width:100%;border-collapse:collapse}
-th{background:var(--paper);padding:10px 14px;text-align:left;font-size:.68rem;text-transform:uppercase;letter-spacing:.7px;color:var(--muted);font-weight:700;border-bottom:1px solid var(--border);white-space:nowrap}
-td{padding:11px 14px;font-size:.85rem;border-bottom:1px solid #F5EDD8;vertical-align:middle}
-tr:last-child td{border-bottom:none}
-tr:hover td{background:#FDFAF5}
-.empty{text-align:center;padding:40px;color:var(--muted)}
-.empty-icon{font-size:2rem;margin-bottom:8px}
-
-/* ─── FORMS ─── */
-.fg{display:flex;flex-direction:column;gap:5px;margin-bottom:12px}
-.fg-row{display:grid;gap:12px;margin-bottom:12px}
-.fg-row.c2{grid-template-columns:1fr 1fr}
-.fg-row.c3{grid-template-columns:1fr 1fr 1fr}
-.fg-row.c4{grid-template-columns:1fr 1fr 1fr 1fr}
-label{font-size:.7rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.6px}
-input,select,textarea{border:1.5px solid var(--border);border-radius:7px;padding:9px 12px;font-family:'DM Sans',sans-serif;font-size:.88rem;background:#fff;color:var(--ink);width:100%;transition:border-color .18s,box-shadow .18s}
-input:focus,select:focus,textarea:focus{outline:none;border-color:var(--saffron);box-shadow:0 0 0 3px rgba(232,131,26,.12)}
-textarea{resize:vertical;min-height:60px}
-input[readonly]{background:var(--paper);color:var(--muted)}
-.form-actions{display:flex;gap:10px;align-items:center;margin-top:16px;flex-wrap:wrap}
-.section-divider{font-size:.72rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.7px;margin-bottom:10px;margin-top:6px;padding-bottom:6px;border-bottom:1px solid var(--border)}
-
-/* ─── BUTTONS ─── */
-.btn{padding:9px 20px;border:none;border-radius:7px;font-family:'DM Sans',sans-serif;font-size:.83rem;font-weight:700;cursor:pointer;transition:all .18s;display:inline-flex;align-items:center;gap:6px;letter-spacing:.2px}
-.btn:disabled{opacity:.5;cursor:not-allowed}
-.btn-primary{background:var(--saffron);color:#fff;box-shadow:0 2px 6px rgba(232,131,26,.3)}.btn-primary:hover:not(:disabled){background:#D4730F;box-shadow:0 3px 10px rgba(232,131,26,.4)}
-.btn-ghost{background:var(--saffron-light);color:var(--saffron);border:1.5px dashed var(--saffron)}.btn-ghost:hover:not(:disabled){background:var(--saffron);color:#fff}
-.btn-secondary{background:var(--paper);color:var(--muted);border:1.5px solid var(--border)}.btn-secondary:hover:not(:disabled){background:var(--border);color:var(--ink)}
-.btn-del{background:var(--danger-bg);color:var(--chili);font-size:.75rem;padding:5px 11px}.btn-del:hover:not(:disabled){background:var(--chili);color:#fff}
-.btn-sm{padding:6px 13px;font-size:.78rem}
-.btn-icon{background:none;border:none;cursor:pointer;padding:5px 8px;border-radius:5px;font-size:.95rem;transition:background .18s;color:var(--muted)}.btn-icon:hover{background:var(--paper)}
-
-/* ─── ORDER TYPE SELECTOR ─── */
-.order-type-group{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
-.otype-btn{padding:8px 16px;border:2px solid var(--border);border-radius:8px;background:var(--white);color:var(--muted);font-family:'DM Sans',sans-serif;font-size:.82rem;font-weight:600;cursor:pointer;transition:all .18s;display:flex;align-items:center;gap:6px}
-.otype-btn:hover{border-color:var(--saffron);color:var(--saffron)}
-.otype-btn.active-delivered{border-color:var(--success);background:var(--success-bg);color:var(--success)}
-.otype-btn.active-pending{border-color:#8B5CF6;background:#EEF2FF;color:#4F46E5}
-.otype-btn.active-historical{border-color:#9CA3AF;background:#F9FAFB;color:#4B5563}
-
-/* ─── TAGS ─── */
-.tag{display:inline-block;padding:3px 9px;border-radius:20px;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.4px}
-.tag-profit{background:var(--success-bg);color:var(--success)}
-.tag-loss{background:var(--danger-bg);color:var(--chili)}
-.tag-warn{background:#FFF8E1;color:#E65100}
-.tag-ok{background:var(--success-bg);color:var(--success)}
-.tag-pending{background:#EEF2FF;color:#4338CA}
-.tag-historical{background:#F3F4F6;color:#6B7280}
-
-/* ─── ALERT ─── */
-.alert{padding:10px 15px;border-radius:8px;font-size:.82rem;margin-bottom:14px;display:none;animation:fadeIn .3s}
-.alert.show{display:flex;align-items:center;gap:8px}
-.alert-ok{background:var(--success-bg);color:var(--success);border-left:3px solid var(--success)}
-.alert-err{background:var(--danger-bg);color:var(--chili);border-left:3px solid var(--chili)}
-@keyframes fadeIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
-
-/* ─── INLINE LOADER ─── */
-.loader{display:inline-block;width:13px;height:13px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .6s linear infinite;flex-shrink:0}
-.loader-dark{border:2px solid rgba(139,115,85,.3);border-top-color:var(--muted)}
-
-/* ─── RECIPE ROWS ─── */
-.recipe-rows-header{display:grid;grid-template-columns:2fr 1fr 1fr 36px;gap:8px;margin-bottom:4px}
-.recipe-rows-header span{font-size:.68rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;padding:0 12px}
-.recipe-row{display:grid;grid-template-columns:2fr 1fr 1fr 36px;gap:8px;align-items:center;margin-bottom:6px;background:#FDFAF5;border:1px solid var(--border);border-radius:8px;padding:6px 8px}
-.recipe-row input,.recipe-row select{background:#fff}
-
-/* ─── COST BREAKDOWN ─── */
-.cost-box{background:var(--paper);border:1px solid var(--border);border-radius:9px;padding:14px;margin-top:12px;font-size:.83rem}
-.cost-box .crow{display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px dotted var(--border)}
-.cost-box .crow:last-child{border:none;font-weight:700;font-size:.9rem;color:var(--saffron);margin-top:2px;padding-top:6px}
-
-/* ─── PROFIT COLORS ─── */
-.green{color:var(--success);font-weight:600}
-.red{color:var(--chili);font-weight:600}
-
-/* ─── PENDING ORDERS ─── */
-.pending-card{background:#FFFBEB;border:1.5px solid #FCD34D;border-radius:var(--radius);overflow:hidden;margin-bottom:20px}
-.pending-card thead tr th{background:#FEF9C3}
-.complete-btn{background:#E8F8EE;color:var(--success);border:none;border-radius:6px;padding:5px 11px;font-size:.75rem;font-weight:700;cursor:pointer;transition:all .18s;font-family:'DM Sans',sans-serif}
-.complete-btn:hover{background:var(--success);color:#fff}
-
-/* ─── SEARCH ─── */
-.search-row{display:flex;gap:10px;margin-bottom:16px;align-items:center}
-.search-input{position:relative;flex:1;max-width:300px}
-.search-input input{padding-left:34px}
-.search-input::before{content:'🔍';position:absolute;left:10px;top:50%;transform:translateY(-50%);font-size:.8rem;pointer-events:none}
-
-/* ─── RECIPE STATUS BADGE ─── */
-.recipe-status{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:20px;font-size:.7rem;font-weight:700}
-.recipe-status.has-recipe{background:var(--success-bg);color:var(--success)}
-.recipe-status.no-recipe{background:#FFF8E1;color:#E65100}
-
-/* ─── SETTINGS PANEL ─── */
-.settings-section{background:var(--ink);color:var(--cream);border-radius:var(--radius);padding:20px;margin-bottom:20px}
-.settings-section label{color:#9B8B72}
-.settings-section input{background:#2A2010;border-color:#4A3820;color:var(--cream)}
-.settings-section input:focus{border-color:var(--saffron)}
-
-/* ─── SAVING OVERLAY ─── */
-.saving-badge{display:none;position:fixed;top:60px;right:16px;background:var(--ink);color:var(--cream);padding:7px 14px;border-radius:7px;font-size:.78rem;font-weight:600;z-index:1000;align-items:center;gap:7px;box-shadow:var(--shadow-md);border-left:3px solid var(--saffron)}
-.saving-badge.show{display:flex}
-
-/* ─── WHATSAPP ─── */
-.wa-status-bar{display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:10px;margin-bottom:20px;font-size:.85rem;font-weight:600}
-.wa-status-bar.disconnected{background:#F3F4F6;color:#6B7280;border:1.5px solid #E5E7EB}
-.wa-status-bar.qr{background:#FFF8E1;color:#92400E;border:1.5px solid #FCD34D}
-.wa-status-bar.connecting{background:#EEF2FF;color:#4338CA;border:1.5px solid #A5B4FC}
-.wa-status-bar.ready{background:var(--success-bg);color:var(--success);border:1.5px solid #86EFAC}
-.wa-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
-.wa-dot.disconnected{background:#9CA3AF}
-.wa-dot.qr{background:#F59E0B;animation:pulse .8s ease-in-out infinite}
-.wa-dot.connecting{background:#818CF8;animation:pulse .8s ease-in-out infinite}
-.wa-dot.ready{background:var(--success)}
-#qr-container{background:var(--white);border:2px dashed var(--border);border-radius:12px;padding:24px;text-align:center;margin-bottom:20px;display:none}
-#qr-container.show{display:block}
-/* ── Chat picker ── */
-.chat-pill{display:inline-flex;align-items:center;gap:5px;background:var(--paper);border:1.5px solid var(--border);border-radius:20px;padding:5px 12px;font-size:.8rem;cursor:pointer;transition:all .18s;margin:3px;font-family:'DM Sans',sans-serif;font-weight:600}
-.chat-pill:hover{border-color:var(--saffron);color:var(--saffron)}
-.chat-pill.selected{background:var(--saffron);color:#fff;border-color:var(--saffron)}
-/* ── Scan config ── */
-.scan-config{background:var(--paper);border:1px solid var(--border);border-radius:10px;padding:14px 16px;margin-bottom:16px;display:flex;gap:16px;align-items:center;flex-wrap:wrap}
-.scan-progress{background:#EEF2FF;border:1px solid #A5B4FC;border-radius:10px;padding:12px 16px;margin-bottom:16px;font-size:.85rem;color:#4338CA;display:none;align-items:center;gap:10px}
-.scan-progress.show{display:flex}
-/* ── Result cards ── */
-.result-card{background:var(--white);border:1px solid var(--border);border-radius:10px;padding:14px 16px;margin-bottom:10px;transition:border-color .2s}
-.result-card:hover{border-color:var(--saffron)}
-.result-card.is-order{border-left:3px solid var(--success)}
-.result-card.converted{opacity:.45;border-style:dashed;border-left:3px solid var(--success)}
-.result-card.dismissed{display:none}
-.rc-meta{display:flex;align-items:center;gap:8px;margin-bottom:6px;flex-wrap:wrap}
-.rc-name{font-weight:700;font-size:.88rem}
-.rc-chat{font-size:.73rem;color:var(--muted);background:var(--paper);padding:2px 8px;border-radius:20px}
-.rc-time{font-size:.72rem;color:var(--muted);margin-left:auto;white-space:nowrap}
-.rc-body{font-size:.83rem;color:#4B5563;margin-bottom:10px;line-height:1.55;white-space:pre-wrap;word-break:break-word}
-.rc-parsed{background:#F0FDF4;border:1px solid #BBF7D0;border-radius:8px;padding:10px 12px;margin-bottom:10px}
-.rc-parsed-label{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--success);margin-bottom:8px;display:flex;align-items:center;gap:6px}
-.rc-item-row{display:grid;grid-template-columns:1fr 70px auto;gap:8px;align-items:center;margin-bottom:6px}
-.rc-item-row select,.rc-item-row input{font-size:.82rem;padding:5px 8px}
-.conf-high{color:var(--success);font-weight:normal;font-size:.75rem}
-.conf-low{color:#D97706;font-weight:normal;font-size:.75rem}
-/* ── Filters ── */
-.filter-bar{display:flex;gap:6px;flex-wrap:wrap}
-.filter-btn{padding:5px 13px;border-radius:20px;border:1.5px solid var(--border);background:var(--white);font-size:.75rem;font-weight:600;cursor:pointer;transition:all .18s;font-family:'DM Sans',sans-serif;color:var(--muted)}
-.filter-btn.active{background:var(--saffron);color:#fff;border-color:var(--saffron)}
-.stock-val{font-size:.78rem;color:var(--cardamom);background:#EEF4E8;padding:2px 8px;border-radius:20px;font-weight:600}
-/* ─── READY STOCK ─── */
-.ready-stock-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-bottom:4px}
-.rs-card{background:var(--white);border:1.5px solid var(--border);border-radius:12px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;transition:border-color .2s}
-.rs-card:hover{border-color:var(--saffron)}
-.rs-card.low-stock{border-color:#FCD34D;background:#FFFBEB}
-.rs-card.out-of-stock{border-color:#FCA5A5;background:#FFF1F1}
-.rs-name{font-weight:700;font-size:.9rem}
-.rs-count{font-family:"Playfair Display",serif;font-size:1.8rem;font-weight:700;line-height:1;color:var(--ink)}
-.rs-count.out{color:var(--chili)}
-.rs-count.low{color:#D97706}
-.rs-sub{font-size:.72rem;color:var(--muted)}
-.rs-actions{display:flex;gap:6px;margin-top:4px}
-.rs-btn{flex:1;padding:6px 8px;border-radius:7px;border:none;font-family:"DM Sans",sans-serif;font-weight:700;font-size:.78rem;cursor:pointer;transition:all .18s;min-height:36px}
-.rs-btn.add{background:#E8F8EE;color:var(--success)}
-.rs-btn.add:hover{background:var(--success);color:#fff}
-.rs-btn.sub{background:#FDECEA;color:var(--chili)}
-.rs-btn.sub:hover{background:var(--chili);color:#fff}
-.rs-log-form{background:var(--paper);border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:16px;display:none}
-.rs-log-form.open{display:block}
-
-
-/* ══════════════════════════════════════════════════════════
-   BOTTOM NAV — mobile only
-   ══════════════════════════════════════════════════════════ */
-.bottom-nav{display:none}
-
-@media(max-width:700px){
-  /* ── Header: logo + status dot only, no nav ── */
-  header{padding:0 14px;gap:8px}
-  nav{display:none}   /* top nav hidden on mobile */
-  .header-right .api-status-text{display:none}
-  .btn-refresh span{display:none} /* hide "Sync" text, show icon only */
-
-  /* ── Body needs bottom padding so content clears the nav bar ── */
-  body{padding-bottom:68px}
-  main{padding:16px 12px 24px}
-
-  /* ── Bottom navigation bar ── */
-  .bottom-nav{
-    display:flex;
-    position:fixed;bottom:0;left:0;right:0;
-    background:var(--ink);
-    border-top:2px solid var(--saffron);
-    z-index:300;
-    padding:0;
-    padding-bottom:env(safe-area-inset-bottom);
-  }
-  .bn-item{
-    flex:1;display:flex;flex-direction:column;align-items:center;
-    justify-content:center;padding:8px 2px 6px;
-    color:#7A6B55;font-size:.58rem;font-weight:700;letter-spacing:.3px;
-    text-transform:uppercase;cursor:pointer;border:none;background:none;
-    font-family:"DM Sans",sans-serif;gap:3px;transition:color .15s;
-    -webkit-tap-highlight-color:transparent;
-  }
-  .bn-item .bn-icon{font-size:1.3rem;line-height:1}
-  .bn-item.active,.bn-item:active{color:var(--saffron)}
-  .bn-item.active .bn-icon{filter:drop-shadow(0 0 4px var(--saffron))}
-
-  /* ── Layout ── */
-  .fg-row.c2,.fg-row.c3,.fg-row.c4{grid-template-columns:1fr}
-  .stat-grid{grid-template-columns:1fr 1fr;gap:10px}
-  .stat-val{font-size:1.35rem}
-  .stat{padding:14px}
-
-  /* ── Tables: horizontal scroll on mobile ── */
-  .card,.pending-card{overflow-x:auto;-webkit-overflow-scrolling:touch}
-  table{min-width:480px}
-  th,td{padding:9px 10px;font-size:.78rem}
-
-  /* ── Forms ── */
-  .form-card{padding:14px}
-  input,select,textarea{font-size:16px !important} /* prevents iOS zoom */
-  .btn{padding:10px 16px;font-size:.85rem}
-  .btn-sm{padding:7px 12px;font-size:.78rem}
-
-  /* ── Recipe editor ── */
-  .recipe-row,.recipe-rows-header{grid-template-columns:2fr 1fr 1fr 32px}
-
-  /* ── Order type buttons ── */
-  .order-type-group{gap:6px}
-  .otype-btn{padding:8px 10px;font-size:.78rem;flex:1}
-
-  /* ── Settings dark card ── */
-  .settings-section{padding:16px}
-
-  /* ── WhatsApp tab ── */
-  .scan-config{flex-direction:column;gap:10px}
-  .rc-item-row{grid-template-columns:1fr 60px auto}
-
-  /* ── Collapse cards ── */
-  .collapse-body{padding:0 14px 16px}
+/* ── Bottom nav ── */
+.bnav{
+  position:fixed;bottom:0;left:0;right:0;z-index:100;
+  background:var(--ink);display:flex;
+  padding-bottom:env(safe-area-inset-bottom);
+  border-top:3px solid var(--saffron);
 }
-
-/* Slightly tighten tablet too */
-@media(max-width:900px) and (min-width:701px){
-  nav button{padding:8px 10px;font-size:.72rem}
+.bnav button{
+  flex:1;background:none;border:none;color:#8A7458;cursor:pointer;
+  display:flex;flex-direction:column;align-items:center;gap:3px;
+  padding:9px 2px 7px;font-family:'DM Sans',sans-serif;
+  font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.4px;
 }
+.bnav button .i{font-size:1.35rem;line-height:1}
+.bnav button.active{color:var(--turmeric)}
 
-/* ── iOS: prevent auto-zoom on input focus (requires font-size >= 16px on mobile) ── */
-@media(max-width:700px){
-  input,select,textarea{ font-size:16px !important; }
-  /* Nicer touch targets for buttons */
-  .btn,.btn-sm,.bn-item{ min-height:44px; }
-  .btn-sm{ min-height:36px; }
-  /* Sticky headers for tables */
-  th{ position:sticky;top:0;z-index:1; }
-  /* Scrollable tables */
-  .card>table,.pending-card>table{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch}
+/* ── Cards ── */
+.card{background:var(--card);border-radius:var(--r);padding:16px;box-shadow:var(--shadow);margin-bottom:12px;border:1px solid var(--line)}
+.card-title{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--muted);margin-bottom:10px}
+
+/* ── Stats ── */
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.stat{background:var(--card);border-radius:var(--r);padding:14px;border:1px solid var(--line);box-shadow:var(--shadow)}
+.stat .v{font-family:'Fraunces',serif;font-size:1.45rem;font-weight:900;line-height:1.15}
+.stat .l{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);margin-top:2px}
+.stat.hero{grid-column:1/-1;background:linear-gradient(135deg,var(--ink) 0%,#3A2410 100%);color:var(--paper);border:none}
+.stat.hero .v{color:var(--turmeric);font-size:1.9rem}
+.stat.hero .l{color:#B49B7E}
+
+/* ── Buttons ── */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:6px;
+  border:none;border-radius:12px;font-family:'DM Sans',sans-serif;font-weight:700;
+  cursor:pointer;transition:transform .1s,opacity .15s;min-height:46px;padding:12px 18px;font-size:.9rem;
 }
+.btn:active{transform:scale(.97)}
+.btn:disabled{opacity:.5}
+.btn-p{background:var(--saffron);color:#fff}
+.btn-dark{background:var(--ink);color:var(--paper)}
+.btn-o{background:var(--card);color:var(--ink);border:1.5px solid var(--line)}
+.btn-soft{background:var(--saffron-soft);color:var(--saffron)}
+.btn-danger{background:var(--chili-soft);color:var(--chili)}
+.btn-sm{min-height:36px;padding:7px 13px;font-size:.8rem;border-radius:9px}
+.btn-block{width:100%}
+.btn-fab{
+  position:fixed;right:16px;bottom:calc(86px + env(safe-area-inset-bottom));z-index:95;
+  width:58px;height:58px;border-radius:50%;background:var(--saffron);color:#fff;
+  font-size:1.7rem;box-shadow:0 6px 20px rgba(232,100,28,.45);border:none;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;line-height:1;
+}
+.btn-fab:active{transform:scale(.93)}
+
+/* ── Forms ── */
+label{display:block;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);margin-bottom:5px}
+input,select,textarea{
+  width:100%;border:1.5px solid var(--line);border-radius:var(--r-sm);
+  padding:12px 13px;font-family:'DM Sans',sans-serif;font-size:16px;
+  background:var(--card);color:var(--ink);outline:none;transition:border-color .15s;
+  -webkit-appearance:none;
+}
+input:focus,select:focus,textarea:focus{border-color:var(--saffron)}
+.fg{margin-bottom:13px}
+.row{display:flex;gap:10px}.row>*{flex:1}
+
+/* ── Tags ── */
+.tag{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:20px;font-size:.7rem;font-weight:700}
+.tag-pend{background:var(--violet-soft);color:var(--violet)}
+.tag-ok{background:var(--leaf-soft);color:var(--leaf)}
+.tag-hist{background:#F0EBE2;color:var(--muted)}
+.tag-unpaid{background:var(--turmeric-soft);color:#B07708}
+.tag-paid{background:var(--leaf-soft);color:var(--leaf)}
+.tag-low{background:var(--turmeric-soft);color:#B07708}
+.tag-out{background:var(--chili-soft);color:var(--chili)}
+
+/* ── Order cards ── */
+.ocard{background:var(--card);border-radius:var(--r);border:1px solid var(--line);padding:14px 15px;margin-bottom:10px;box-shadow:var(--shadow)}
+.ocard.pending{border-left:4px solid var(--violet)}
+.oc-top{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:5px}
+.oc-name{font-weight:700;font-size:.95rem}
+.oc-date{font-size:.7rem;color:var(--muted);margin-left:auto;white-space:nowrap}
+.oc-items{font-size:.82rem;color:var(--ink2);margin-bottom:8px;line-height:1.5}
+.oc-money{display:flex;gap:14px;font-size:.8rem;margin-bottom:10px}
+.oc-money b{font-family:'Fraunces',serif;font-size:.95rem}
+.oc-actions{display:flex;gap:8px;flex-wrap:wrap}
+
+/* ── Product cards ── */
+.pcard{background:var(--card);border-radius:var(--r);border:1px solid var(--line);padding:15px;margin-bottom:10px;box-shadow:var(--shadow);cursor:pointer;transition:transform .1s}
+.pcard:active{transform:scale(.985)}
+.pc-top{display:flex;align-items:baseline;gap:8px}
+.pc-name{font-family:'Fraunces',serif;font-weight:700;font-size:1.05rem;flex:1}
+.pc-price{font-weight:700;color:var(--saffron)}
+.pc-sub{display:flex;gap:8px;align-items:center;margin-top:7px;flex-wrap:wrap;font-size:.74rem;color:var(--muted)}
+.pc-stock{font-weight:800;font-family:'Fraunces',serif;font-size:1rem}
+.pc-stock.out{color:var(--chili)}.pc-stock.low{color:#B07708}.pc-stock.ok{color:var(--leaf)}
+
+/* ── Inventory rows ── */
+.irow{display:flex;align-items:center;gap:10px;padding:12px 4px;border-bottom:1px solid var(--line)}
+.irow:last-child{border-bottom:none}
+.irow .in{flex:1;font-weight:600;font-size:.9rem}
+.irow .iq{font-size:.82rem;color:var(--muted);white-space:nowrap}
+
+/* ── Bottom sheet ── */
+.sheet-backdrop{position:fixed;inset:0;background:rgba(24,13,4,.5);z-index:200;opacity:0;pointer-events:none;transition:opacity .25s}
+.sheet-backdrop.open{opacity:1;pointer-events:auto}
+.sheet{
+  position:fixed;left:0;right:0;bottom:0;z-index:210;background:var(--paper);
+  border-radius:22px 22px 0 0;box-shadow:var(--shadow-lg);
+  transform:translateY(105%);transition:transform .3s cubic-bezier(.32,.72,.33,1);
+  max-height:92vh;display:flex;flex-direction:column;
+}
+.sheet.open{transform:translateY(0)}
+.sheet-grip{width:42px;height:5px;border-radius:3px;background:var(--line);margin:10px auto 4px;flex-shrink:0}
+.sheet-head{display:flex;align-items:center;padding:8px 18px 12px;flex-shrink:0}
+.sheet-title{font-family:'Fraunces',serif;font-weight:900;font-size:1.2rem;flex:1}
+.sheet-x{background:var(--card);border:1px solid var(--line);width:34px;height:34px;border-radius:50%;font-size:1rem;cursor:pointer;color:var(--muted)}
+.sheet-body{overflow-y:auto;padding:4px 18px calc(24px + env(safe-area-inset-bottom));-webkit-overflow-scrolling:touch}
+
+/* ── Chips ── */
+.chips{display:flex;gap:7px;flex-wrap:wrap}
+.chip{padding:8px 15px;border-radius:20px;border:1.5px solid var(--line);background:var(--card);font-size:.82rem;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;color:var(--muted);min-height:38px}
+.chip.on{background:var(--ink);color:var(--turmeric);border-color:var(--ink)}
+.chip.on-green{background:var(--leaf);color:#fff;border-color:var(--leaf)}
+.chip.on-violet{background:var(--violet);color:#fff;border-color:var(--violet)}
+.chip.on-grey{background:var(--muted);color:#fff;border-color:var(--muted)}
+
+/* ── Recipe view ── */
+.rrow{display:flex;align-items:center;gap:10px;padding:11px 2px;border-bottom:1px dashed var(--line);font-size:.9rem}
+.rrow:last-child{border-bottom:none}
+.rrow .rn{flex:1;font-weight:600}
+.rrow .rq{font-family:'Fraunces',serif;font-weight:700;white-space:nowrap}
+.rrow input[type=checkbox]{width:22px;height:22px;accent-color:var(--leaf);flex-shrink:0}
+.rrow.ticked .rn,.rrow.ticked .rq{opacity:.4;text-decoration:line-through}
+
+/* ── Paste box ── */
+.paste-box{background:var(--turmeric-soft);border:1.5px dashed var(--turmeric);border-radius:var(--r-sm);padding:12px}
+.paste-box textarea{background:#fff;min-height:70px;font-size:15px}
+
+/* ── Autocomplete ── */
+.ac-wrap{position:relative}
+.ac-list{position:absolute;top:100%;left:0;right:0;background:var(--card);border:1.5px solid var(--line);border-radius:var(--r-sm);z-index:50;max-height:190px;overflow-y:auto;box-shadow:var(--shadow);margin-top:4px}
+.ac-item{padding:11px 13px;border-bottom:1px solid var(--line);cursor:pointer;font-size:.88rem}
+.ac-item:last-child{border-bottom:none}
+.ac-item:active{background:var(--saffron-soft)}
+.ac-item .ac-ph{font-size:.74rem;color:var(--muted)}
+
+/* ── Order item rows ── */
+.oi-row{display:grid;grid-template-columns:1fr 72px 34px;gap:8px;margin-bottom:8px;align-items:center}
+.oi-del{background:var(--chili-soft);color:var(--chili);border:none;border-radius:9px;height:44px;font-size:1rem;cursor:pointer}
+
+/* ── Toast ── */
+#toasts{position:fixed;bottom:calc(88px + env(safe-area-inset-bottom));left:14px;right:14px;z-index:400;display:flex;flex-direction:column;gap:8px;pointer-events:none}
+.toast{background:var(--ink);color:var(--paper);border-radius:12px;padding:12px 16px;font-size:.85rem;font-weight:600;box-shadow:0 6px 24px rgba(0,0,0,.25);animation:tin .25s ease;display:flex;gap:8px;align-items:center}
+.toast.err{background:var(--chili)}
+.toast.warn{background:#B07708}
+@keyframes tin{from{transform:translateY(14px);opacity:0}}
+
+/* ── Misc ── */
+.empty{text-align:center;padding:38px 16px;color:var(--muted);font-size:.88rem}
+.empty .e-icon{font-size:2.4rem;margin-bottom:8px}
+.divider{height:1px;background:var(--line);margin:16px 0}
+.note{font-size:.78rem;color:var(--muted);line-height:1.5}
+.seg{display:flex;background:var(--card);border:1.5px solid var(--line);border-radius:12px;padding:3px;gap:3px;margin-bottom:14px}
+.seg button{flex:1;border:none;background:none;padding:9px 4px;border-radius:9px;font-family:'DM Sans',sans-serif;font-weight:700;font-size:.78rem;color:var(--muted);cursor:pointer;min-height:40px}
+.seg button.on{background:var(--ink);color:var(--turmeric)}
+.saving-pill{position:fixed;top:calc(60px + env(safe-area-inset-top));left:50%;transform:translateX(-50%);z-index:300;background:var(--ink);color:var(--turmeric);padding:7px 16px;border-radius:20px;font-size:.78rem;font-weight:700;display:none;align-items:center;gap:7px}
+.saving-pill.show{display:flex}
+.loader{width:13px;height:13px;border:2px solid rgba(239,167,28,.3);border-top-color:var(--turmeric);border-radius:50%;animation:spin .6s linear infinite;display:inline-block}
+.banner{background:var(--turmeric-soft);border:1.5px solid var(--turmeric);border-radius:var(--r-sm);padding:12px 14px;font-size:.82rem;margin-bottom:14px;line-height:1.5}
+@media(min-width:640px){body{padding-bottom:90px}.stats{grid-template-columns:repeat(4,1fr)}.stat.hero{grid-column:span 2}}
 </style>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 </head>
 <body>
 
-<div id="setup-banner">
-  ⚠️ Google Sheet not connected. <a onclick="nav('settings',document.querySelector('nav button:last-child'))">Go to Settings</a> to add your Script URL.
-</div>
-
-<header>
-  <div class="logo">Masala <em>Book</em></div>
-  <nav>
-    <button class="active" onclick="nav('dashboard',this)">Dashboard</button>
-    <button onclick="nav('orders',this)">Orders</button>
-    <button onclick="nav('masalas',this)">Masalas</button>
-    <button onclick="nav('inventory',this)">Raw Materials</button>
-    <button onclick="nav('whatsapp',this)">💬 WhatsApp</button>
-    <button onclick="nav('settings',this)">⚙ Settings</button>
-  </nav>
-  <div class="header-right">
-    <button class="btn-refresh" id="refresh-btn" onclick="manualRefresh()" title="Sync latest data">↻ Sync</button>
+<div class="topbar">
+  <div class="logo">Masala<span>Book</span></div>
+  <div class="top-actions">
     <span class="api-dot" id="api-dot"></span>
-    <span class="api-status-text" id="api-status-text">Not connected</span>
+    <button class="sync-btn" id="sync-btn" onclick="manualRefresh()">↻</button>
   </div>
-</header>
-
-<div class="saving-badge" id="saving-badge"><span class="loader"></span> Saving…</div>
-<div id="toast-container"></div>
-
-<!-- ── Bottom nav (mobile only) ── -->
-<nav class="bottom-nav" id="bottom-nav">
-  <button class="bn-item active" onclick="nav('dashboard',this)" data-section="dashboard">
-    <span class="bn-icon">📊</span>Home
-  </button>
-  <button class="bn-item" onclick="nav('orders',this)" data-section="orders">
-    <span class="bn-icon">🛒</span>Orders
-  </button>
-  <button class="bn-item" onclick="nav('masalas',this)" data-section="masalas">
-    <span class="bn-icon">🌶</span>Masalas
-  </button>
-  <button class="bn-item" onclick="nav('inventory',this)" data-section="inventory">
-    <span class="bn-icon">🌿</span>Stock
-  </button>
-  <button class="bn-item" onclick="nav('whatsapp',this)" data-section="whatsapp">
-    <span class="bn-icon">💬</span>WA
-  </button>
-  <button class="bn-item" onclick="nav('settings',this)" data-section="settings">
-    <span class="bn-icon">⚙️</span>Settings
-  </button>
-</nav>
-
-<main>
-
-<!-- ══════════════════════════════════════════ DASHBOARD ══ -->
-<div id="dashboard" class="section active">
-  <div class="stat-grid">
-    <div class="stat rev"><div class="stat-label">Revenue</div><div class="stat-val" id="d-rev">₹0</div><div class="stat-sub">All time</div></div>
-    <div class="stat cost"><div class="stat-label">Cost</div><div class="stat-val" id="d-cost">₹0</div><div class="stat-sub">All time</div></div>
-    <div class="stat profit"><div class="stat-label">Profit</div><div class="stat-val" id="d-profit">₹0</div><div class="stat-sub" id="d-margin">—</div></div>
-    <div class="stat ord"><div class="stat-label">Orders</div><div class="stat-val" id="d-orders">0</div><div class="stat-sub" id="d-custs">0 customers</div></div>
-  </div>
-
-  <div class="sec-title">⏳ Pending Orders</div>
-  <div class="pending-card"><table>
-    <thead><tr><th>Customer</th><th>WhatsApp</th><th>Items / Note</th><th>Expected ₹</th><th>Order Date</th><th>Action</th></tr></thead>
-    <tbody id="t-pending"></tbody>
-  </table></div>
-
-  <div class="sec-title">Monthly Summary</div>
-  <div class="card"><table>
-    <thead><tr><th>Month</th><th>Orders</th><th>Revenue</th><th>Cost</th><th>Profit</th><th>Margin</th></tr></thead>
-    <tbody id="t-monthly"></tbody>
-  </table></div>
-
-  <div class="sec-title">Recent Orders</div>
-  <div class="card"><table>
-    <thead><tr><th>Date</th><th>Customer</th><th>Items</th><th>Revenue</th><th>Profit</th></tr></thead>
-    <tbody id="t-recent"></tbody>
-  </table></div>
-
-  <div class="sec-title">Low Stock Alerts</div>
-  <div class="card"><table>
-    <thead><tr><th>Raw Material</th><th>Stock</th><th>Alert Threshold</th><th>Status</th></tr></thead>
-    <tbody id="t-lowstock"></tbody>
-  </table></div>
 </div>
 
-<!-- ══════════════════════════════════════════ ORDERS ══ -->
-<div id="orders" class="section">
-  <div class="alert alert-ok" id="order-alert"></div>
-  <div class="alert alert-err" id="order-err"></div>
+<div class="saving-pill" id="saving-pill"><span class="loader"></span> Saving…</div>
+<div id="toasts"></div>
 
-  <div class="form-card">
-    <div class="card-title">Log New Order</div>
-
-    <!-- Order type — styled button group -->
-    <div style="margin-bottom:6px">
-      <div style="font-size:.7rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-bottom:8px">Order Type</div>
-      <div class="order-type-group" id="order-type-group">
-        <button type="button" class="otype-btn active-delivered" data-type="delivered" onclick="setOrderType('delivered')">✅ Delivered</button>
-        <button type="button" class="otype-btn" data-type="pending" onclick="setOrderType('pending')">⏳ Pending</button>
-        <button type="button" class="otype-btn" data-type="historical" onclick="setOrderType('historical')">📦 Historical</button>
-      </div>
-    </div>
-    <div id="order-type-note" style="margin-bottom:14px"></div>
-
-    <!-- Customer block -->
-    <div class="fg-row c3">
-      <div class="fg">
-        <label>Customer Name</label>
-        <input id="o-cname" placeholder="Full name" oninput="checkCustomer()">
-      </div>
-      <div class="fg">
-        <label>WhatsApp Number</label>
-        <input id="o-cphone" placeholder="9876543210" oninput="checkCustomer()">
-      </div>
-      <div class="fg">
-        <label>Area / Address</label>
-        <input id="o-caddr" placeholder="Area or address">
-      </div>
-    </div>
-    <div id="cust-match-msg" style="font-size:.8rem;margin-bottom:10px;min-height:18px"></div>
-
-    <div class="fg-row c2">
-      <div class="fg"><label>Order Date</label><input type="date" id="o-date"></div>
-      <div class="fg"><label>Notes</label><input id="o-notes" placeholder="e.g. deliver by evening"></div>
-    </div>
-
-    <div class="section-divider">Order Items</div>
-    <div id="order-items"></div>
-    <button class="btn btn-ghost btn-sm" onclick="addOrderItem()" style="margin-bottom:14px">＋ Add Item</button>
-
-    <div class="cost-box" id="order-totals-box" style="display:none">
-      <div class="crow"><span>Total Cost</span><span id="ot-cost">₹0</span></div>
-      <div class="crow"><span>Total Revenue</span><span id="ot-rev">₹0</span></div>
-      <div class="crow"><span>Profit</span><span id="ot-profit">₹0</span></div>
-    </div>
-
-    <div class="form-actions">
-      <button class="btn btn-primary" id="save-order-btn" onclick="saveOrder()">Save Order</button>
-      <button class="btn btn-secondary btn-sm" onclick="resetOrderForm()">Clear Form</button>
-    </div>
+<!-- ═══════════ HOME ═══════════ -->
+<div class="screen active" id="s-home">
+  <div class="banner" id="setup-banner" style="display:none">
+    ⚙️ <b>Setup needed:</b> add your Apps Script URL in <a href="#" onclick="go('more');return false" style="color:var(--saffron);font-weight:700">More → Settings</a>.
   </div>
 
-  <div class="sec-title">All Orders</div>
-  <div class="search-row">
-    <div class="search-input"><input id="order-search" placeholder="Search customer or item…" oninput="renderOrdersTable()"></div>
+  <div class="stats">
+    <div class="stat hero"><div class="v" id="st-rev">₹0</div><div class="l">Revenue · this month</div></div>
+    <div class="stat"><div class="v" id="st-profit">₹0</div><div class="l">Profit</div></div>
+    <div class="stat"><div class="v" id="st-orders">0</div><div class="l">Orders</div></div>
   </div>
-  <div class="card"><table>
-    <thead><tr><th>Date</th><th>Customer</th><th>Items</th><th>Cost</th><th>Revenue</th><th>Profit</th><th>Type</th><th></th></tr></thead>
-    <tbody id="t-orders"></tbody>
-  </table></div>
+
+  <div class="card" id="pending-card">
+    <div class="card-title">⏳ Pending Orders</div>
+    <div id="pending-list"></div>
+  </div>
+
+  <div class="card" id="unpaid-card" style="display:none">
+    <div class="card-title">💰 Payment Due</div>
+    <div id="unpaid-list"></div>
+  </div>
+
+  <div class="card" id="lowstock-card" style="display:none">
+    <div class="card-title">⚠️ Low Raw Material</div>
+    <div id="lowstock-list"></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🫙 Ready Packets</div>
+    <div id="readystock-list" style="display:flex;gap:8px;flex-wrap:wrap"></div>
+  </div>
 </div>
 
-<!-- ══════════════════════════════════════════ MASALAS ══ -->
-<div id="masalas" class="section">
-  <div class="alert alert-ok" id="masala-alert"></div>
-  <div class="alert alert-err" id="masala-err"></div>
+<!-- ═══════════ ORDERS ═══════════ -->
+<div class="screen" id="s-orders">
+  <div class="screen-title">Orders</div>
+  <div class="screen-sub">Tap ＋ to log a new order</div>
+  <div class="seg" id="order-filter">
+    <button class="on" onclick="setOrderFilter('all',this)">All</button>
+    <button onclick="setOrderFilter('pending',this)">Pending</button>
+    <button onclick="setOrderFilter('unpaid',this)">Unpaid</button>
+    <button onclick="setOrderFilter('delivered',this)">Done</button>
+  </div>
+  <div id="orders-list"></div>
+</div>
 
-  <!-- Add/Edit form — collapsed by default -->
-  <div class="collapse-card" id="masala-form-card">
-    <div class="collapse-header" onclick="toggleMasalaForm()">
-      <div class="card-title" id="masala-form-title">Add New Masala</div>
-      <span class="collapse-chevron" id="masala-chevron">▼</span>
+<!-- ═══════════ PRODUCTS ═══════════ -->
+<div class="screen" id="s-products">
+  <div class="screen-title">Products</div>
+  <div class="screen-sub">Tap a masala to view recipe & details</div>
+  <div id="products-list"></div>
+  <button class="btn btn-o btn-block" onclick="openMasalaForm()">＋ Add New Masala</button>
+</div>
+
+<!-- ═══════════ BATCH ═══════════ -->
+<div class="screen" id="s-batch">
+  <div class="screen-title">Make a Batch</div>
+  <div class="screen-sub">Scales your recipe & updates stock when done</div>
+
+  <div class="card">
+    <div class="fg">
+      <label>Masala</label>
+      <select id="b-masala" onchange="renderBatchRecipe()"></select>
     </div>
-    <div class="collapse-body" id="masala-form-body">
-      <input type="hidden" id="m-id">
-      <div style="height:16px"></div>
-      <div class="fg-row c3">
-        <div class="fg"><label>Masala Name</label><input id="m-name" placeholder="e.g. Garam Masala"></div>
-        <div class="fg"><label>Batch Size (g)</label><input type="number" id="m-batch" placeholder="100" oninput="calcMasalaCost()"></div>
-        <div class="fg"><label>Selling Price ₹ / pack</label><input type="number" id="m-sell" placeholder="e.g. 120"></div>
-      </div>
-      <div class="section-divider">Extra Costs per Batch</div>
-      <div class="fg-row c3">
-        <div class="fg"><label>Packaging ₹</label><input type="number" id="m-pkg" placeholder="0" oninput="calcMasalaCost()"></div>
-        <div class="fg"><label>Label ₹</label><input type="number" id="m-lbl" placeholder="0" oninput="calcMasalaCost()"></div>
-        <div class="fg"><label>Overhead ₹</label><input type="number" id="m-ohd" placeholder="0" oninput="calcMasalaCost()"></div>
-      </div>
-      <div class="fg"><label>Notes</label><input id="m-notes" placeholder="Optional notes"></div>
-
-      <div class="cost-box" id="masala-cost-box">
-        <div class="crow"><span>Raw Material Cost (from recipe)</span><span id="mc-raw">—</span></div>
-        <div class="crow"><span>Packaging</span><span id="mc-pkg">₹0</span></div>
-        <div class="crow"><span>Labels</span><span id="mc-lbl">₹0</span></div>
-        <div class="crow"><span>Overhead</span><span id="mc-ohd">₹0</span></div>
-        <div class="crow"><span>Total Cost Price / batch</span><span id="mc-total">—</span></div>
-      </div>
-
-      <div class="form-actions">
-        <button class="btn btn-primary" id="save-masala-btn" onclick="saveMasala()">Save Masala</button>
-        <button class="btn btn-secondary btn-sm" onclick="cancelMasalaEdit()">Cancel</button>
-      </div>
+    <label>Batch Size</label>
+    <div class="chips" id="b-size-chips">
+      <button class="chip" onclick="setBatchSize(100,this)">100g</button>
+      <button class="chip" onclick="setBatchSize(200,this)">200g</button>
+      <button class="chip on" onclick="setBatchSize(300,this)">300g</button>
+      <button class="chip" onclick="setBatchSize(500,this)">500g</button>
+      <button class="chip" onclick="setBatchSizeCustom(this)">Custom</button>
     </div>
   </div>
 
-  <!-- Recipe editor — shown when a masala is selected -->
-  <div class="form-card" id="recipe-editor" style="display:none">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
-      <div>
-        <div class="card-title" id="recipe-editor-title" style="margin-bottom:2px">Recipe for —</div>
-        <div style="font-size:.78rem;color:var(--muted)">Define ingredients per batch. Changes only save when you click "Save Recipe".</div>
-      </div>
-      <button class="btn-icon" onclick="closeRecipeEditor()" title="Close" style="font-size:1.1rem;flex-shrink:0">✕</button>
-    </div>
-
-    <!-- Recipe status indicator -->
-    <div id="recipe-status-bar" style="margin-bottom:12px"></div>
-
-    <div class="recipe-rows-header">
-      <span>Raw Material</span><span>Quantity</span><span>Unit</span><span></span>
-    </div>
-    <div id="recipe-rows"></div>
-    <button class="btn btn-ghost btn-sm" onclick="addRecipeRow()" style="margin-bottom:14px">＋ Add Ingredient</button>
-
-    <div id="recipe-cost-preview" style="margin-bottom:14px"></div>
-
-    <div class="form-actions">
-      <button class="btn btn-primary" id="save-recipe-btn" onclick="saveRecipe()">Save Recipe</button>
-      <button class="btn btn-sm" style="background:var(--danger-bg);color:var(--chili);border:none;border-radius:7px;font-family:'DM Sans',sans-serif;font-weight:700;cursor:pointer" onclick="clearEntireRecipe()">🗑 Clear Recipe</button>
-    </div>
+  <div class="card" id="b-recipe-card" style="display:none">
+    <div class="card-title" id="b-recipe-title">Ingredients</div>
+    <div id="b-recipe-rows"></div>
+    <div class="divider"></div>
+    <div class="note" id="b-summary"></div>
   </div>
 
-  <!-- ── Ready-made stock panel ── -->
-  <div class="sec-title" style="margin-top:8px">
-    Ready-Made Stock
-    <span style="font-size:.72rem;color:var(--muted);font-family:'DM Sans',sans-serif;font-weight:400;margin-left:8px">packets sitting ready to sell</span>
+  <div class="card" id="b-finish-card" style="display:none">
+    <div class="fg">
+      <label>Packets kept as ready stock (extra)</label>
+      <input type="number" id="b-extra-packs" min="0" placeholder="e.g. 2">
+      <div class="note" style="margin-top:5px" id="b-packs-hint"></div>
+    </div>
+    <button class="btn btn-p btn-block" onclick="completeBatch()">✓ Batch Done — Update Stock</button>
+    <div class="note" style="margin-top:8px">Deducts raw materials used & adds extra packets to ready stock.</div>
+  </div>
+</div>
+
+<!-- ═══════════ MORE ═══════════ -->
+<div class="screen" id="s-more">
+  <div class="screen-title">More</div>
+  <div class="screen-sub"></div>
+
+  <div class="card">
+    <div class="card-title">🌿 Raw Materials</div>
+    <div id="inv-list"></div>
+    <button class="btn btn-o btn-block btn-sm" style="margin-top:10px" onclick="openInvForm()">＋ Add Raw Material</button>
   </div>
 
-  <!-- Quick log form (hidden by default) -->
-  <div class="rs-log-form" id="rs-log-form">
-    <div style="font-weight:700;font-size:.88rem;margin-bottom:12px" id="rs-log-title">Log Batch</div>
-    <div class="fg-row c3">
-      <div class="fg">
-        <label>Masala</label>
-        <select id="rs-masala-sel" onchange="rsCalcValue()">
-          <option value="">— Select —</option>
-        </select>
-      </div>
-      <div class="fg">
-        <label>Packets made</label>
-        <input type="number" id="rs-qty" placeholder="e.g. 12" min="1" oninput="rsCalcValue()">
-      </div>
-      <div class="fg">
-        <label>Type</label>
-        <select id="rs-type">
-          <option value="add">➕ Add (made extra)</option>
-          <option value="sub">➖ Remove (damaged / used)</option>
-          <option value="set">📌 Set exact count</option>
-        </select>
-      </div>
+  <div class="card">
+    <div class="card-title">👥 Customers</div>
+    <div id="cust-list"></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">⚙️ Settings</div>
+    <div class="fg">
+      <label>Apps Script URL</label>
+      <input id="set-url" placeholder="https://script.google.com/…/exec">
     </div>
     <div class="fg">
-      <label>Note (optional)</label>
-      <input id="rs-note" placeholder="e.g. Made 2 batches, 4 extra packs">
+      <label>Your UPI ID (for payment links)</label>
+      <input id="set-upi" placeholder="e.g. 98765xxxxx@upi">
     </div>
-    <div id="rs-value-preview" style="font-size:.82rem;color:var(--muted);margin-bottom:10px"></div>
-    <div class="form-actions">
-      <button class="btn btn-primary btn-sm" onclick="saveReadyStock()">Save</button>
-      <button class="btn btn-secondary btn-sm" onclick="closeRsForm()">Cancel</button>
+    <div class="fg">
+      <label>Payee Name (shown in UPI app)</label>
+      <input id="set-payee" placeholder="e.g. Aangan Stories">
     </div>
-  </div>
-
-  <div class="ready-stock-grid" id="rs-grid">
-    <div style="color:var(--muted);font-size:.85rem;grid-column:1/-1;padding:20px 0;text-align:center">
-      Add masalas below to track their ready stock.
-    </div>
-  </div>
-
-  <div style="margin-bottom:20px;display:flex;gap:8px;flex-wrap:wrap">
-    <button class="btn btn-ghost btn-sm" onclick="openRsForm()">＋ Log Batch / Adjustment</button>
-  </div>
-
-  <div class="sec-title">Masala Products</div>
-  <div class="card"><table>
-    <thead><tr><th>Masala</th><th>Batch</th><th>Ready Stock</th><th>Recipe</th><th>Raw Cost</th><th>Total Cost</th><th>Selling ₹</th><th>Margin</th><th>Actions</th></tr></thead>
-    <tbody id="t-masalas"></tbody>
-  </table></div>
-</div>
-
-<!-- ══════════════════════════════════════════ INVENTORY ══ -->
-<div id="inventory" class="section">
-  <div class="alert alert-ok" id="inv-alert"></div>
-
-  <div class="collapse-card" id="inv-form-card">
-    <div class="collapse-header" onclick="toggleInvForm()">
-      <div class="card-title" id="inv-form-title">Add / Update Raw Material</div>
-      <span class="collapse-chevron" id="inv-chevron">▼</span>
-    </div>
-    <div class="collapse-body" id="inv-form-body">
-      <input type="hidden" id="inv-id">
-      <div style="height:16px"></div>
-      <div class="fg-row c3">
-        <div class="fg"><label>Spice Name</label><input id="inv-name" placeholder="e.g. Cumin Seeds"></div>
-        <div class="fg"><label>Current Stock (g)</label><input type="number" id="inv-stock" placeholder="e.g. 500"></div>
-        <div class="fg"><label>Cost per 100g ₹</label><input type="number" id="inv-cost" placeholder="e.g. 28"></div>
-      </div>
-      <div class="fg-row c2">
-        <div class="fg"><label>Unit label (display only)</label><input id="inv-unit" placeholder="g / kg / pack"></div>
-        <div class="fg"><label>Low Stock Alert (g)</label><input type="number" id="inv-alert-g" placeholder="100" value="100"></div>
-      </div>
-      <div class="form-actions">
-        <button class="btn btn-primary" id="save-inv-btn" onclick="saveRawMaterial()">Save</button>
-        <button class="btn btn-secondary btn-sm" onclick="cancelInvEdit()">Cancel</button>
-      </div>
-    </div>
-  </div>
-
-  <div class="sec-title">Raw Materials Inventory</div>
-  <div class="card"><table>
-    <thead><tr><th>Spice</th><th>Stock</th><th>Cost / 100g</th><th>Stock Value</th><th>Status</th><th></th></tr></thead>
-    <tbody id="t-inventory"></tbody>
-  </table></div>
-</div>
-
-<!-- ══════════════════════════════════════════ WHATSAPP ══ -->
-<div id="whatsapp" class="section">
-
-  <!-- Connection status bar -->
-  <div class="wa-status-bar disconnected" id="wa-status-bar">
-    <span class="wa-dot disconnected" id="wa-dot"></span>
-    <span id="wa-status-text">Bridge not running</span>
-    <div style="margin-left:auto;display:flex;gap:8px;flex-shrink:0">
-      <button class="btn btn-primary btn-sm" id="wa-connect-btn" onclick="waCheckStatus()">Connect</button>
-      <button class="btn btn-secondary btn-sm" onclick="waCheckStatus()">↻</button>
-    </div>
-  </div>
-
-  <!-- QR code (only shown on first-time link) -->
-  <div id="qr-container">
-    <div style="font-size:.85rem;color:var(--muted);margin-bottom:14px">
-      📱 Scan with WhatsApp → <strong>Linked Devices</strong> → <strong>Link a Device</strong>
-    </div>
-    <div id="qr-canvas" style="display:inline-block"></div>
-    <div style="font-size:.75rem;color:var(--muted);margin-top:12px">
-      After scanning once, your session is saved — no QR needed next time.
-    </div>
-  </div>
-
-  <!-- First-time setup instructions -->
-  <div class="form-card" id="wa-setup-card">
-    <div class="card-title">First-time Setup (5 min, once only)</div>
-    <ol style="font-size:.86rem;line-height:2.3;color:var(--muted);padding-left:20px">
-      <li>Install <strong>Node.js</strong> from <a href="https://nodejs.org" target="_blank" style="color:var(--saffron);font-weight:600">nodejs.org</a> — download the LTS version</li>
-      <li>Put <strong>server.js</strong> and <strong>package.json</strong> into a folder called <code style="background:var(--paper);padding:1px 6px;border-radius:4px">wa-bridge</code></li>
-      <li>Open Terminal / Command Prompt, navigate to that folder:<br>
-        <code style="background:var(--paper);padding:2px 8px;border-radius:4px;font-size:.82rem">cd path/to/wa-bridge</code></li>
-      <li>Run once to install packages:<br>
-        <code style="background:var(--paper);padding:2px 8px;border-radius:4px;font-size:.82rem">npm install</code></li>
-      <li>Start the bridge:<br>
-        <code style="background:var(--paper);padding:2px 8px;border-radius:4px;font-size:.82rem">npm start</code></li>
-      <li>Come back here, click <strong>Connect</strong> — scan the QR that appears</li>
-      <li>Done ✓ — session saved, future starts need no QR scan</li>
-    </ol>
-    <div style="background:#F0FDF4;border:1px solid #BBF7D0;border-radius:8px;padding:10px 14px;font-size:.82rem;color:#166534;margin-top:10px">
-      💡 <strong>Each session:</strong> open Terminal → <code>cd wa-bridge</code> → <code>npm start</code> → click Connect here → scan chats → <strong>Ctrl+C</strong> when done.
-    </div>
-  </div>
-
-  <!-- Step 2: Chat picker + scan config (shown when connected) -->
-  <div id="wa-scan-panel" style="display:none">
-
-    <div class="form-card">
-      <div class="card-title">Step 1 — Select chats to scan</div>
-      <div style="font-size:.82rem;color:var(--muted);margin-bottom:12px">
-        Pick the groups or contacts whose messages you want to scan for orders.
-      </div>
-
-      <div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap">
-        <button class="btn btn-secondary btn-sm" onclick="waSelectAll()">Select All</button>
-        <button class="btn btn-secondary btn-sm" onclick="waSelectNone()">Clear</button>
-        <button class="btn btn-secondary btn-sm" onclick="waRefreshChats()">↻ Reload chats</button>
-      </div>
-
-      <div id="wa-chat-list" style="display:flex;flex-wrap:wrap;min-height:32px">
-        <span style="color:var(--muted);font-size:.82rem">Loading chats…</span>
-      </div>
-    </div>
-
-    <div class="form-card">
-      <div class="card-title">Step 2 — Choose time window &amp; scan</div>
-      <div class="scan-config">
-        <div class="fg" style="margin:0">
-          <label>Scan messages from last</label>
-          <select id="wa-lookback" style="width:auto;padding:8px 12px">
-            <option value="6">6 hours</option>
-            <option value="24">24 hours</option>
-            <option value="48" selected>2 days</option>
-            <option value="72">3 days</option>
-            <option value="168">1 week</option>
-            <option value="336">2 weeks</option>
-          </select>
-        </div>
-        <button class="btn btn-primary" id="wa-scan-btn" onclick="waStartScan()" style="align-self:flex-end">
-          🔍 Scan Selected Chats
-        </button>
-        <span id="wa-scan-note" style="font-size:.8rem;color:var(--muted)"></span>
-      </div>
-      <div class="scan-progress" id="wa-scan-progress">
-        <span class="loader loader-dark"></span>
-        <span id="wa-scan-progress-text">Scanning…</span>
-      </div>
-    </div>
-
-    <!-- Step 3: Results -->
-    <div id="wa-results-section" style="display:none">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:10px">
-        <div class="sec-title" style="margin-bottom:0">
-          Scan Results
-          <span id="wa-result-count" style="font-size:.78rem;font-weight:400;color:var(--muted);font-family:'DM Sans',sans-serif;margin-left:4px"></span>
-        </div>
-        <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
-          <div class="filter-bar">
-            <button class="filter-btn active" onclick="waSetFilter('all',this)">All</button>
-            <button class="filter-btn" onclick="waSetFilter('orders',this)">Orders only</button>
-            <button class="filter-btn" onclick="waSetFilter('pending',this)">Not logged yet</button>
-          </div>
-          <button class="btn btn-secondary btn-sm" onclick="waClearResults()" style="font-size:.73rem">🗑 Clear all</button>
-        </div>
-      </div>
-
-      <div id="wa-results-empty" style="text-align:center;padding:40px;color:var(--muted);display:none">
-        <div style="font-size:2rem;margin-bottom:8px">🔍</div>
-        <div>No messages match the current filter.</div>
-      </div>
-      <div id="wa-results-list"></div>
-    </div>
-
-  </div>
-
-</div>
-
-<!-- ══════════════════════════════════════════ SETTINGS ══ -->
-<div id="settings" class="section">
-  <div class="settings-section">
-    <div class="card-title" style="color:var(--cream)">Google Sheets Connection</div>
-    <div class="fg" style="margin-bottom:14px">
-      <label>Apps Script Web App URL</label>
-      <input id="script-url" placeholder="https://script.google.com/macros/s/…/exec" oninput="saveScriptUrl()">
-    </div>
-    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
-      <button class="btn btn-primary" onclick="testConnection()">Test Connection</button>
-      <div id="conn-result" style="font-size:.83rem"></div>
-    </div>
-  </div>
-
-  <div class="form-card">
-    <div class="card-title">How to Connect (Step-by-Step)</div>
-    <ol style="font-size:.88rem;line-height:2.1;color:var(--muted);padding-left:18px">
-      <li>Open <strong>Google Sheets</strong> → create a new blank spreadsheet named <em>Masala Book</em></li>
-      <li>In the menu go to <strong>Extensions → Apps Script</strong></li>
-      <li>Delete the default code, paste the entire contents of the <strong>Code.gs</strong> file provided</li>
-      <li>Click <strong>Save</strong> (Ctrl+S / Cmd+S)</li>
-      <li>Click <strong>Deploy → New Deployment</strong></li>
-      <li>Type: <em>Web app</em> · Execute as: <em>Me</em> · Who has access: <em>Anyone</em></li>
-      <li>Click <strong>Deploy</strong>, authorise when prompted, then copy the <strong>Web app URL</strong></li>
-      <li>Paste that URL in the field above and click <strong>Test Connection</strong></li>
-      <li>On first connection, sheets will be auto-created with correct headers</li>
-    </ol>
-  </div>
-
-  <div class="form-card">
-    <div class="card-title">About the Apps Script (Code.gs)</div>
-    <p style="font-size:.85rem;color:var(--muted);line-height:1.7">The Apps Script must handle these actions: <code>getData</code>, <code>saveOrder</code>, <code>markDelivered</code>, <code>deleteOrder</code>, <code>saveMasala</code>, <code>deleteMasala</code>, <code>saveRecipeRows</code> (batch — receives an array), <code>deleteAllRecipeRows</code> (batch delete by masala name), <code>saveRawMaterial</code>, <code>deleteRawMaterial</code>, <code>ping</code>.</p>
-    <p style="font-size:.82rem;color:var(--chili);margin-top:10px;font-weight:600">⚠️ If pending orders always show as "Delivered", check that your Code.gs stores and returns the <code>OrderType</code> column correctly in the Orders sheet.</p>
+    <button class="btn btn-dark btn-block" onclick="saveSettings()">Save Settings</button>
   </div>
 </div>
 
-</main>
+<!-- ═══════════ BOTTOM NAV ═══════════ -->
+<div class="bnav">
+  <button class="active" data-s="home" onclick="go('home',this)"><span class="i">🏠</span>Home</button>
+  <button data-s="orders" onclick="go('orders',this)"><span class="i">🧾</span>Orders</button>
+  <button data-s="products" onclick="go('products',this)"><span class="i">🌶</span>Products</button>
+  <button data-s="batch" onclick="go('batch',this)"><span class="i">⚖️</span>Batch</button>
+  <button data-s="more" onclick="go('more',this)"><span class="i">☰</span>More</button>
+</div>
+
+<button class="btn-fab" id="fab" onclick="openOrderForm()">＋</button>
+
+<!-- ═══════════ SHEETS ═══════════ -->
+<div class="sheet-backdrop" id="backdrop" onclick="closeSheet()"></div>
+
+<!-- Order sheet -->
+<div class="sheet" id="sheet-order">
+  <div class="sheet-grip"></div>
+  <div class="sheet-head"><div class="sheet-title">New Order</div><button class="sheet-x" onclick="closeSheet()">✕</button></div>
+  <div class="sheet-body">
+    <div class="paste-box" style="margin-bottom:14px">
+      <label style="color:#8A6508">📋 Paste WhatsApp message (optional)</label>
+      <textarea id="o-paste" placeholder="Paste the customer's order message here…"></textarea>
+      <button class="btn btn-sm btn-dark" style="margin-top:8px" onclick="parsePaste()">✨ Auto-fill from message</button>
+    </div>
+
+    <div class="fg ac-wrap">
+      <label>Customer Name</label>
+      <input id="o-name" autocomplete="off" oninput="custAutocomplete(this.value)" placeholder="Start typing — matches saved customers">
+      <div class="ac-list" id="o-ac" style="display:none"></div>
+    </div>
+    <div class="row">
+      <div class="fg">
+        <label>Phone</label>
+        <input id="o-phone" inputmode="tel" placeholder="10-digit number">
+      </div>
+      <div class="fg" style="flex:0 0 auto;display:flex;align-items:flex-end">
+        <button class="btn btn-soft btn-sm" id="contact-pick-btn" style="display:none;min-height:46px" onclick="pickContact()">📇 Contacts</button>
+      </div>
+    </div>
+    <div class="fg"><label>Address / Flat No.</label><input id="o-addr" placeholder="optional"></div>
+
+    <label>Items</label>
+    <div id="o-items"></div>
+    <button class="btn btn-o btn-sm" onclick="addOrderItemRow()" style="margin-bottom:14px">＋ Add item</button>
+
+    <label>Order Status</label>
+    <div class="chips" style="margin-bottom:14px" id="o-type-chips">
+      <button class="chip on-green on" data-v="delivered" onclick="setOType('delivered')">✓ Delivered</button>
+      <button class="chip" data-v="pending" onclick="setOType('pending')">⏳ Pending</button>
+      <button class="chip" data-v="historical" onclick="setOType('historical')">📜 Old entry</button>
+    </div>
+
+    <label>Payment</label>
+    <div class="chips" style="margin-bottom:14px" id="o-pay-chips">
+      <button class="chip on" data-v="unpaid" onclick="setOPay('unpaid')">Unpaid</button>
+      <button class="chip" data-v="paid" onclick="setOPay('paid')">Paid</button>
+    </div>
+
+    <div class="row">
+      <div class="fg"><label>Date</label><input type="date" id="o-date"></div>
+      <div class="fg"><label>Notes</label><input id="o-notes" placeholder="optional"></div>
+    </div>
+
+    <div class="card" style="background:var(--saffron-soft);border-color:var(--saffron)">
+      <div style="display:flex;justify-content:space-between;font-size:.9rem;font-weight:700">
+        <span>Total</span><span class="serif" id="o-total" style="font-size:1.1rem">₹0</span>
+      </div>
+    </div>
+    <button class="btn btn-p btn-block" onclick="saveOrder()">Save Order</button>
+  </div>
+</div>
+
+<!-- Product detail sheet -->
+<div class="sheet" id="sheet-product">
+  <div class="sheet-grip"></div>
+  <div class="sheet-head"><div class="sheet-title" id="pd-title">Masala</div><button class="sheet-x" onclick="closeSheet()">✕</button></div>
+  <div class="sheet-body" id="pd-body"></div>
+</div>
+
+<!-- Masala edit sheet -->
+<div class="sheet" id="sheet-masala">
+  <div class="sheet-grip"></div>
+  <div class="sheet-head"><div class="sheet-title" id="mf-title">Add Masala</div><button class="sheet-x" onclick="closeSheet()">✕</button></div>
+  <div class="sheet-body">
+    <input type="hidden" id="m-id">
+    <div class="fg"><label>Name</label><input id="m-name" placeholder="e.g. Garam Masala"></div>
+    <div class="row">
+      <div class="fg"><label>Pack Size (g)</label><input type="number" id="m-batch" value="100"></div>
+      <div class="fg"><label>Selling ₹ / pack</label><input type="number" id="m-price"></div>
+    </div>
+    <div class="row">
+      <div class="fg"><label>Packaging ₹</label><input type="number" id="m-pack" value="0"></div>
+      <div class="fg"><label>Labels ₹</label><input type="number" id="m-label" value="0"></div>
+      <div class="fg"><label>Overhead ₹</label><input type="number" id="m-ovh" value="0"></div>
+    </div>
+    <div class="fg"><label>Notes</label><input id="m-notes"></div>
+
+    <div class="card" style="margin-top:4px">
+      <div class="card-title">Recipe (per pack)</div>
+      <div id="m-recipe-rows"></div>
+      <button class="btn btn-o btn-sm" onclick="addRecipeRowUI()" style="margin-top:8px">＋ Ingredient</button>
+    </div>
+
+    <button class="btn btn-p btn-block" onclick="saveMasala()">Save Masala & Recipe</button>
+    <button class="btn btn-danger btn-block btn-sm" id="m-del-btn" style="margin-top:8px;display:none" onclick="deleteMasala()">Delete Masala</button>
+  </div>
+</div>
+
+<!-- Raw material sheet -->
+<div class="sheet" id="sheet-inv">
+  <div class="sheet-grip"></div>
+  <div class="sheet-head"><div class="sheet-title" id="if-title">Raw Material</div><button class="sheet-x" onclick="closeSheet()">✕</button></div>
+  <div class="sheet-body">
+    <input type="hidden" id="i-id">
+    <div class="fg"><label>Spice Name</label><input id="i-name" placeholder="e.g. Cumin Seeds"></div>
+    <div class="row">
+      <div class="fg"><label>Stock (g)</label><input type="number" id="i-stock"></div>
+      <div class="fg"><label>Cost ₹ / 100g</label><input type="number" id="i-cost"></div>
+    </div>
+    <div class="fg"><label>Low-stock alert below (g)</label><input type="number" id="i-alert" value="100"></div>
+    <button class="btn btn-p btn-block" onclick="saveInv()">Save</button>
+    <button class="btn btn-danger btn-block btn-sm" id="i-del-btn" style="margin-top:8px;display:none" onclick="deleteInv()">Delete</button>
+  </div>
+</div>
 
 <script>
-// ══════════════════════════════════════════════════════════════
-//  STATE
-// ══════════════════════════════════════════════════════════════
-let DB = { orders:[], masalas:[], inventory:[], recipes:[], customers:[] };
+// ═══════════════ STATE & API ═══════════════
 let SCRIPT_URL = localStorage.getItem('mb_script_url') || '';
-let orderItemCount = 0;
-let activeRecipeMasala = null;    // Name of masala currently being edited in recipe editor
-let currentOrderType  = 'delivered'; // Tracks selected order type button
-let masalaFormOpen    = false;
-let invFormOpen       = false;
+let UPI_ID     = localStorage.getItem('mb_upi') || '';
+let PAYEE      = localStorage.getItem('mb_payee') || '';
+const DB = { orders:[], masalas:[], inventory:[], recipes:[], customers:[] };
+let orderFilter = 'all';
+let oType = 'delivered', oPay = 'unpaid';
+let batchSize = 300;
 
-// ── Optimistic local update flag: when true, skip background re-render after loadData
-let _optimisticRendered = false;
-
-// ══════════════════════════════════════════════════════════════
-//  NAVIGATION
-// ══════════════════════════════════════════════════════════════
-function nav(id, btn) {
-  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-  // Sync both top nav and bottom nav active states
-  document.querySelectorAll('nav button, .bottom-nav .bn-item').forEach(b => b.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  if (btn) btn.classList.add('active');
-  // Keep bottom nav in sync even when top nav button clicked
-  document.querySelectorAll('.bottom-nav .bn-item').forEach(b => {
-    if (b.dataset.section === id) b.classList.add('active');
-  });
-  // Keep top nav in sync even when bottom nav button clicked
-  document.querySelectorAll('header nav button').forEach(b => {
-    if (b.getAttribute('onclick')?.includes("'" + id + "'")) b.classList.add('active');
-  });
-  if (id === 'dashboard') renderDashboard();
-  if (id === 'orders')    { renderOrdersTable(); resetOrderForm(); }
-  if (id === 'masalas')   renderMasalasTable();
-  if (id === 'inventory') renderInventoryTable();
-  if (id !== 'whatsapp' && waScanPollTimer) { clearInterval(waScanPollTimer); waScanPollTimer = null; }
-  if (id === 'whatsapp') initWaSection();
-  if (id === 'settings')  document.getElementById('script-url').value = SCRIPT_URL;
-  // Scroll to top on mobile when switching tabs
-  window.scrollTo({ top: 0, behavior: 'instant' });
-}
-
-// ══════════════════════════════════════════════════════════════
-//  API LAYER  — optimistic-first, background refresh
-// ══════════════════════════════════════════════════════════════
 async function api(params) {
-  if (!SCRIPT_URL) throw new Error('No Script URL configured. Go to Settings first.');
+  if (!SCRIPT_URL) throw new Error('Set the Apps Script URL in More → Settings first.');
   const isRead = params.action === 'getData' || params.action === 'ping';
   if (isRead) {
     const url = new URL(SCRIPT_URL);
-    Object.entries(params).forEach(([k,v]) => url.searchParams.set(k, v));
+    Object.entries(params).forEach(([k,v]) => url.searchParams.set(k,v));
     const r = await fetch(url.toString());
     return r.json();
-  } else {
-    const r = await fetch(SCRIPT_URL, {
-      method: 'POST',
-      body: JSON.stringify(params),
-      headers: { 'Content-Type': 'text/plain' }
-    });
-    return r.json();
   }
+  const r = await fetch(SCRIPT_URL, { method:'POST', body: JSON.stringify(params), headers:{'Content-Type':'text/plain'} });
+  return r.json();
 }
 
 async function loadData(silent=false) {
-  if (!SCRIPT_URL) { updateApiDot('err'); return; }
-  if (!silent) updateApiDot('loading');
+  if (!SCRIPT_URL) { setDot('err'); document.getElementById('setup-banner').style.display='block'; return; }
+  if (!silent) setDot('loading');
   try {
-    const d = await api({ action: 'getData' });
+    const d = await api({ action:'getData' });
     if (d.error) throw new Error(d.error);
-    DB.orders    = d.orders    || [];
-    DB.masalas   = d.masalas   || [];
-    DB.inventory = d.inventory || [];
-    DB.recipes   = d.recipes   || [];
-    DB.customers = d.customers || [];
-    updateApiDot('ok');
-    document.getElementById('setup-banner').style.display = 'none';
-    if (!_optimisticRendered) {
-      renderAll();
-    } else {
-      // Background refresh: quietly update tables without disrupting user
-      renderDashboard();
-      const active = document.querySelector('.section.active')?.id;
-      if (active === 'orders')    renderOrdersTable();
-      if (active === 'masalas')   { renderMasalasTable(); if (activeRecipeMasala) refreshRecipeCostPreview(); }
-      if (active === 'inventory') renderInventoryTable();
-      _optimisticRendered = false;
-    }
-  } catch(e) {
-    updateApiDot('err');
-    console.error('loadData error', e);
-  }
-}
-
-function renderAll() {
-  renderDashboard();
-  const active = document.querySelector('.section.active')?.id;
-  if (active === 'orders')    renderOrdersTable();
-  if (active === 'masalas')   renderMasalasTable();
-  if (active === 'inventory') renderInventoryTable();
-}
-
-function updateApiDot(state) {
-  const dot = document.getElementById('api-dot');
-  const txt = document.getElementById('api-status-text');
-  dot.className = 'api-dot ' + state;
-  txt.textContent = state === 'ok' ? 'Connected' : state === 'loading' ? 'Syncing…' : 'Not connected';
+    DB.orders=d.orders||[]; DB.masalas=d.masalas||[]; DB.inventory=d.inventory||[];
+    DB.recipes=d.recipes||[]; DB.customers=d.customers||[];
+    setDot('ok');
+    document.getElementById('setup-banner').style.display='none';
+    renderAll();
+  } catch(e) { setDot('err'); if(!silent) toast('Could not load data: '+e.message,'err'); }
 }
 
 async function manualRefresh() {
-  const btn = document.getElementById('refresh-btn');
-  btn.classList.add('spinning');
-  btn.disabled = true;
-  _optimisticRendered = false;
-  await loadData();
-  btn.classList.remove('spinning');
-  btn.disabled = false;
-  toast('✓ Data synced', 'ok');
+  const b=document.getElementById('sync-btn'); b.classList.add('spin');
+  await loadData(); b.classList.remove('spin'); toast('Synced ✓');
+}
+function setDot(s){ document.getElementById('api-dot').className='api-dot '+s; }
+function setSaving(on){ document.getElementById('saving-pill').classList.toggle('show',on); }
+function toast(msg,type='') {
+  const t=document.createElement('div'); t.className='toast '+type; t.textContent=msg;
+  document.getElementById('toasts').appendChild(t);
+  setTimeout(()=>{t.style.opacity='0';t.style.transition='opacity .3s';setTimeout(()=>t.remove(),320)},2800);
+}
+const fmt=n=>'₹'+(Math.round((parseFloat(n)||0)*100)/100).toLocaleString('en-IN');
+const uid=()=>Math.random().toString(36).slice(2,10)+Date.now().toString(36).slice(-4);
+const esc=s=>String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+
+// ═══════════════ NAV ═══════════════
+function go(id, btn) {
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById('s-'+id).classList.add('active');
+  document.querySelectorAll('.bnav button').forEach(b=>b.classList.toggle('active', b.dataset.s===id));
+  document.getElementById('fab').style.display = (id==='home'||id==='orders') ? 'flex' : 'none';
+  if (id==='batch') initBatch();
+  if (id==='more') { document.getElementById('set-url').value=SCRIPT_URL; document.getElementById('set-upi').value=UPI_ID; document.getElementById('set-payee').value=PAYEE; }
+  window.scrollTo({top:0});
 }
 
-// ══════════════════════════════════════════════════════════════
-//  HELPERS
-// ══════════════════════════════════════════════════════════════
-const fmt  = n => '₹' + Number(n||0).toLocaleString('en-IN', {maximumFractionDigits:0});
-const fmtg = n => Number(n||0).toFixed(1) + 'g';
-const uid  = () => Date.now().toString(36) + Math.random().toString(36).slice(2,6);
-
-const TO_G = { g:1, kg:1000, tsp:3, tbsp:9, ml:1, piece:5, nos:5 };
-function toGrams(qty, unit) {
-  return (parseFloat(qty)||0) * (TO_G[(unit||'g').toLowerCase().trim()] || 1);
+// ═══════════════ COST HELPERS ═══════════════
+function recipeOf(name){ return DB.recipes.filter(r=>String(r.MasalaName).trim().toLowerCase()===String(name).trim().toLowerCase()); }
+function rawCost(m){
+  if(!m) return 0;
+  return recipeOf(m.Name).reduce((s,r)=>{
+    const ing=DB.inventory.find(i=>String(i.Name).trim().toLowerCase()===String(r.RawMaterialName).trim().toLowerCase());
+    return s + (parseFloat(r.QuantityG)||0)/100 * (parseFloat(ing?.CostPer100G)||0);
+  },0);
 }
-function parseItems(raw) {
-  if (!raw) return [];
-  if (Array.isArray(raw)) return raw;
-  try { return JSON.parse(raw); } catch { return []; }
-}
+function totalCost(m){ if(!m) return 0; return rawCost(m)+(parseFloat(m.Packaging)||0)+(parseFloat(m.Labels)||0)+(parseFloat(m.Overhead)||0); }
 
-let _toastId = 0;
-function toast(msg, type='ok') {
-  const container = document.getElementById('toast-container');
-  const el = document.createElement('div');
-  el.className = `toast toast-${type}`;
-  const icon = type === 'ok' ? '✓' : type === 'err' ? '✗' : 'ℹ';
-  el.innerHTML = `<span>${icon}</span><span>${msg}</span>`;
-  container.appendChild(el);
-  requestAnimationFrame(() => el.classList.add('show'));
-  const tid = ++_toastId;
-  setTimeout(() => { el.classList.remove('show'); setTimeout(() => el.remove(), 350); }, 3200);
-}
+// ═══════════════ RENDER ALL ═══════════════
+function renderAll(){ renderHome(); renderOrders(); renderProducts(); renderInv(); renderCust(); }
 
-function flash(id, msg, isErr=false) {
-  const el = document.getElementById(id);
-  if (!el) return;
-  el.innerHTML = `<span>${isErr ? '✗' : '✓'}</span><span>${msg}</span>`;
-  el.className = 'alert ' + (isErr ? 'alert-err' : 'alert-ok') + ' show';
-  setTimeout(() => el.classList.remove('show'), 4000);
-  toast(msg, isErr ? 'err' : 'ok');
-}
+function renderHome() {
+  const now=new Date(), mo=now.getMonth(), yr=now.getFullYear();
+  const monthOrders=DB.orders.filter(o=>{const d=new Date(o.Date);return d.getMonth()===mo&&d.getFullYear()===yr&&String(o.OrderType).toLowerCase()!=='pending';});
+  const rev=monthOrders.reduce((s,o)=>s+(parseFloat(o.TotalRevenue)||0),0);
+  const cost=monthOrders.reduce((s,o)=>s+(parseFloat(o.TotalCost)||0),0);
+  document.getElementById('st-rev').textContent=fmt(rev);
+  document.getElementById('st-profit').textContent=fmt(rev-cost);
+  document.getElementById('st-orders').textContent=monthOrders.length;
 
-function setSaving(on) {
-  document.getElementById('saving-badge').classList.toggle('show', on);
-}
+  // Pending
+  const pend=DB.orders.filter(o=>String(o.OrderType).toLowerCase()==='pending');
+  document.getElementById('pending-list').innerHTML = pend.length
+    ? pend.map(o=>orderCardHTML(o,true)).join('')
+    : '<div class="empty" style="padding:18px"><div class="e-icon">🎉</div>No pending orders</div>';
 
-// ══════════════════════════════════════════════════════════════
-//  DASHBOARD
-// ══════════════════════════════════════════════════════════════
-function renderDashboard() {
-  // Only count delivered+historical for revenue stats
-  const billed = DB.orders.filter(o => (o.OrderType||'delivered') !== 'pending');
-  const totalRev  = billed.reduce((s,o) => s + (parseFloat(o.TotalRevenue)||0), 0);
-  const totalCost = billed.reduce((s,o) => s + (parseFloat(o.TotalCost)||0), 0);
-  const profit    = totalRev - totalCost;
-  const margin    = totalRev ? ((profit/totalRev)*100).toFixed(1) : 0;
-  const custSet   = new Set(DB.orders.map(o => o.CustomerPhone).filter(Boolean));
-
-  document.getElementById('d-rev').textContent    = fmt(totalRev);
-  document.getElementById('d-cost').textContent   = fmt(totalCost);
-  document.getElementById('d-profit').textContent = fmt(profit);
-  document.getElementById('d-profit').style.color = profit >= 0 ? 'var(--success)' : 'var(--chili)';
-  document.getElementById('d-margin').textContent = margin + '% margin';
-  document.getElementById('d-orders').textContent = DB.orders.length;
-  document.getElementById('d-custs').textContent  = custSet.size + ' customers';
-
-  // Monthly — only billed orders
-  const monthly = {};
-  billed.forEach(o => {
-    const m = (o.Date||'').slice(0,7) || 'Unknown';
-    if (!monthly[m]) monthly[m] = { n:0, rev:0, cost:0 };
-    monthly[m].n++;
-    monthly[m].rev  += parseFloat(o.TotalRevenue)||0;
-    monthly[m].cost += parseFloat(o.TotalCost)||0;
-  });
-  const tb = document.getElementById('t-monthly');
-  const months = Object.keys(monthly).sort().reverse();
-  if (!months.length) { tb.innerHTML = '<tr><td colspan="6"><div class="empty"><div class="empty-icon">📊</div>No orders yet</div></td></tr>'; }
-  else tb.innerHTML = months.map(m => {
-    const d = monthly[m];
-    const p = d.rev - d.cost;
-    const mg = d.rev ? ((p/d.rev)*100).toFixed(0) : 0;
-    const [yr,mn] = m.split('-');
-    const label = mn ? new Date(yr, mn-1).toLocaleString('en-IN',{month:'short',year:'numeric'}) : m;
-    return `<tr><td><strong>${label}</strong></td><td>${d.n}</td><td>${fmt(d.rev)}</td><td>${fmt(d.cost)}</td><td class="${p>=0?'green':'red'}">${fmt(p)}</td><td><span class="tag ${p>=0?'tag-profit':'tag-loss'}">${mg}%</span></td></tr>`;
-  }).join('');
-
-  // Recent orders (all types)
-  const recent = [...DB.orders].sort((a,b)=>(b.Date||'')>(a.Date||'')?1:-1).slice(0,6);
-  const rt = document.getElementById('t-recent');
-  if (!recent.length) { rt.innerHTML = '<tr><td colspan="5"><div class="empty"><div class="empty-icon">🌶️</div>No orders yet</div></td></tr>'; }
-  else rt.innerHTML = recent.map(o => {
-    const items = parseItems(o.Items);
-    const p = (parseFloat(o.TotalRevenue)||0) - (parseFloat(o.TotalCost)||0);
-    const summary = items.map(i => `${i.name} ×${i.qty}`).join(', ') || '—';
-    const type = (o.OrderType||'delivered').toLowerCase();
-    const typeTag = type==='pending' ? '<span class="tag tag-pending" style="font-size:.6rem">Pending</span>' :
-                    type==='historical' ? '<span class="tag tag-historical" style="font-size:.6rem">Hist.</span>' : '';
-    return `<tr><td>${o.Date||'—'} ${typeTag}</td><td><strong>${o.CustomerName||'—'}</strong><br><span style="font-size:.75rem;color:var(--muted)">${o.CustomerPhone||''}</span></td><td style="font-size:.8rem">${summary}</td><td>${fmt(o.TotalRevenue)}</td><td class="${p>=0?'green':'red'}">${fmt(p)}</td></tr>`;
-  }).join('');
+  // Unpaid (delivered but unpaid)
+  const unpaid=DB.orders.filter(o=>String(o.OrderType).toLowerCase()==='delivered'&&String(o.PaymentStatus||'').toLowerCase()==='unpaid');
+  document.getElementById('unpaid-card').style.display=unpaid.length?'block':'none';
+  document.getElementById('unpaid-list').innerHTML=unpaid.map(o=>orderCardHTML(o,true)).join('');
 
   // Low stock
-  const ls = DB.inventory.filter(r => (parseFloat(r.StockG)||0) <= (parseFloat(r.LowStockAlertG)||100));
-  const lt = document.getElementById('t-lowstock');
-  if (!ls.length) { lt.innerHTML = '<tr><td colspan="4"><div class="empty"><div class="empty-icon">✅</div>All stock levels OK</div></td></tr>'; }
-  else lt.innerHTML = ls.map(r => `<tr><td><strong>${r.Name}</strong></td><td>${fmtg(r.StockG)}</td><td>${fmtg(r.LowStockAlertG)}</td><td><span class="tag tag-warn">Low ⚠️</span></td></tr>`).join('');
+  const low=DB.inventory.filter(i=>(parseFloat(i.StockG)||0)<=(parseFloat(i.LowStockAlertG)||100));
+  document.getElementById('lowstock-card').style.display=low.length?'block':'none';
+  document.getElementById('lowstock-list').innerHTML=low.map(i=>
+    `<div class="irow"><span class="in">${esc(i.Name)}</span><span class="iq">${Math.round(i.StockG)}g left</span><span class="tag tag-low">Low</span></div>`).join('');
 
-  renderPendingOrders();
+  // Ready stock pills
+  document.getElementById('readystock-list').innerHTML = DB.masalas.length
+    ? DB.masalas.map(m=>{
+        const s=parseInt(m.StockPacks)||0;
+        const cls=s===0?'tag-out':s<=2?'tag-low':'tag-ok';
+        return `<span class="tag ${cls}" style="font-size:.78rem;padding:6px 12px">${esc(m.Name)}: <b>${s}</b></span>`;
+      }).join('')
+    : '<span class="note">Add products to track ready packets.</span>';
 }
 
-// ══════════════════════════════════════════════════════════════
-//  ORDERS
-// ══════════════════════════════════════════════════════════════
+function itemsText(o){
+  let items=[]; try{ items=typeof o.Items==='string'?JSON.parse(o.Items):(o.Items||[]);}catch{}
+  return items.map(i=>`${i.qty}× ${esc(i.name)}`).join(' · ') || '—';
+}
 
-// ── Order type selector (replaces radio buttons)
-function setOrderType(type) {
-  currentOrderType = type;
-  document.querySelectorAll('.otype-btn').forEach(b => {
-    b.className = 'otype-btn';
-    if (b.dataset.type === type) {
-      b.classList.add(`active-${type}`);
-    }
-  });
-  const noteEl = document.getElementById('order-type-note');
-  if (type === 'pending') {
-    noteEl.innerHTML = '<div style="background:#FFFBEB;border:1px solid #FCD34D;border-radius:7px;padding:9px 13px;font-size:.82rem;color:#92400E">⏳ Pending order — will appear on the Dashboard until you mark it as delivered. Inventory deducted only on delivery.</div>';
-  } else if (type === 'historical') {
-    noteEl.innerHTML = '<div style="background:#F3F4F6;border-radius:7px;padding:9px 13px;font-size:.82rem;color:#6B7280">📦 Historical order — logged for revenue/profit tracking but <strong>will not deduct raw material inventory</strong>.</div>';
-  } else {
-    noteEl.innerHTML = '';
+function orderCardHTML(o, compact=false) {
+  const type=String(o.OrderType||'delivered').toLowerCase();
+  const pay=String(o.PaymentStatus||'').toLowerCase();
+  const typeTag = type==='pending'?'<span class="tag tag-pend">Pending</span>':type==='historical'?'<span class="tag tag-hist">Old</span>':'<span class="tag tag-ok">Delivered</span>';
+  const payTag = type!=='pending' ? (pay==='paid'?'<span class="tag tag-paid">Paid</span>':'<span class="tag tag-unpaid">Unpaid</span>') : '';
+  const dt=o.Date?new Date(o.Date).toLocaleDateString('en-IN',{day:'2-digit',month:'short'}):'';
+  const phone=String(o.CustomerPhone||'').replace(/\D/g,'');
+  const waPhone=phone.length===10?'91'+phone:phone;
+
+  let actions='';
+  if(type==='pending') actions+=`<button class="btn btn-soft btn-sm" onclick="markDelivered('${o.ID}')">✓ Delivered</button>`;
+  if(type!=='pending'&&pay!=='paid'){
+    actions+=`<button class="btn btn-soft btn-sm" onclick="markPaid('${o.ID}')">₹ Mark Paid</button>`;
+    if(UPI_ID&&waPhone) actions+=`<button class="btn btn-o btn-sm" onclick="sendPayLink('${o.ID}')">💬 Payment link</button>`;
   }
+  if(!compact) actions+=`<button class="btn btn-danger btn-sm" onclick="deleteOrder('${o.ID}')">Delete</button>`;
+
+  return `<div class="ocard ${type==='pending'?'pending':''}">
+    <div class="oc-top"><span class="oc-name">${esc(o.CustomerName)}</span>${typeTag}${payTag}<span class="oc-date">${dt}</span></div>
+    <div class="oc-items">${itemsText(o)}</div>
+    <div class="oc-money"><span>Total <b>${fmt(o.TotalRevenue)}</b></span><span style="color:var(--muted)">Profit <b>${fmt((parseFloat(o.TotalRevenue)||0)-(parseFloat(o.TotalCost)||0))}</b></span></div>
+    ${actions?`<div class="oc-actions">${actions}</div>`:''}
+  </div>`;
 }
 
-function resetOrderForm() {
-  orderItemCount = 0;
-  document.getElementById('order-items').innerHTML = '';
-  ['o-cname','o-cphone','o-caddr','o-notes'].forEach(id => document.getElementById(id).value = '');
-  document.getElementById('o-date').value = new Date().toISOString().slice(0,10);
-  document.getElementById('cust-match-msg').textContent = '';
-  document.getElementById('order-totals-box').style.display = 'none';
-  setOrderType('delivered');
-  addOrderItem();
+function setOrderFilter(f,btn){
+  orderFilter=f;
+  document.querySelectorAll('#order-filter button').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on'); renderOrders();
+}
+function renderOrders(){
+  let list=[...DB.orders].sort((a,b)=>new Date(b.Date)-new Date(a.Date));
+  if(orderFilter==='pending') list=list.filter(o=>String(o.OrderType).toLowerCase()==='pending');
+  if(orderFilter==='delivered') list=list.filter(o=>String(o.OrderType).toLowerCase()==='delivered');
+  if(orderFilter==='unpaid') list=list.filter(o=>String(o.OrderType).toLowerCase()!=='pending'&&String(o.PaymentStatus||'').toLowerCase()!=='paid');
+  document.getElementById('orders-list').innerHTML = list.length
+    ? list.map(o=>orderCardHTML(o)).join('')
+    : '<div class="empty"><div class="e-icon">🧾</div>No orders here yet</div>';
 }
 
-function checkCustomer() {
-  const name  = document.getElementById('o-cname').value.trim();
-  const phone = document.getElementById('o-cphone').value.trim();
-  const msg   = document.getElementById('cust-match-msg');
-  if (!phone || phone.length < 7) { msg.textContent = ''; return; }
-  const match = DB.customers.find(c => String(c.Phone) === phone);
-  if (match) {
-    msg.innerHTML = `<span style="color:var(--success)">✓ Returning customer: ${match.Name}</span>`;
-    if (!name) document.getElementById('o-cname').value = match.Name;
-    if (!document.getElementById('o-caddr').value && match.Address) document.getElementById('o-caddr').value = match.Address;
-  } else {
-    msg.innerHTML = phone.length >= 10 ? `<span style="color:var(--saffron)">✦ New customer</span>` : '';
-  }
-}
-
-function addOrderItem() {
-  orderItemCount++;
-  const oid = 'oi-' + orderItemCount;
-  const masalaOptions = DB.masalas.map(m => `<option value="${m.Name}" data-price="${m.SellingPrice||0}">${m.Name}</option>`).join('');
-  const isFirst = orderItemCount === 1;
-  const row = document.createElement('div');
-  row.id = oid;
-  row.style.cssText = 'display:grid;grid-template-columns:2fr 1fr 1fr auto;gap:8px;align-items:end;margin-bottom:8px';
-  row.innerHTML = `
-    <div class="fg" style="margin:0">
-      ${isFirst ? '<label>Masala</label>' : ''}
-      <select onchange="itemChanged('${oid}')">
-        <option value="">— Select Masala —</option>${masalaOptions}
-      </select>
-    </div>
-    <div class="fg" style="margin:0">
-      ${isFirst ? '<label>Qty (packs)</label>' : ''}
-      <input type="number" min="1" value="1" oninput="recalcOrder()">
-    </div>
-    <div class="fg" style="margin:0">
-      ${isFirst ? '<label>Sell Price ₹</label>' : ''}
-      <input type="number" min="0" placeholder="Auto" oninput="recalcOrder()">
-    </div>
-    <button class="btn-icon" style="margin-bottom:1px;align-self:flex-end" onclick="removeOrderItem('${oid}')">✕</button>
-  `;
-  document.getElementById('order-items').appendChild(row);
-}
-
-function itemChanged(rowId) {
-  const row  = document.getElementById(rowId);
-  const sel  = row.querySelector('select');
-  const priceInput = row.querySelectorAll('input')[1];
-  const opt  = sel.options[sel.selectedIndex];
-  if (opt && opt.dataset.price && parseFloat(opt.dataset.price) > 0) priceInput.value = opt.dataset.price;
-  recalcOrder();
-}
-
-function removeOrderItem(id) {
-  document.getElementById(id)?.remove();
-  recalcOrder();
-}
-
-function recalcOrder() {
-  let totalRev = 0, totalCost = 0;
-  document.querySelectorAll('#order-items > div').forEach(row => {
-    const sel   = row.querySelector('select');
-    const qty   = parseFloat(row.querySelectorAll('input')[0]?.value) || 0;
-    const price = parseFloat(row.querySelectorAll('input')[1]?.value) || 0;
-    if (!sel?.value) return;
-    const masala = DB.masalas.find(m => m.Name === sel.value);
-    totalRev  += price * qty;
-    totalCost += getMasalaTotalCost(masala) * qty;
-  });
-  document.getElementById('ot-cost').textContent = fmt(totalCost);
-  document.getElementById('ot-rev').textContent  = fmt(totalRev);
-  const p = totalRev - totalCost;
-  const pel = document.getElementById('ot-profit');
-  pel.textContent  = fmt(p);
-  pel.style.color  = p >= 0 ? 'var(--success)' : 'var(--chili)';
-  document.getElementById('order-totals-box').style.display = totalRev||totalCost ? 'block' : 'none';
-}
-
-async function saveOrder() {
-  const cname  = document.getElementById('o-cname').value.trim();
-  const cphone = document.getElementById('o-cphone').value.trim();
-  const caddr  = document.getElementById('o-caddr').value.trim();
-  const date   = document.getElementById('o-date').value;
-  const notes  = document.getElementById('o-notes').value.trim();
-
-  // Capture order type BEFORE resetting form
-  const type = currentOrderType;  // ← key fix: read from JS variable, not DOM radio
-
-  if (!cname || !cphone) { flash('order-err','Please fill customer name and phone.',true); return; }
-
-  const items = [];
-  let totalRev = 0, totalCost = 0;
-  document.querySelectorAll('#order-items > div').forEach(row => {
-    const sel   = row.querySelector('select');
-    const qty   = parseFloat(row.querySelectorAll('input')[0]?.value) || 0;
-    const price = parseFloat(row.querySelectorAll('input')[1]?.value) || 0;
-    if (!sel?.value || !qty) return;
-    const masala = DB.masalas.find(m => m.Name === sel.value);
-    const cost   = getMasalaTotalCost(masala);
-    totalRev  += price * qty;
-    totalCost += cost * qty;
-    items.push({ name: sel.value, qty, price, weightG: (parseFloat(masala?.BatchSizeG)||100) * qty, costPerPack: cost });
-  });
-  if (!items.length) { flash('order-err','Add at least one item.',true); return; }
-
-  const orderData = {
-    ID: uid(),
-    Date: date,
-    CustomerName: cname,
-    CustomerPhone: cphone,
-    CustomerAddress: caddr,
-    Items: items,
-    TotalCost: totalCost,
-    TotalRevenue: totalRev,
-    Notes: notes,
-    OrderType: type   // ← always a clean string: 'delivered' | 'pending' | 'historical'
-  };
-
-  // ── OPTIMISTIC UPDATE: add to local DB immediately ──
-  DB.orders.push(orderData);
-  _optimisticRendered = true;
-  renderOrdersTable();
-  renderDashboard();
-
-  // UI
-  const btn = document.getElementById('save-order-btn');
-  btn.innerHTML = '<span class="loader"></span> Saving…';
-  btn.disabled = true;
-  setSaving(true);
-
-  const msg = type === 'pending'    ? '⏳ Pending order saved!' :
-              type === 'historical' ? '📦 Historical order logged!' :
-              '✓ Order saved & inventory updated!';
-  flash('order-alert', msg);
-  resetOrderForm();
-
-  try {
-    const res = await api({ action: 'saveOrder', data: orderData });
-    if (res.error) throw new Error(res.error);
-    // Background sync to get server-assigned state (inventory deductions etc.)
-    await loadData(true);
-  } catch(e) {
-    // Rollback optimistic update
-    DB.orders = DB.orders.filter(o => o.ID !== orderData.ID);
-    _optimisticRendered = false;
-    renderOrdersTable();
-    renderDashboard();
-    flash('order-err', 'Save failed: ' + e.message, true);
-  } finally {
-    btn.innerHTML = 'Save Order';
-    btn.disabled = false;
-    setSaving(false);
-  }
-}
-
-function renderOrdersTable() {
-  const q = (document.getElementById('order-search')?.value||'').toLowerCase();
-  const rows = [...DB.orders]
-    .filter(o => !q || (o.CustomerName||'').toLowerCase().includes(q) || (JSON.stringify(o.Items)||'').toLowerCase().includes(q))
-    .sort((a,b) => (b.Date||'') > (a.Date||'') ? 1 : -1);
-  const tb = document.getElementById('t-orders');
-  if (!rows.length) { tb.innerHTML='<tr><td colspan="8"><div class="empty"><div class="empty-icon">📦</div>No orders found</div></td></tr>'; return; }
-  tb.innerHTML = rows.map(o => {
-    const items   = parseItems(o.Items);
-    const p       = (parseFloat(o.TotalRevenue)||0) - (parseFloat(o.TotalCost)||0);
-    const summary = items.map(i => `${i.name} ×${i.qty}`).join(', ') || '—';
-    const type    = (o.OrderType||'delivered').toLowerCase().trim();
-    const typeTag = type === 'pending'    ? '<span class="tag tag-pending">Pending</span>' :
-                    type === 'historical' ? '<span class="tag tag-historical">Historical</span>' :
-                    '<span class="tag tag-ok">Delivered</span>';
-    return `<tr>
-      <td>${o.Date||'—'}</td>
-      <td><strong>${o.CustomerName||'—'}</strong><br><span style="font-size:.75rem;color:var(--muted)">${o.CustomerPhone||''}</span></td>
-      <td style="font-size:.8rem;max-width:200px">${summary}</td>
-      <td>${fmt(o.TotalCost)}</td>
-      <td>${fmt(o.TotalRevenue)}</td>
-      <td class="${p>=0?'green':'red'}">${fmt(p)}</td>
-      <td>${typeTag}</td>
-      <td><button class="btn btn-del" onclick="deleteOrder('${o.ID}')">Delete</button></td>
-    </tr>`;
-  }).join('');
-}
-
-function renderPendingOrders() {
-  const pending = DB.orders
-    .filter(o => (o.OrderType||'delivered').toLowerCase().trim() === 'pending')
-    .sort((a,b) => (a.Date||'') > (b.Date||'') ? 1 : -1);
-  const tb = document.getElementById('t-pending');
-  if (!tb) return;
-  if (!pending.length) {
-    tb.innerHTML = '<tr><td colspan="6"><div class="empty" style="padding:20px"><div class="empty-icon">✅</div>No pending orders — all clear!</div></td></tr>';
-    return;
-  }
-  tb.innerHTML = pending.map(o => {
-    const items   = parseItems(o.Items);
-    const summary = items.map(i => `${i.name} ×${i.qty}`).join(', ') || o.Notes || '—';
-    return `<tr>
-      <td><strong>${o.CustomerName||'—'}</strong></td>
-      <td><a href="https://wa.me/91${o.CustomerPhone}" target="_blank" style="color:var(--saffron);text-decoration:none;font-weight:600">📱 ${o.CustomerPhone||'—'}</a></td>
-      <td style="font-size:.82rem">${summary}</td>
-      <td><strong>${fmt(o.TotalRevenue)}</strong></td>
-      <td>${o.Date||'—'}</td>
-      <td><button class="complete-btn" onclick="markDelivered('${o.ID}')">✓ Mark Delivered</button></td>
-    </tr>`;
-  }).join('');
-}
-
-async function markDelivered(id) {
-  if (!confirm('Mark as delivered? This will deduct inventory now.')) return;
-  // Optimistic update
-  const order = DB.orders.find(o => o.ID == id);
-  if (order) { order.OrderType = 'delivered'; _optimisticRendered = true; renderDashboard(); }
-  setSaving(true);
-  try {
-    const res = await api({ action: 'markDelivered', id });
-    if (res.error) throw new Error(res.error);
-    toast('✓ Order marked as delivered', 'ok');
-    await loadData(true);
-  } catch(e) {
-    if (order) { order.OrderType = 'pending'; _optimisticRendered = false; renderDashboard(); }
-    toast('Error: ' + e.message, 'err');
-  } finally { setSaving(false); }
-}
-
-async function deleteOrder(id) {
-  if (!confirm('Delete this order? Inventory will NOT be restored.')) return;
-  const original = [...DB.orders];
-  DB.orders = DB.orders.filter(o => o.ID != id);
-  _optimisticRendered = true;
-  renderOrdersTable(); renderDashboard();
-  setSaving(true);
-  try {
-    await api({ action:'deleteOrder', id });
-    toast('Order deleted', 'ok');
-    await loadData(true);
-  } catch(e) {
-    DB.orders = original; _optimisticRendered = false; renderOrdersTable(); renderDashboard();
-    toast('Error: ' + e.message, 'err');
-  } finally { setSaving(false); }
-}
-
-// ══════════════════════════════════════════════════════════════
-//  MASALAS
-// ══════════════════════════════════════════════════════════════
-function getMasalaRawCost(masala) {
-  if (!masala) return 0;
-  const recipes = DB.recipes.filter(r => r.MasalaName === masala.Name);
-  let cost = 0;
-  recipes.forEach(r => {
-    const qG     = parseFloat(r.QuantityG) || toGrams(r.Quantity, r.Unit);
-    const rawMat = DB.inventory.find(m => m.Name === r.RawMaterialName);
-    const c100   = parseFloat(rawMat?.CostPer100G) || 0;
-    cost += (qG / 100) * c100;
-  });
-  return cost;
-}
-
-function getMasalaTotalCost(masala) {
-  if (!masala) return 0;
-  return getMasalaRawCost(masala)
-       + (parseFloat(masala.Packaging)||0)
-       + (parseFloat(masala.Labels)||0)
-       + (parseFloat(masala.Overhead)||0);
-}
-
-function calcMasalaCost() {
-  const name  = document.getElementById('m-name').value.trim();
-  const mockM = {
-    Name:       name,
-    BatchSizeG: document.getElementById('m-batch').value,
-    Packaging:  document.getElementById('m-pkg').value,
-    Labels:     document.getElementById('m-lbl').value,
-    Overhead:   document.getElementById('m-ohd').value
-  };
-  const raw   = getMasalaRawCost(mockM);
-  const pkg   = parseFloat(mockM.Packaging)||0;
-  const lbl   = parseFloat(mockM.Labels)||0;
-  const ohd   = parseFloat(mockM.Overhead)||0;
-  const total = raw + pkg + lbl + ohd;
-  document.getElementById('mc-raw').textContent   = raw   ? fmt(raw)   : name ? '(add recipe below)' : '—';
-  document.getElementById('mc-pkg').textContent   = fmt(pkg);
-  document.getElementById('mc-lbl').textContent   = fmt(lbl);
-  document.getElementById('mc-ohd').textContent   = fmt(ohd);
-  document.getElementById('mc-total').textContent = total ? fmt(total) : '—';
-}
-
-// ── Collapsible masala form
-let masalaEditingId = null;
-function toggleMasalaForm(forceOpen) {
-  const open = forceOpen !== undefined ? forceOpen : !masalaFormOpen;
-  masalaFormOpen = open;
-  document.getElementById('masala-form-body').classList.toggle('open', open);
-  document.getElementById('masala-chevron').classList.toggle('open', open);
-}
-
-function cancelMasalaEdit() {
-  clearMasalaForm();
-  toggleMasalaForm(false);
-  closeRecipeEditor();
-}
-
-async function saveMasala() {
-  const name = document.getElementById('m-name').value.trim();
-  if (!name) { toast('Please enter masala name.', 'err'); return; }
-  const existingId = document.getElementById('m-id').value;
-  const data = {
-    ID:           existingId || uid(),
-    Name:         name,
-    BatchSizeG:   document.getElementById('m-batch').value || 100,
-    SellingPrice: document.getElementById('m-sell').value  || 0,
-    Packaging:    document.getElementById('m-pkg').value   || 0,
-    Labels:       document.getElementById('m-lbl').value   || 0,
-    Overhead:     document.getElementById('m-ohd').value   || 0,
-    Notes:        document.getElementById('m-notes').value
-  };
-
-  // Optimistic update
-  if (existingId) {
-    const idx = DB.masalas.findIndex(m => m.ID === existingId);
-    if (idx >= 0) DB.masalas[idx] = data;
-  } else {
-    DB.masalas.push(data);
-  }
-  _optimisticRendered = true;
-  renderMasalasTable();
-  calcMasalaCost();
-
-  const btn = document.getElementById('save-masala-btn');
-  btn.innerHTML = '<span class="loader"></span> Saving…';
-  btn.disabled = true;
-  setSaving(true);
-
-  try {
-    const res = await api({ action:'saveMasala', data });
-    if (res.error) throw new Error(res.error);
-    flash('masala-alert', `✓ ${name} saved!`);
-    clearMasalaForm();
-    // Open recipe editor for the saved masala
-    activeRecipeMasala = data.Name;
-    openRecipeEditor(data.Name);
-    await loadData(true);
-  } catch(e) {
-    flash('masala-err', 'Error: ' + e.message, true);
-    // Rollback
-    if (existingId) { await loadData(false); } else { DB.masalas = DB.masalas.filter(m => m.ID !== data.ID); }
-    _optimisticRendered = false;
-    renderMasalasTable();
-  } finally {
-    btn.innerHTML = existingId ? 'Update Masala' : 'Save Masala';
-    btn.disabled = false;
-    setSaving(false);
-  }
-}
-
-function clearMasalaForm() {
-  ['m-id','m-name','m-batch','m-sell','m-pkg','m-lbl','m-ohd','m-notes'].forEach(id => {
-    document.getElementById(id).value = '';
-  });
-  document.getElementById('mc-raw').textContent   = '—';
-  document.getElementById('mc-pkg').textContent   = '₹0';
-  document.getElementById('mc-lbl').textContent   = '₹0';
-  document.getElementById('mc-ohd').textContent   = '₹0';
-  document.getElementById('mc-total').textContent = '—';
-  document.getElementById('masala-form-title').textContent = 'Add New Masala';
-  document.getElementById('save-masala-btn').textContent = 'Save Masala';
-}
-
-function editMasala(id) {
-  const m = DB.masalas.find(x => x.ID == id);
-  if (!m) return;
-  document.getElementById('m-id').value    = m.ID;
-  document.getElementById('m-name').value  = m.Name;
-  document.getElementById('m-batch').value = m.BatchSizeG;
-  document.getElementById('m-sell').value  = m.SellingPrice;
-  document.getElementById('m-pkg').value   = m.Packaging||0;
-  document.getElementById('m-lbl').value   = m.Labels||0;
-  document.getElementById('m-ohd').value   = m.Overhead||0;
-  document.getElementById('m-notes').value = m.Notes||'';
-  document.getElementById('masala-form-title').textContent = `Editing: ${m.Name}`;
-  document.getElementById('save-masala-btn').textContent = 'Update Masala';
-  calcMasalaCost();
-  toggleMasalaForm(true);
-  openRecipeEditor(m.Name);
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-
-function renderMasalasTable() {
-  const tb = document.getElementById('t-masalas');
-  if (!DB.masalas.length) {
-    tb.innerHTML='<tr><td colspan="9"><div class="empty"><div class="empty-icon">🫙</div>No masalas added yet. Click "Add New Masala" above.</div></td></tr>';
-    return;
-  }
-  tb.innerHTML = DB.masalas.map(m => {
-    const rawCost    = getMasalaRawCost(m);
-    const totalCost  = getMasalaTotalCost(m);
-    const sell       = parseFloat(m.SellingPrice)||0;
-    const margin     = sell ? (((sell-totalCost)/sell)*100).toFixed(0) : null;
-    const recipeRows = DB.recipes.filter(r => r.MasalaName === m.Name);
-    const hasRecipe  = recipeRows.length > 0;
-    const stock      = parseInt(m.StockPacks) || 0;
-    const stockHtml  = stock === 0
-      ? '<span style="color:var(--chili);font-weight:700;font-size:.8rem">Out</span>'
-      : `<span class="stock-val" style="${stock<=2?'background:#FFF3CD;color:#856404':''}">${stock} pk${stock!==1?'s':''}</span>`;
-    return `<tr>
-      <td>
-        <strong>${m.Name}</strong>
-        ${m.Notes ? `<br><span style="font-size:.73rem;color:var(--muted)">${m.Notes}</span>` : ''}
-      </td>
-      <td>${m.BatchSizeG}g</td>
-      <td>${stockHtml}</td>
-      <td>
-        <span class="recipe-status ${hasRecipe?'has-recipe':'no-recipe'}">
-          ${hasRecipe ? `✓ ${recipeRows.length} ingredient${recipeRows.length>1?'s':''}` : '⚠ No recipe'}
-        </span>
-      </td>
-      <td>${rawCost ? fmt(rawCost) : '<span style="color:var(--muted);font-size:.78rem">—</span>'}</td>
-      <td>${totalCost ? fmt(totalCost) : '<span style="color:var(--muted);font-size:.78rem">—</span>'}</td>
-      <td>${fmt(sell)}</td>
-      <td>${margin !== null ? `<span class="tag ${margin>=0?'tag-profit':'tag-loss'}">${margin}%</span>` : '—'}</td>
-      <td style="white-space:nowrap">
-        <button class="btn btn-ghost btn-sm" onclick="editMasala('${m.ID}')">Edit</button>
-        <button class="btn btn-del btn-sm" onclick="deleteMasala('${m.ID}')">Del</button>
-      </td>
-    </tr>`;
-  }).join('');
-  renderReadyStockGrid();
-}
-
-async function deleteMasala(id) {
-  if (!confirm('Delete this masala? Its recipe will also be deleted.')) return;
-  const original = [...DB.masalas];
-  DB.masalas = DB.masalas.filter(m => m.ID != id);
-  _optimisticRendered = true;
-  renderMasalasTable();
-  setSaving(true);
-  try {
-    await api({ action:'deleteMasala', id });
-    toast('Masala deleted', 'ok');
-    await loadData(true);
-  } catch(e) {
-    DB.masalas = original; _optimisticRendered = false; renderMasalasTable();
-    toast('Error: ' + e.message, 'err');
-  } finally { setSaving(false); }
-}
-
-// ══════════════════════════════════════════════════════════════
-//  READY STOCK — finished masala packet inventory
-// ══════════════════════════════════════════════════════════════
-
-function renderReadyStockGrid() {
-  const grid = document.getElementById('rs-grid');
-  if (!DB.masalas.length) {
-    grid.innerHTML = '<div style="color:var(--muted);font-size:.85rem;grid-column:1/-1;padding:20px 0;text-align:center">Add masalas first to track ready stock.</div>';
-    return;
-  }
-
-  grid.innerHTML = DB.masalas.map(m => {
-    const stock = parseInt(m.StockPacks) || 0;
-    const sell  = parseFloat(m.SellingPrice) || 0;
-    const value = (stock * sell).toFixed(0);
-    const isOut = stock === 0;
-    const isLow = stock > 0 && stock <= 3;
-    return `<div class="rs-card ${isOut?'out-of-stock':isLow?'low-stock':''}">
-      <div class="rs-name">${m.Name}</div>
-      <div class="rs-count ${isOut?'out':isLow?'low':''}">${stock}</div>
-      <div class="rs-sub">${isOut ? 'Out of stock' : isLow ? 'Running low' : 'packets ready'}
-        ${sell && stock ? ` · ₹${value} value` : ''}
-      </div>
-      <div class="rs-actions">
-        <button class="rs-btn add" onclick="quickRsAdjust('${m.ID}',1)" title="Add 1 packet">+1</button>
-        <button class="rs-btn sub" onclick="quickRsAdjust('${m.ID}',-1)" title="Remove 1 packet" ${isOut?'disabled':''}>−1</button>
-        <button class="rs-btn" style="background:var(--paper);color:var(--ink);font-size:.72rem"
-          onclick="openRsForm('${m.ID}')">Log batch</button>
+// ═══════════════ PRODUCTS ═══════════════
+function renderProducts(){
+  const el=document.getElementById('products-list');
+  el.innerHTML = DB.masalas.length ? DB.masalas.map(m=>{
+    const s=parseInt(m.StockPacks)||0, cls=s===0?'out':s<=2?'low':'ok';
+    const rc=recipeOf(m.Name).length;
+    const tc=totalCost(m), sp=parseFloat(m.SellingPrice)||0;
+    const margin=sp?Math.round((sp-tc)/sp*100):0;
+    return `<div class="pcard" onclick="openProductDetail('${m.ID}')">
+      <div class="pc-top"><span class="pc-name">${esc(m.Name)}</span><span class="pc-price">${fmt(sp)}</span></div>
+      <div class="pc-sub">
+        <span class="pc-stock ${cls}">${s} pk${s!==1?'s':''} ready</span>
+        <span>·</span><span>${m.BatchSizeG}g pack</span>
+        <span>·</span><span>${rc?`${rc} ingredients`:'⚠ no recipe'}</span>
+        ${sp?`<span>·</span><span style="color:${margin>=0?'var(--leaf)':'var(--chili)'};font-weight:700">${margin}% margin</span>`:''}
       </div>
     </div>`;
-  }).join('');
+  }).join('') : '<div class="empty"><div class="e-icon">🫙</div>No masalas yet — add your first below</div>';
 }
 
-// Quick +1 / -1 directly from the grid card
-async function quickRsAdjust(masalaId, delta) {
-  const masala = DB.masalas.find(m => m.ID === masalaId);
-  if (!masala) return;
-  const current = parseInt(masala.StockPacks) || 0;
-  const newVal  = Math.max(0, current + delta);
-  await updateMasalaStock(masalaId, newVal, delta > 0 ? '+1 packet' : '-1 packet');
+let pdCurrentSize=100, pdMasalaId=null;
+function openProductDetail(id){
+  const m=DB.masalas.find(x=>x.ID===id); if(!m) return;
+  pdMasalaId=id; pdCurrentSize=parseFloat(m.BatchSizeG)||100;
+  document.getElementById('pd-title').textContent=m.Name;
+  renderProductDetail(); openSheet('sheet-product');
 }
-
-// Open the detailed log form
-function openRsForm(masalaId) {
-  const form = document.getElementById('rs-log-form');
-  form.classList.add('open');
-
-  // Populate masala dropdown
-  const sel = document.getElementById('rs-masala-sel');
-  sel.innerHTML = '<option value="">— Select —</option>' +
-    DB.masalas.map(m => `<option value="${m.ID}" ${m.ID===masalaId?'selected':''}>${m.Name}</option>`).join('');
-
-  document.getElementById('rs-type').value = 'add';
-  document.getElementById('rs-qty').value  = '';
-  document.getElementById('rs-note').value = '';
-  document.getElementById('rs-value-preview').textContent = '';
-  document.getElementById('rs-log-title').textContent = 'Log Batch / Adjustment';
-
-  form.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-  document.getElementById('rs-qty').focus();
-}
-
-function closeRsForm() {
-  document.getElementById('rs-log-form').classList.remove('open');
-}
-
-function rsCalcValue() {
-  const masalaId = document.getElementById('rs-masala-sel').value;
-  const qty      = parseInt(document.getElementById('rs-qty').value) || 0;
-  const type     = document.getElementById('rs-type').value;
-  const masala   = DB.masalas.find(m => m.ID === masalaId);
-  if (!masala || !qty) { document.getElementById('rs-value-preview').textContent = ''; return; }
-
-  const current = parseInt(masala.StockPacks) || 0;
-  const sell    = parseFloat(masala.SellingPrice) || 0;
-  const cost    = getMasalaTotalCost(masala);
-
-  let newStock;
-  if (type === 'add') newStock = current + qty;
-  else if (type === 'sub') newStock = Math.max(0, current - qty);
-  else newStock = qty; // set
-
-  const diff    = newStock - current;
-  const valAdded = diff * sell;
-
-  document.getElementById('rs-value-preview').innerHTML =
-    `<span style="color:var(--muted)">Current: <strong>${current} packs</strong> → New: <strong>${newStock} packs</strong>
-    ${sell ? ` · Stock value change: <strong style="color:${diff>=0?'var(--success)':'var(--chili)'}">${diff>=0?'+':''}₹${(diff*sell).toFixed(0)}</strong>` : ''}
-    ${cost ? ` · Cost of batch: ₹${(Math.abs(diff)*cost).toFixed(0)}` : ''}
-    </span>`;
-}
-
-async function saveReadyStock() {
-  const masalaId = document.getElementById('rs-masala-sel').value;
-  const qty      = parseInt(document.getElementById('rs-qty').value);
-  const type     = document.getElementById('rs-type').value;
-  const note     = document.getElementById('rs-note').value.trim();
-
-  if (!masalaId) { toast('Select a masala', 'warn'); return; }
-  if (!qty || qty <= 0) { toast('Enter a valid quantity', 'warn'); return; }
-
-  const masala = DB.masalas.find(m => m.ID === masalaId);
-  if (!masala) return;
-
-  const current = parseInt(masala.StockPacks) || 0;
-  let newStock;
-  if (type === 'add')      newStock = current + qty;
-  else if (type === 'sub') newStock = Math.max(0, current - qty);
-  else                     newStock = qty;
-
-  await updateMasalaStock(masalaId, newStock, note || `${type} ${qty} packs`);
-  closeRsForm();
-}
-
-// Core function: save updated StockPacks to DB and API
-async function updateMasalaStock(masalaId, newStockPacks, logNote) {
-  const masala = DB.masalas.find(m => m.ID === masalaId);
-  if (!masala) return;
-
-  const oldStock    = parseInt(masala.StockPacks) || 0;
-  masala.StockPacks = newStockPacks;
-
-  // Optimistic UI update
-  _optimisticRendered = true;
-  renderMasalasTable();
-
-  setSaving(true);
-  try {
-    const res = await api({
-      action: 'saveMasala',
-      data:   { ...masala, StockPacks: newStockPacks }
-    });
-    if (res.error) throw new Error(res.error);
-    toast(`${masala.Name}: ${oldStock} → ${newStockPacks} packs`, 'ok');
-    await loadData(true);
-  } catch(e) {
-    masala.StockPacks = oldStock;
-    _optimisticRendered = false;
-    renderMasalasTable();
-    toast('Error saving: ' + e.message, 'err');
-  } finally { setSaving(false); }
-}
-
-// ══════════════════════════════════════════════════════════════
-//  RECIPE EDITOR
-//
-//  Business logic:
-//  1. openRecipeEditor(name) — loads existing recipe from DB.recipes into editor UI
-//  2. addRecipeRow() / removeRecipeRow() — only edit LOCAL UI state (no API calls)
-//  3. saveRecipe() — atomically: delete all existing rows for this masala,
-//                    then batch-insert all current UI rows as ONE API call.
-//                    This is the ONLY way to save the recipe.
-//  4. clearEntireRecipe() — user-initiated wipe of all rows
-//  5. closeRecipeEditor() — just hides the panel, does NOT save
-//
-//  This prevents duplication because:
-//  - Individual addRecipeRow() clicks never hit the API
-//  - saveRecipe() always starts from a clean slate (delete-then-insert)
-//  - There is no "update row" path — always full replace
-// ══════════════════════════════════════════════════════════════
-
-function openRecipeEditor(masalaName) {
-  activeRecipeMasala = masalaName;
-  document.getElementById('recipe-editor').style.display = 'block';
-  document.getElementById('recipe-editor-title').textContent = `Recipe: ${masalaName}`;
-  renderRecipeRows();
-  refreshRecipeStatusBar();
-}
-
-function closeRecipeEditor() {
-  document.getElementById('recipe-editor').style.display = 'none';
-  activeRecipeMasala = null;
-  document.getElementById('recipe-rows').innerHTML = '';
-  document.getElementById('recipe-cost-preview').innerHTML = '';
-  document.getElementById('recipe-status-bar').innerHTML = '';
-}
-
-function renderRecipeRows() {
-  // Load current saved recipe from DB into the editor UI
-  const existing = DB.recipes.filter(r => r.MasalaName === activeRecipeMasala);
-  const container = document.getElementById('recipe-rows');
-  container.innerHTML = '';
-  if (existing.length) {
-    existing.forEach(r => _addRecipeRowEl(r));
-  } else {
-    _addRecipeRowEl(null);
-  }
-  refreshRecipeCostPreview();
-}
-
-function addRecipeRow() {
-  // Add a blank row to the UI (NO API call)
-  _addRecipeRowEl(null);
-  refreshRecipeCostPreview();
-}
-
-function _addRecipeRowEl(data) {
-  // Internal: create and append one recipe row element
-  const rowId = 'rr-' + uid();
-  const rawOptions = DB.inventory.map(m =>
-    `<option value="${m.Name}" ${data && m.Name===data.RawMaterialName ? 'selected' : ''}>${m.Name}</option>`
-  ).join('');
-  const units = ['g','kg','tsp','tbsp','piece','nos'];
-  const unitOpts = units.map(u =>
-    `<option value="${u}" ${data && u===data.Unit ? 'selected' : ''}>${u}</option>`
-  ).join('');
-
-  const div = document.createElement('div');
-  div.className = 'recipe-row';
-  div.id = rowId;
-  div.innerHTML = `
-    <select oninput="refreshRecipeCostPreview()"><option value="">— Select Spice —</option>${rawOptions}</select>
-    <input type="number" min="0" step="0.1" value="${data?.Quantity||''}" placeholder="e.g. 50" oninput="refreshRecipeCostPreview()">
-    <select oninput="refreshRecipeCostPreview()">${unitOpts}</select>
-    <button class="btn-icon" onclick="removeRecipeRow('${rowId}')" title="Remove">✕</button>
-  `;
-  document.getElementById('recipe-rows').appendChild(div);
-}
-
-function removeRecipeRow(id) {
-  // Only removes from UI — saveRecipe() handles actual deletion
-  const el = document.getElementById(id);
-  if (el) el.remove();
-  refreshRecipeCostPreview();
-}
-
-function refreshRecipeCostPreview() {
-  if (!activeRecipeMasala) return;
-  // Build a temporary recipe from current UI rows
-  const masala = DB.masalas.find(m => m.Name === activeRecipeMasala);
-  let cost = 0;
-  document.querySelectorAll('#recipe-rows .recipe-row').forEach(row => {
-    const rawName = row.querySelector('select')?.value;
-    const qty     = parseFloat(row.querySelectorAll('input')[0]?.value) || 0;
-    const unit    = row.querySelectorAll('select')[1]?.value || 'g';
-    if (!rawName || !qty) return;
-    const rawMat = DB.inventory.find(m => m.Name === rawName);
-    const c100   = parseFloat(rawMat?.CostPer100G) || 0;
-    cost += (toGrams(qty, unit) / 100) * c100;
-  });
-  const total = cost + (parseFloat(masala?.Packaging)||0) + (parseFloat(masala?.Labels)||0) + (parseFloat(masala?.Overhead)||0);
-  const sell  = parseFloat(masala?.SellingPrice)||0;
-  const margin = sell ? (((sell - total) / sell) * 100).toFixed(1) : null;
-
-  const el = document.getElementById('recipe-cost-preview');
-  if (cost > 0) {
-    el.innerHTML = `<div class="cost-box" style="margin-top:0">
-      <div class="crow"><span>Raw Material Cost</span><span>${fmt(cost)}</span></div>
-      <div class="crow"><span>Total Cost (incl. extras)</span><span>${total ? fmt(total) : '—'}</span></div>
-      ${sell ? `<div class="crow"><span>Margin at ₹${sell}</span><span class="${margin>=0?'green':'red'}">${margin}%</span></div>` : ''}
-    </div>`;
-  } else {
-    el.innerHTML = '';
-  }
-}
-
-function refreshRecipeStatusBar() {
-  if (!activeRecipeMasala) return;
-  const existing = DB.recipes.filter(r => r.MasalaName === activeRecipeMasala);
-  const el = document.getElementById('recipe-status-bar');
-  if (existing.length) {
-    el.innerHTML = `<span class="recipe-status has-recipe">✓ Saved recipe: ${existing.length} ingredient${existing.length>1?'s':''}</span> <span style="font-size:.75rem;color:var(--muted);margin-left:8px">Edit below and click Save Recipe to update.</span>`;
-  } else {
-    el.innerHTML = `<span class="recipe-status no-recipe">⚠ No recipe saved yet</span> <span style="font-size:.75rem;color:var(--muted);margin-left:8px">Add ingredients and click Save Recipe.</span>`;
-  }
-}
-
-async function saveRecipe() {
-  if (!activeRecipeMasala) return;
-
-  // Collect rows from UI
-  const rows = [];
-  let hasEmpty = false;
-  document.querySelectorAll('#recipe-rows .recipe-row').forEach(row => {
-    const selects = row.querySelectorAll('select');
-    const rawName = selects[0]?.value;
-    const qty     = row.querySelector('input')?.value;
-    const unit    = selects[1]?.value || 'g';
-    if (rawName && qty) {
-      rows.push({ RawMaterialName: rawName, Quantity: qty, Unit: unit });
-    } else if (!rawName || !qty) {
-      hasEmpty = true;
-    }
-  });
-
-  if (!rows.length) { toast('Add at least one complete ingredient row.', 'warn'); return; }
-  if (hasEmpty) { toast('Some rows are incomplete and will be skipped.', 'warn'); }
-
-  const btn = document.getElementById('save-recipe-btn');
-  btn.innerHTML = '<span class="loader"></span> Saving…';
-  btn.disabled = true;
-  setSaving(true);
-
-  try {
-    // ── ATOMIC FULL REPLACE ──
-    // Step 1: delete all existing recipe rows for this masala
-    const existingInDB = DB.recipes.filter(r => r.MasalaName === activeRecipeMasala);
-    if (existingInDB.length) {
-      await api({ action: 'deleteAllRecipeRows', masalaName: activeRecipeMasala });
-    }
-
-    // Step 2: batch-insert all new rows in one API call
-    const newRows = rows.map(r => ({
-      ID: uid(),
-      MasalaName: activeRecipeMasala,
-      RawMaterialName: r.RawMaterialName,
-      Quantity: r.Quantity,
-      Unit: r.Unit
-    }));
-    await api({ action: 'saveRecipeRows', rows: newRows });
-
-    // Step 3: update local DB immediately (optimistic)
-    DB.recipes = DB.recipes.filter(r => r.MasalaName !== activeRecipeMasala);
-    DB.recipes.push(...newRows);
-    _optimisticRendered = true;
-
-    // Re-render
-    renderRecipeRows();
-    refreshRecipeStatusBar();
-    renderMasalasTable();
-    calcMasalaCost();
-    flash('masala-alert', `✓ Recipe for ${activeRecipeMasala} saved! (${rows.length} ingredient${rows.length>1?'s':''})`);
-
-    // Background sync
-    await loadData(true);
-  } catch(e) {
-    flash('masala-err', 'Recipe save failed: ' + e.message, true);
-    // Re-load to get consistent state
-    await loadData(false);
-    if (activeRecipeMasala) renderRecipeRows();
-  } finally {
-    btn.innerHTML = 'Save Recipe';
-    btn.disabled = false;
-    setSaving(false);
-  }
-}
-
-async function clearEntireRecipe() {
-  if (!activeRecipeMasala) return;
-  const existing = DB.recipes.filter(r => r.MasalaName === activeRecipeMasala);
-  if (!existing.length && document.querySelectorAll('#recipe-rows .recipe-row').length <= 1) {
-    // Just clear the UI row
-    document.getElementById('recipe-rows').innerHTML = '';
-    _addRecipeRowEl(null);
-    refreshRecipeCostPreview();
-    return;
-  }
-  if (!confirm(`Clear the entire recipe for ${activeRecipeMasala}? This cannot be undone.`)) return;
-
-  setSaving(true);
-  try {
-    if (existing.length) {
-      await api({ action: 'deleteAllRecipeRows', masalaName: activeRecipeMasala });
-    }
-    DB.recipes = DB.recipes.filter(r => r.MasalaName !== activeRecipeMasala);
-    _optimisticRendered = true;
-    document.getElementById('recipe-rows').innerHTML = '';
-    _addRecipeRowEl(null);
-    refreshRecipeCostPreview();
-    refreshRecipeStatusBar();
-    renderMasalasTable();
-    flash('masala-alert', `✓ Recipe for ${activeRecipeMasala} cleared.`);
-    await loadData(true);
-  } catch(e) {
-    toast('Error: ' + e.message, 'err');
-    await loadData(false);
-    if (activeRecipeMasala) renderRecipeRows();
-  } finally { setSaving(false); }
-}
-
-// ══════════════════════════════════════════════════════════════
-//  INVENTORY
-// ══════════════════════════════════════════════════════════════
-
-function toggleInvForm(forceOpen) {
-  const open = forceOpen !== undefined ? forceOpen : !invFormOpen;
-  invFormOpen = open;
-  document.getElementById('inv-form-body').classList.toggle('open', open);
-  document.getElementById('inv-chevron').classList.toggle('open', open);
-}
-
-function cancelInvEdit() {
-  clearInvForm();
-  toggleInvForm(false);
-}
-
-async function saveRawMaterial() {
-  const name = document.getElementById('inv-name').value.trim();
-  if (!name) { toast('Please enter spice name.', 'err'); return; }
-  const existingId = document.getElementById('inv-id').value;
-  const data = {
-    ID:             existingId || uid(),
-    Name:           name,
-    Unit:           document.getElementById('inv-unit').value || 'g',
-    StockG:         document.getElementById('inv-stock').value || 0,
-    CostPer100G:    document.getElementById('inv-cost').value || 0,
-    LowStockAlertG: document.getElementById('inv-alert-g').value || 100
-  };
-
-  // Optimistic update
-  if (existingId) {
-    const idx = DB.inventory.findIndex(m => m.ID === existingId);
-    if (idx >= 0) DB.inventory[idx] = data;
-  } else {
-    DB.inventory.push(data);
-  }
-  _optimisticRendered = true;
-  renderInventoryTable();
-
-  const btn = document.getElementById('save-inv-btn');
-  btn.innerHTML = '<span class="loader"></span> Saving…';
-  btn.disabled = true;
-  setSaving(true);
-
-  try {
-    const res = await api({ action:'saveRawMaterial', data });
-    if (res.error) throw new Error(res.error);
-    flash('inv-alert', `✓ ${name} saved!`);
-    clearInvForm();
-    toggleInvForm(false);
-    await loadData(true);
-  } catch(e) {
-    toast('Error: ' + e.message, 'err');
-    await loadData(false);
-    _optimisticRendered = false;
-    renderInventoryTable();
-  } finally {
-    btn.innerHTML = 'Save';
-    btn.disabled = false;
-    setSaving(false);
-  }
-}
-
-function clearInvForm() {
-  ['inv-id','inv-name','inv-unit','inv-stock','inv-cost'].forEach(id => document.getElementById(id).value = '');
-  document.getElementById('inv-alert-g').value = '100';
-  document.getElementById('inv-form-title').textContent = 'Add / Update Raw Material';
-}
-
-function editRawMaterial(id) {
-  const m = DB.inventory.find(x => x.ID == id);
-  if (!m) return;
-  document.getElementById('inv-id').value      = m.ID;
-  document.getElementById('inv-name').value    = m.Name;
-  document.getElementById('inv-unit').value    = m.Unit || 'g';
-  document.getElementById('inv-stock').value   = m.StockG;
-  document.getElementById('inv-cost').value    = m.CostPer100G;
-  document.getElementById('inv-alert-g').value = m.LowStockAlertG || 100;
-  document.getElementById('inv-form-title').textContent = `Editing: ${m.Name}`;
-  toggleInvForm(true);
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-
-function renderInventoryTable() {
-  const tb = document.getElementById('t-inventory');
-  if (!DB.inventory.length) {
-    tb.innerHTML='<tr><td colspan="6"><div class="empty"><div class="empty-icon">🌿</div>No raw materials added yet</div></td></tr>';
-    return;
-  }
-  tb.innerHTML = DB.inventory.map(m => {
-    const stock      = parseFloat(m.StockG) || 0;
-    const threshold  = parseFloat(m.LowStockAlertG) || 100;
-    const costPer100 = parseFloat(m.CostPer100G) || 0;
-    const stockValue = (stock / 100) * costPer100;
-    const isLow      = stock <= threshold;
-    return `<tr>
-      <td><strong>${m.Name}</strong></td>
-      <td>${fmtg(stock)}</td>
-      <td>${fmt(costPer100)} / 100g</td>
-      <td>${stockValue > 0 ? `<span class="stock-val">${fmt(stockValue)}</span>` : '<span style="color:var(--muted)">—</span>'}</td>
-      <td><span class="tag ${isLow ? 'tag-warn' : 'tag-ok'}">${isLow ? 'Low ⚠️' : 'OK ✓'}</span></td>
-      <td style="white-space:nowrap">
-        <button class="btn btn-ghost btn-sm" onclick="editRawMaterial('${m.ID}')">Edit</button>
-        <button class="btn btn-del btn-sm" onclick="deleteRawMaterial('${m.ID}')">Del</button>
-      </td>
-    </tr>`;
-  }).join('');
-}
-
-async function deleteRawMaterial(id) {
-  if (!confirm('Delete this raw material? It will also remove it from cost calculations.')) return;
-  const original = [...DB.inventory];
-  DB.inventory = DB.inventory.filter(m => m.ID != id);
-  _optimisticRendered = true;
-  renderInventoryTable();
-  setSaving(true);
-  try {
-    await api({ action:'deleteRawMaterial', id });
-    toast('Raw material deleted', 'ok');
-    await loadData(true);
-  } catch(e) {
-    DB.inventory = original; _optimisticRendered = false; renderInventoryTable();
-    toast('Error: ' + e.message, 'err');
-  } finally { setSaving(false); }
-}
-
-// ══════════════════════════════════════════════════════════════
-//  WHATSAPP — ON-DEMAND SCAN
-// ══════════════════════════════════════════════════════════════
-const WA_BRIDGE    = 'http://localhost:3579';
-let waAllChats     = [];
-let waSelectedChats = JSON.parse(localStorage.getItem('wa_selected_chats') || '[]');
-let waResultFilter = 'all';
-let waScanPollTimer = null;
-
-// ── Bridge helpers ─────────────────────────────────────────
-async function waBridgeGet(p) {
-  const r = await fetch(WA_BRIDGE + p, { signal: AbortSignal.timeout(5000) });
-  return r.json();
-}
-async function waBridgePost(p, body = {}) {
-  const r = await fetch(WA_BRIDGE + p, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(body),
-    signal: AbortSignal.timeout(8000)
-  });
-  return r.json();
-}
-async function waBridgePatch(p, body = {}) {
-  const r = await fetch(WA_BRIDGE + p, {
-    method: 'PATCH',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(body),
-    signal: AbortSignal.timeout(5000)
-  });
-  return r.json();
-}
-async function waBridgeDelete(p) {
-  const r = await fetch(WA_BRIDGE + p, { method: 'DELETE', signal: AbortSignal.timeout(5000) });
-  return r.json();
-}
-
-// ── Called when entering WA tab ────────────────────────────
-async function initWaSection() {
-  await waCheckStatus();
-}
-
-// ── Check bridge status & update UI ───────────────────────
-async function waCheckStatus() {
-  const btn = document.getElementById('wa-connect-btn');
-  btn.textContent = 'Checking…'; btn.disabled = true;
-  try {
-    const d = await waBridgeGet('/status');
-    applyWaStatus(d.status, d.qr);
-    if (d.status === 'ready') {
-      if (!waAllChats.length) await waLoadChats();
-      // Load any existing results from a previous scan
-      await waLoadResults();
-    }
-  } catch(e) {
-    applyWaStatus('disconnected', null);
-  }
-  btn.textContent = 'Connect'; btn.disabled = false;
-}
-
-function applyWaStatus(status, qr) {
-  const labels = {
-    disconnected: 'Bridge not running — run npm start in the wa-bridge folder',
-    qr:           'Waiting for QR scan…',
-    connecting:   'Connecting to WhatsApp…',
-    ready:        'Connected ✓ — select chats and scan'
-  };
-  const bar = document.getElementById('wa-status-bar');
-  const dot = document.getElementById('wa-dot');
-  const txt = document.getElementById('wa-status-text');
-  bar.className  = 'wa-status-bar ' + status;
-  dot.className  = 'wa-dot ' + status;
-  txt.textContent = labels[status] || status;
-
-  const qrBox   = document.getElementById('qr-container');
-  const setupCard = document.getElementById('wa-setup-card');
-  const scanPanel = document.getElementById('wa-scan-panel');
-
-  if (status === 'qr' && qr) {
-    qrBox.classList.add('show');
-    renderQR(qr);
-    setupCard.style.display = 'none';
-    scanPanel.style.display = 'none';
-  } else if (status === 'ready') {
-    qrBox.classList.remove('show');
-    setupCard.style.display = 'none';
-    scanPanel.style.display = 'block';
-  } else {
-    qrBox.classList.remove('show');
-    setupCard.style.display = 'block';
-    scanPanel.style.display = 'none';
-  }
-}
-
-function renderQR(qrData) {
-  const el = document.getElementById('qr-canvas');
-  el.innerHTML = '';
-  try {
-    new QRCode(el, { text: qrData, width: 200, height: 200, colorDark: '#1A1208', colorLight: '#FFFFFF', correctLevel: QRCode.CorrectLevel.M });
-  } catch(e) {
-    el.textContent = 'QR ready — check terminal window to scan.';
-  }
-}
-
-// ── Chat list ──────────────────────────────────────────────
-async function waLoadChats() {
-  try {
-    const d = await waBridgeGet('/chats');
-    waAllChats = d.chats || [];
-    renderChatPills();
-  } catch(e) { console.error('Could not load chats', e); }
-}
-
-async function waRefreshChats() {
-  const btn = event.target;
-  btn.textContent = 'Loading…'; btn.disabled = true;
-  try {
-    const d = await waBridgePost('/chats/refresh');
-    waAllChats = d.chats || [];
-    renderChatPills();
-    toast(`${waAllChats.length} chats loaded`, 'ok');
-  } catch(e) { toast('Could not refresh chats', 'err'); }
-  btn.textContent = '↻ Reload chats'; btn.disabled = false;
-}
-
-function renderChatPills() {
-  const el = document.getElementById('wa-chat-list');
-  if (!waAllChats.length) {
-    el.innerHTML = '<span style="color:var(--muted);font-size:.82rem">No chats found. Try ↻ Reload chats.</span>';
-    return;
-  }
-  el.innerHTML = waAllChats.map(c => {
-    const sel = waSelectedChats.includes(c.id);
-    const icon = c.isGroup ? '👥' : '👤';
-    return `<span class="chat-pill ${sel ? 'selected' : ''}" onclick="waToggleChat(this,'${c.id.replace(/'/g,"\\'")}')">
-      ${icon} ${escHtml(c.name.slice(0, 28))}
-    </span>`;
-  }).join('');
-}
-
-function waToggleChat(el, chatId) {
-  el.classList.toggle('selected');
-  if (el.classList.contains('selected')) {
-    if (!waSelectedChats.includes(chatId)) waSelectedChats.push(chatId);
-  } else {
-    waSelectedChats = waSelectedChats.filter(c => c !== chatId);
-  }
-  localStorage.setItem('wa_selected_chats', JSON.stringify(waSelectedChats));
-}
-
-function waSelectAll()  { waSelectedChats = waAllChats.map(c => c.id); localStorage.setItem('wa_selected_chats', JSON.stringify(waSelectedChats)); renderChatPills(); }
-function waSelectNone() { waSelectedChats = []; localStorage.setItem('wa_selected_chats', JSON.stringify(waSelectedChats)); renderChatPills(); }
-
-// ── Scan ───────────────────────────────────────────────────
-async function waStartScan() {
-  if (!waSelectedChats.length) { toast('Select at least one chat first', 'warn'); return; }
-
-  const lookbackHours = parseInt(document.getElementById('wa-lookback').value);
-  const btn  = document.getElementById('wa-scan-btn');
-  const prog = document.getElementById('wa-scan-progress');
-  const note = document.getElementById('wa-scan-note');
-
-  btn.disabled = true;
-  btn.innerHTML = '<span class="loader"></span> Starting…';
-  prog.classList.add('show');
-  document.getElementById('wa-scan-progress-text').textContent = 'Scanning… this may take 30–60 seconds for large chats.';
-
-  try {
-    const d = await waBridgePost('/scan', { chatIds: waSelectedChats, lookbackHours });
-    if (d.error) throw new Error(d.error);
-
-    // Poll until scan finishes
-    waScanPollTimer = setInterval(async () => {
-      try {
-        const status = await waBridgeGet('/status');
-        if (status.scanState === 'done' || status.scanState === 'error') {
-          clearInterval(waScanPollTimer);
-          waScanPollTimer = null;
-          prog.classList.remove('show');
-          btn.disabled = false;
-          btn.innerHTML = '🔍 Scan Selected Chats';
-          if (status.scanState === 'error') {
-            toast('Scan encountered an error — partial results may be shown', 'warn');
-          } else {
-            note.textContent = `Last scan: ${new Date().toLocaleTimeString('en-IN')}`;
-            toast('Scan complete!', 'ok');
-          }
-          await waLoadResults();
-        } else {
-          document.getElementById('wa-scan-progress-text').textContent =
-            `Scanning chats… (${status.resultCount} messages found so far)`;
-        }
-      } catch(e) { /* keep polling */ }
-    }, 2000);
-
-  } catch(e) {
-    prog.classList.remove('show');
-    btn.disabled = false;
-    btn.innerHTML = '🔍 Scan Selected Chats';
-    toast('Scan failed: ' + e.message, 'err');
-  }
-}
-
-// ── Results ────────────────────────────────────────────────
-async function waLoadResults() {
-  try {
-    const d = await waBridgeGet('/results');
-    renderWaResults(d.results || []);
-  } catch(e) { /* bridge not running */ }
-}
-
-function waSetFilter(f, btn) {
-  waResultFilter = f;
-  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  waLoadResults();
-}
-
-function renderWaResults(results) {
-  const section = document.getElementById('wa-results-section');
-  const list    = document.getElementById('wa-results-list');
-  const empty   = document.getElementById('wa-results-empty');
-  const count   = document.getElementById('wa-result-count');
-
-  if (!results.length) { section.style.display = 'none'; return; }
-  section.style.display = 'block';
-
-  const visible = results.filter(r => {
-    if (r.dismissed) return false;
-    if (waResultFilter === 'orders')  return r.parsed !== null;
-    if (waResultFilter === 'pending') return !r.converted;
-    return true;
-  });
-
-  count.textContent = `(${visible.length} of ${results.length})`;
-  empty.style.display = visible.length ? 'none' : 'block';
-
-  list.innerHTML = '';
-  visible.forEach(r => list.appendChild(buildResultCard(r)));
-}
-
-function buildResultCard(r) {
-  const div  = document.createElement('div');
-  div.id     = 'wrc-' + r.id;
-  div.className = `result-card ${r.parsed ? 'is-order' : ''} ${r.converted ? 'converted' : ''}`;
-
-  const time = new Date(r.ts).toLocaleString('en-IN', { day:'2-digit', month:'short', hour:'2-digit', minute:'2-digit' });
-
-  let parsedBlock = '';
-  if (r.parsed && !r.converted) {
-    const rows = r.parsed.items.map((item, i) => {
-      const opts = DB.masalas.map(m =>
-        `<option value="${escHtml(m.Name)}" ${m.Name.toLowerCase()===item.name.toLowerCase()?'selected':''}>${escHtml(m.Name)}</option>`
-      ).join('');
-      return `<div class="rc-item-row">
-        <select id="wn-${r.id}-${i}">
-          <option value="">— Select Masala —</option>${opts}
-          <option value="${escHtml(item.name)}" ${!DB.masalas.find(m=>m.Name.toLowerCase()===item.name.toLowerCase())?'selected':''}>${escHtml(item.name)}</option>
-        </select>
-        <input type="number" id="wq-${r.id}-${i}" value="${item.qty}" min="1">
-        <span style="font-size:.78rem;color:var(--muted)">packs</span>
-      </div>`;
-    }).join('');
-
-    const confClass = r.parsed.confidence === 'high' ? 'conf-high' : 'conf-low';
-    const confText  = r.parsed.confidence === 'high' ? '✓ High confidence' : '⚠ Review qty';
-    parsedBlock = `<div class="rc-parsed">
-      <div class="rc-parsed-label">📦 Order detected <span class="${confClass}">${confText}</span></div>
-      ${rows}
-      <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap">
-        <button class="btn btn-primary btn-sm" onclick="waConvertToOrder('${r.id}')">+ Log as Pending Order</button>
-        <button class="btn btn-secondary btn-sm" onclick="waDiscard('${r.id}')">Dismiss</button>
-      </div>
-    </div>`;
-  }
-
-  const logBtn = (!r.parsed && !r.converted) ? `
-    <div style="display:flex;gap:8px;margin-top:4px">
-      <button class="btn btn-ghost btn-sm" onclick="waPrefillOrder('${r.id}','${escHtml(r.name)}','${r.phone}')">+ Log as Order</button>
-      <button class="btn btn-secondary btn-sm" style="font-size:.72rem" onclick="waDiscard('${r.id}')">Dismiss</button>
-    </div>` : '';
-
-  const convertedBadge = r.converted
-    ? `<span class="tag tag-ok" style="font-size:.65rem;margin-left:auto">✓ Logged</span>` : '';
-
-  div.innerHTML = `
-    <div class="rc-meta">
-      <span class="rc-name">${escHtml(r.name)}</span>
-      <span class="rc-chat">${r.isGroup ? '👥 ' : ''}${escHtml(r.chatName)}</span>
-      ${r.parsed && !r.converted ? `<span class="tag tag-pending" style="font-size:.63rem">Order?</span>` : ''}
-      ${convertedBadge}
-      <span class="rc-time">${time}</span>
+function renderProductDetail(){
+  const m=DB.masalas.find(x=>x.ID===pdMasalaId); if(!m) return;
+  const packG=parseFloat(m.BatchSizeG)||100;
+  const mult=pdCurrentSize/packG;
+  const rec=recipeOf(m.Name);
+  const s=parseInt(m.StockPacks)||0;
+  const tc=totalCost(m), rc=rawCost(m), sp=parseFloat(m.SellingPrice)||0;
+
+  const sizes=[packG,packG*2,packG*3,packG*5];
+  const chipsHTML=sizes.map(g=>`<button class="chip ${g===pdCurrentSize?'on':''}" onclick="pdSetSize(${g})">${g}g</button>`).join('');
+
+  const recHTML = rec.length ? rec.map(r=>{
+    const q=(parseFloat(r.Quantity)||0)*mult;
+    const qG=(parseFloat(r.QuantityG)||0)*mult;
+    return `<div class="rrow"><span class="rn">${esc(r.RawMaterialName)}</span><span class="rq">${+q.toFixed(2)} ${esc(r.Unit)}${r.Unit!=='g'?` <span style="color:var(--muted);font-weight:400;font-size:.78rem">(${Math.round(qG)}g)</span>`:''}</span></div>`;
+  }).join('') : '<div class="note">No recipe saved yet — tap Edit to add one.</div>';
+
+  document.getElementById('pd-body').innerHTML=`
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px">
+      <span class="tag ${s===0?'tag-out':s<=2?'tag-low':'tag-ok'}" style="padding:6px 12px">${s} packets ready</span>
+      <span class="tag tag-hist" style="padding:6px 12px">${fmt(sp)} / ${packG}g pack</span>
+      ${sp?`<span class="tag ${sp-tc>=0?'tag-paid':'tag-out'}" style="padding:6px 12px">${fmt(sp-tc)} profit/pack</span>`:''}
     </div>
-    <div class="rc-body">${escHtml(r.rawText)}</div>
-    ${parsedBlock}
-    ${logBtn}
-  `;
-  return div;
+
+    <div class="card">
+      <div class="card-title">📖 Recipe · scaled to <span id="pd-size-label">${pdCurrentSize}g</span></div>
+      <div class="chips" style="margin-bottom:10px">${chipsHTML}</div>
+      ${recHTML}
+    </div>
+
+    <div class="card">
+      <div class="card-title">💰 Cost per ${packG}g pack</div>
+      <div class="rrow"><span class="rn">Raw materials</span><span class="rq">${fmt(rc)}</span></div>
+      <div class="rrow"><span class="rn">Packaging + Labels + Overhead</span><span class="rq">${fmt((parseFloat(m.Packaging)||0)+(parseFloat(m.Labels)||0)+(parseFloat(m.Overhead)||0))}</span></div>
+      <div class="rrow"><span class="rn"><b>Total cost</b></span><span class="rq"><b>${fmt(tc)}</b></span></div>
+    </div>
+
+    <div class="row" style="margin-bottom:8px">
+      <button class="btn btn-soft" onclick="adjStock('${m.ID}',1)">＋1 packet</button>
+      <button class="btn btn-o" onclick="adjStock('${m.ID}',-1)" ${s===0?'disabled':''}>−1 packet</button>
+    </div>
+    <div class="row">
+      <button class="btn btn-dark" onclick="closeSheet();go('batch',document.querySelector('[data-s=batch]'));setTimeout(()=>{document.getElementById('b-masala').value='${m.ID}';renderBatchRecipe()},60)">⚖️ Make batch</button>
+      <button class="btn btn-o" onclick="editMasala('${m.ID}')">✎ Edit</button>
+    </div>`;
+}
+function pdSetSize(g){ pdCurrentSize=g; renderProductDetail(); }
+
+async function adjStock(id,delta){
+  const m=DB.masalas.find(x=>x.ID===id); if(!m) return;
+  const old=parseInt(m.StockPacks)||0, nv=Math.max(0,old+delta);
+  m.StockPacks=nv; renderProductDetail(); renderProducts(); renderHome();
+  setSaving(true);
+  try{
+    const r=await api({action:'saveMasala',data:{...m,StockPacks:nv}});
+    if(r.error) throw new Error(r.error);
+    toast(`${m.Name}: ${nv} packets`);
+  }catch(e){ m.StockPacks=old; renderProductDetail(); renderProducts(); toast('Error: '+e.message,'err'); }
+  finally{ setSaving(false); }
 }
 
-// Convert a parsed result to a pending order in Google Sheets
-async function waConvertToOrder(resultId) {
-  const d = await waBridgeGet('/results');
-  const r = (d.results || []).find(x => x.id === resultId);
-  if (!r || !r.parsed) return;
+// ═══════════════ SHEETS (bottom drawers) ═══════════════
+let activeSheet=null;
+function openSheet(id){
+  closeSheet(true);
+  activeSheet=id;
+  document.getElementById('backdrop').classList.add('open');
+  document.getElementById(id).classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeSheet(silent){
+  if(activeSheet) document.getElementById(activeSheet).classList.remove('open');
+  if(!silent){ document.getElementById('backdrop').classList.remove('open'); document.body.style.overflow=''; }
+  activeSheet=null;
+}
 
-  const items = [];
-  let totalRev = 0, totalCost = 0;
+// ═══════════════ NEW ORDER ═══════════════
+function openOrderForm(){
+  document.getElementById('o-paste').value='';
+  document.getElementById('o-name').value='';
+  document.getElementById('o-phone').value='';
+  document.getElementById('o-addr').value='';
+  document.getElementById('o-notes').value='';
+  document.getElementById('o-date').value=new Date().toISOString().slice(0,10);
+  document.getElementById('o-items').innerHTML='';
+  addOrderItemRow();
+  setOType('delivered'); setOPay('unpaid');
+  document.getElementById('contact-pick-btn').style.display = ('contacts' in navigator && 'select' in (navigator.contacts||{})) ? 'inline-flex':'none';
+  openSheet('sheet-order');
+}
+function setOType(v){
+  oType=v;
+  document.querySelectorAll('#o-type-chips .chip').forEach(c=>{
+    c.className='chip'+(c.dataset.v===v?(v==='delivered'?' on-green on':v==='pending'?' on-violet on':' on-grey on'):'');
+  });
+}
+function setOPay(v){
+  oPay=v;
+  document.querySelectorAll('#o-pay-chips .chip').forEach(c=>c.classList.toggle('on',c.dataset.v===v));
+}
+function addOrderItemRow(pre){
+  const idx=document.querySelectorAll('#o-items .oi-row').length;
+  const opts=DB.masalas.map(m=>`<option value="${esc(m.Name)}" ${pre&&pre.name&&m.Name.toLowerCase()===pre.name.toLowerCase()?'selected':''}>${esc(m.Name)}</option>`).join('');
+  const div=document.createElement('div'); div.className='oi-row';
+  div.innerHTML=`<select onchange="calcOrderTotal()"><option value="">— Masala —</option>${opts}</select>
+    <input type="number" min="1" value="${pre?.qty||1}" placeholder="Qty" oninput="calcOrderTotal()">
+    <button class="oi-del" onclick="this.parentElement.remove();calcOrderTotal()">✕</button>`;
+  document.getElementById('o-items').appendChild(div);
+  calcOrderTotal();
+}
+function calcOrderTotal(){
+  let tot=0;
+  document.querySelectorAll('#o-items .oi-row').forEach(r=>{
+    const name=r.querySelector('select').value, qty=parseFloat(r.querySelector('input').value)||0;
+    const m=DB.masalas.find(x=>x.Name===name);
+    tot+=(parseFloat(m?.SellingPrice)||0)*qty;
+  });
+  document.getElementById('o-total').textContent=fmt(tot);
+}
 
-  r.parsed.items.forEach((item, i) => {
-    const name = document.getElementById(`wn-${resultId}-${i}`)?.value || item.name;
-    const qty  = parseFloat(document.getElementById(`wq-${resultId}-${i}`)?.value) || item.qty;
-    if (!name) return;
-    const masala = DB.masalas.find(m => m.Name === name);
-    const cost   = getMasalaTotalCost(masala);
-    const price  = parseFloat(masala?.SellingPrice) || 0;
-    totalRev  += price * qty;
-    totalCost += cost * qty;
-    items.push({ name, qty, price, weightG: (parseFloat(masala?.BatchSizeG)||100)*qty, costPerPack: cost });
+// ── Customer autocomplete ──
+function custAutocomplete(q){
+  const box=document.getElementById('o-ac');
+  q=q.trim().toLowerCase();
+  if(q.length<2){ box.style.display='none'; return; }
+  const matches=DB.customers.filter(c=>
+    String(c.Name||'').toLowerCase().includes(q)||String(c.Phone||'').includes(q)
+  ).slice(0,6);
+  if(!matches.length){ box.style.display='none'; return; }
+  box.innerHTML=matches.map(c=>
+    `<div class="ac-item" onclick="pickCust('${esc(c.Name)}','${esc(c.Phone)}','${esc(c.Address||'')}')">
+      <div>${esc(c.Name)}</div><div class="ac-ph">${esc(c.Phone)}${c.Address?' · '+esc(c.Address):''}</div>
+    </div>`).join('');
+  box.style.display='block';
+}
+function pickCust(n,p,a){
+  document.getElementById('o-name').value=n;
+  document.getElementById('o-phone').value=p;
+  document.getElementById('o-addr').value=a;
+  document.getElementById('o-ac').style.display='none';
+}
+document.addEventListener('click',e=>{ if(!e.target.closest('.ac-wrap')) document.getElementById('o-ac').style.display='none'; });
+
+// ── Contact Picker API (Android Chrome) ──
+async function pickContact(){
+  try{
+    const props=['name','tel'];
+    const [c]=await navigator.contacts.select(props,{multiple:false});
+    if(c){
+      if(c.name?.[0]) document.getElementById('o-name').value=c.name[0];
+      if(c.tel?.[0]) document.getElementById('o-phone').value=String(c.tel[0]).replace(/[^\d]/g,'').slice(-10);
+    }
+  }catch(e){ /* user cancelled */ }
+}
+
+// ── Paste-to-parse (replaces the WA bridge) ──
+function parsePaste(){
+  const text=document.getElementById('o-paste').value.trim();
+  if(!text){ toast('Paste a message first','warn'); return; }
+  const lower=text.toLowerCase();
+
+  // Phone number in the text?
+  const phoneMatch=text.replace(/[^\d\n]/g,' ').match(/\b\d{10}\b/) || text.match(/\+91[\s-]?(\d{10})/);
+  if(phoneMatch){
+    const ph=(phoneMatch[1]||phoneMatch[0]).slice(-10);
+    document.getElementById('o-phone').value=ph;
+    const known=DB.customers.find(c=>String(c.Phone).replace(/\D/g,'').endsWith(ph));
+    if(known){ document.getElementById('o-name').value=known.Name; document.getElementById('o-addr').value=known.Address||''; }
+  }
+
+  // Match items against YOUR actual product names (best accuracy)
+  const found=[];
+  DB.masalas.forEach(m=>{
+    const nm=m.Name.toLowerCase();
+    // try full name then first word (e.g. "garam" for "Garam Masala")
+    const keys=[nm, nm.split(' ')[0]].filter(k=>k.length>=4);
+    for(const k of keys){
+      const pos=lower.indexOf(k);
+      if(pos===-1) continue;
+      // find qty near the match: "2 garam" or "garam x2" / "garam - 2" / "garam masala 2"
+      const before=lower.slice(Math.max(0,pos-12),pos);
+      const after=lower.slice(pos+k.length,pos+k.length+16);
+      const qb=before.match(/(\d+(?:\.\d+)?)\s*(?:x|×|pkt|packs?|packets?)?\s*$/);
+      const qa=after.match(/^\s*(?:masala|powder)?\s*[x×\-:]?\s*(\d+(?:\.\d+)?)/);
+      const qty=parseFloat(qb?.[1]||qa?.[1])||1;
+      if(!found.find(f=>f.name===m.Name)) found.push({name:m.Name, qty:Math.min(qty,100)});
+      break;
+    }
   });
 
-  if (!items.length || !items[0].name) { toast('Select a masala product first', 'warn'); return; }
-
-  const orderData = {
-    ID: uid(), Date: new Date().toISOString().slice(0,10),
-    CustomerName: r.name, CustomerPhone: r.phone, CustomerAddress: '',
-    Items: items, TotalCost: totalCost, TotalRevenue: totalRev,
-    Notes: 'WhatsApp: ' + r.rawText.slice(0, 80),
-    OrderType: 'pending'
-  };
-
-  setSaving(true);
-  try {
-    DB.orders.push(orderData);
-    _optimisticRendered = true;
-    renderDashboard();
-
-    const res = await api({ action: 'saveOrder', data: orderData });
-    if (res.error) throw new Error(res.error);
-
-    await waBridgePatch('/results/' + resultId, { converted: true });
-    toast(`✓ Pending order saved for ${r.name}`, 'ok');
-    await loadData(true);
-    await waLoadResults();
-  } catch(e) {
-    DB.orders = DB.orders.filter(o => o.ID !== orderData.ID);
-    _optimisticRendered = false;
-    renderDashboard();
-    toast('Error: ' + e.message, 'err');
-  } finally { setSaving(false); }
-}
-
-// Pre-fill the Orders form for manual entry (non-parsed messages)
-function waPrefillOrder(resultId, name, phone) {
-  nav('orders', document.querySelector('nav button:nth-child(2)'));
-  setTimeout(() => {
-    document.getElementById('o-cname').value  = name;
-    document.getElementById('o-cphone').value = phone;
-    document.getElementById('cust-match-msg').innerHTML =
-      `<span style="color:var(--saffron)">📱 From WhatsApp</span>`;
-    setOrderType('pending');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }, 80);
-  // Mark as dismissed so it doesn't clutter the list
-  waBridgePatch('/results/' + resultId, { dismissed: true }).catch(() => {});
-}
-
-async function waDiscard(resultId) {
-  try {
-    await waBridgePatch('/results/' + resultId, { dismissed: true });
-    const card = document.getElementById('wrc-' + resultId);
-    if (card) card.style.display = 'none';
-    // Check if any remaining visible
-    const list = document.getElementById('wa-results-list');
-    const anyVisible = [...list.children].some(c => c.style.display !== 'none');
-    document.getElementById('wa-results-empty').style.display = anyVisible ? 'none' : 'block';
-  } catch(e) { toast('Could not dismiss', 'err'); }
-}
-
-async function waClearResults() {
-  if (!confirm('Clear all scan results? This only clears the local list — your orders in Google Sheets are not affected.')) return;
-  try {
-    await waBridgeDelete('/results');
-    document.getElementById('wa-results-section').style.display = 'none';
-    toast('Results cleared', 'ok');
-  } catch(e) { toast('Could not clear results', 'err'); }
-}
-
-function escHtml(str) {
-  return String(str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
-
-
-function saveScriptUrl() {
-  SCRIPT_URL = document.getElementById('script-url').value.trim();
-  localStorage.setItem('mb_script_url', SCRIPT_URL);
-}
-
-async function testConnection() {
-  const btn = event.target;
-  btn.textContent = 'Testing…'; btn.disabled = true;
-  const out = document.getElementById('conn-result');
-  try {
-    saveScriptUrl();
-    const res = await api({ action: 'ping' });
-    if (res.ok) {
-      out.innerHTML = '<span style="color:var(--success)">✓ Connected! Loading data…</span>';
-      document.getElementById('setup-banner').style.display = 'none';
-      await loadData();
-    } else throw new Error(res.error || 'Unknown error');
-  } catch(e) {
-    out.innerHTML = `<span style="color:var(--chili)">✗ ${e.message}. Check the URL and ensure the script is deployed with "Anyone" access.</span>`;
-    updateApiDot('err');
-  }
-  btn.textContent = 'Test Connection'; btn.disabled = false;
-}
-
-// ══════════════════════════════════════════════════════════════
-//  INIT
-// ══════════════════════════════════════════════════════════════
-window.addEventListener('DOMContentLoaded', () => {
-  document.getElementById('script-url').value = SCRIPT_URL;
-  document.getElementById('o-date').value = new Date().toISOString().slice(0,10);
-  setOrderType('delivered');
-  addOrderItem();
-  if (!SCRIPT_URL) {
-    document.getElementById('setup-banner').style.display = 'block';
-    updateApiDot('err');
+  if(found.length){
+    document.getElementById('o-items').innerHTML='';
+    found.forEach(f=>addOrderItemRow(f));
+    toast(`✨ Found ${found.length} item${found.length>1?'s':''}${phoneMatch?' + phone':''}`);
   } else {
-    loadData();
+    toast(phoneMatch?'Phone found — items not recognised, add manually':'Could not auto-detect items — add manually','warn');
   }
-  registerSW();
-  showInstallBanner();
-});
-
-// ── PWA: Service Worker registration ──────────────────────
-function registerSW() {
-  if (!('serviceWorker' in navigator)) return;
-  // Inline service worker as a blob — works from file:// and any server
-  const swCode = `
-const CACHE = 'masala-book-v1';
-const ASSETS = []; // single-file app, nothing extra to precache
-self.addEventListener('install', e => { self.skipWaiting(); });
-self.addEventListener('activate', e => { e.waitUntil(clients.claim()); });
-self.addEventListener('fetch', e => {
-  // Only cache same-origin GET requests; pass through API calls
-  const url = new URL(e.request.url);
-  if (e.request.method !== 'GET') return;
-  if (url.hostname === 'localhost') return; // bridge server — never cache
-  if (url.hostname.includes('script.google.com')) return; // sheets API — never cache
-  // Cache-first for fonts/CDN assets, network-first for the app itself
-  if (url.hostname !== location.hostname && url.hostname !== '') {
-    e.respondWith(
-      caches.open(CACHE).then(c => c.match(e.request).then(r => r || fetch(e.request).then(res => { c.put(e.request, res.clone()); return res; })))
-    );
-  }
-});
-  `;
-  const blob = new Blob([swCode], { type: 'application/javascript' });
-  const swUrl = URL.createObjectURL(blob);
-  navigator.serviceWorker.register(swUrl).catch(() => {});
 }
 
-// ── PWA: "Add to Home Screen" install prompt ──────────────
-let _installPrompt = null;
-window.addEventListener('beforeinstallprompt', e => {
-  e.preventDefault();
-  _installPrompt = e;
-  showInstallBanner();
-});
+// ── Save order ──
+async function saveOrder(){
+  const name=document.getElementById('o-name').value.trim();
+  const phone=document.getElementById('o-phone').value.trim();
+  if(!name){ toast('Customer name needed','warn'); return; }
 
-function showInstallBanner() {
-  // Show "Add to Home Screen" tip only on mobile and only once
-  if (window.matchMedia('(display-mode: standalone)').matches) return; // already installed
-  if (localStorage.getItem('pwa_dismissed')) return;
-  if (!/Mobi|Android/i.test(navigator.userAgent)) return;
+  const items=[]; let rev=0,cost=0;
+  document.querySelectorAll('#o-items .oi-row').forEach(r=>{
+    const nm=r.querySelector('select').value, qty=parseFloat(r.querySelector('input').value)||0;
+    if(!nm||!qty) return;
+    const m=DB.masalas.find(x=>x.Name===nm);
+    const price=parseFloat(m?.SellingPrice)||0, c=totalCost(m);
+    rev+=price*qty; cost+=c*qty;
+    items.push({name:nm,qty,price,weightG:(parseFloat(m?.BatchSizeG)||100)*qty,costPerPack:c});
+  });
+  if(!items.length){ toast('Add at least one item','warn'); return; }
 
-  const banner = document.createElement('div');
-  banner.id = 'pwa-banner';
-  banner.style.cssText = 'position:fixed;bottom:70px;left:12px;right:12px;background:var(--ink);color:var(--cream);border:1.5px solid var(--saffron);border-radius:12px;padding:12px 14px;font-size:.82rem;z-index:400;display:flex;align-items:center;gap:10px;box-shadow:0 4px 20px rgba(0,0,0,.3)';
-  banner.innerHTML = `
-    <span style="font-size:1.4rem">🌶</span>
-    <div style="flex:1">
-      <strong>Add to Home Screen</strong><br>
-      <span style="color:#9B8B72;font-size:.75rem">Tap Share → Add to Home Screen for app-like access</span>
-    </div>
-    <button onclick="document.getElementById('pwa-banner').remove();localStorage.setItem('pwa_dismissed','1')"
-      style="background:none;border:none;color:var(--saffron);font-size:1.2rem;cursor:pointer;padding:4px">✕</button>
-  `;
+  const data={ ID:uid(), Date:document.getElementById('o-date').value, CustomerName:name,
+    CustomerPhone:phone, CustomerAddress:document.getElementById('o-addr').value.trim(),
+    Items:items, TotalCost:cost, TotalRevenue:rev,
+    Notes:document.getElementById('o-notes').value.trim(), OrderType:oType, PaymentStatus:oPay };
 
-  // On Android Chrome, we can trigger the real prompt
-  if (_installPrompt) {
-    const installBtn = document.createElement('button');
-    installBtn.textContent = 'Install';
-    installBtn.style.cssText = 'background:var(--saffron);color:#fff;border:none;border-radius:6px;padding:6px 12px;font-weight:700;cursor:pointer;font-size:.8rem;white-space:nowrap';
-    installBtn.onclick = async () => {
-      _installPrompt.prompt();
-      const { outcome } = await _installPrompt.userChoice;
-      banner.remove();
-      if (outcome === 'accepted') localStorage.setItem('pwa_dismissed','1');
-    };
-    banner.insertBefore(installBtn, banner.lastElementChild);
+  DB.orders.push(data); renderAll(); closeSheet();
+  setSaving(true);
+  try{
+    const r=await api({action:'saveOrder',data});
+    if(r.error) throw new Error(r.error);
+    toast('✓ Order saved'); loadData(true);
+  }catch(e){ DB.orders=DB.orders.filter(o=>o.ID!==data.ID); renderAll(); toast('Error: '+e.message,'err'); }
+  finally{ setSaving(false); }
+}
+
+async function markDelivered(id){
+  const o=DB.orders.find(x=>x.ID===id); if(!o) return;
+  const old=o.OrderType; o.OrderType='delivered'; renderAll();
+  setSaving(true);
+  try{
+    const r=await api({action:'markDelivered',id});
+    if(r.error) throw new Error(r.error);
+    toast('✓ Marked delivered'); loadData(true);
+  }catch(e){ o.OrderType=old; renderAll(); toast('Error: '+e.message,'err'); }
+  finally{ setSaving(false); }
+}
+
+async function markPaid(id){
+  const o=DB.orders.find(x=>x.ID===id); if(!o) return;
+  const old=o.PaymentStatus; o.PaymentStatus='paid'; renderAll();
+  setSaving(true);
+  try{
+    const r=await api({action:'markPaid',id});
+    if(r.error) throw new Error(r.error);
+    toast('₹ Marked paid');
+  }catch(e){ o.PaymentStatus=old; renderAll(); toast('Error: '+e.message,'err'); }
+  finally{ setSaving(false); }
+}
+
+function sendPayLink(id){
+  const o=DB.orders.find(x=>x.ID===id); if(!o) return;
+  const amt=Math.round(parseFloat(o.TotalRevenue)||0);
+  const phone=String(o.CustomerPhone||'').replace(/\D/g,'');
+  const wa=phone.length===10?'91'+phone:phone;
+  const upi=`upi://pay?pa=${encodeURIComponent(UPI_ID)}&pn=${encodeURIComponent(PAYEE||'Payment')}&am=${amt}&cu=INR`;
+  const msg=`Hi ${o.CustomerName}! 🌿\nYour order total is ₹${amt}.\nYou can pay here: ${upi}\nThank you!`;
+  window.open(`https://wa.me/${wa}?text=${encodeURIComponent(msg)}`,'_blank');
+}
+
+async function deleteOrder(id){
+  if(!confirm('Delete this order?')) return;
+  const bak=[...DB.orders]; DB.orders=DB.orders.filter(o=>o.ID!==id); renderAll();
+  setSaving(true);
+  try{ const r=await api({action:'deleteOrder',id}); if(r.error) throw new Error(r.error); toast('Deleted'); }
+  catch(e){ DB.orders=bak; renderAll(); toast('Error: '+e.message,'err'); }
+  finally{ setSaving(false); }
+}
+
+// ═══════════════ MASALA CRUD + RECIPE EDIT ═══════════════
+function openMasalaForm(){
+  document.getElementById('mf-title').textContent='Add Masala';
+  ['m-id','m-name','m-price','m-notes'].forEach(i=>document.getElementById(i).value='');
+  document.getElementById('m-batch').value=100;
+  document.getElementById('m-pack').value=0; document.getElementById('m-label').value=0; document.getElementById('m-ovh').value=0;
+  document.getElementById('m-recipe-rows').innerHTML='';
+  document.getElementById('m-del-btn').style.display='none';
+  addRecipeRowUI();
+  openSheet('sheet-masala');
+}
+function editMasala(id){
+  const m=DB.masalas.find(x=>x.ID===id); if(!m) return;
+  document.getElementById('mf-title').textContent='Edit '+m.Name;
+  document.getElementById('m-id').value=m.ID;
+  document.getElementById('m-name').value=m.Name;
+  document.getElementById('m-batch').value=m.BatchSizeG;
+  document.getElementById('m-price').value=m.SellingPrice;
+  document.getElementById('m-pack').value=m.Packaging||0;
+  document.getElementById('m-label').value=m.Labels||0;
+  document.getElementById('m-ovh').value=m.Overhead||0;
+  document.getElementById('m-notes').value=m.Notes||'';
+  document.getElementById('m-del-btn').style.display='block';
+  const rows=document.getElementById('m-recipe-rows'); rows.innerHTML='';
+  const rec=recipeOf(m.Name);
+  if(rec.length) rec.forEach(r=>addRecipeRowUI(r)); else addRecipeRowUI();
+  openSheet('sheet-masala');
+}
+function addRecipeRowUI(pre){
+  const opts=DB.inventory.map(i=>`<option value="${esc(i.Name)}" ${pre&&i.Name===pre.RawMaterialName?'selected':''}>${esc(i.Name)}</option>`).join('');
+  const units=['g','kg','tsp','tbsp','piece'].map(u=>`<option ${pre&&pre.Unit===u?'selected':''}>${u}</option>`).join('');
+  const div=document.createElement('div'); div.className='oi-row'; div.style.gridTemplateColumns='1.6fr .8fr .8fr 34px';
+  div.innerHTML=`<select><option value="">— Spice —</option>${opts}</select>
+    <input type="number" step="any" placeholder="Qty" value="${pre?.Quantity||''}">
+    <select>${units}</select>
+    <button class="oi-del" onclick="this.parentElement.remove()">✕</button>`;
+  document.getElementById('m-recipe-rows').appendChild(div);
+}
+async function saveMasala(){
+  const name=document.getElementById('m-name').value.trim();
+  if(!name){ toast('Masala name needed','warn'); return; }
+  const id=document.getElementById('m-id').value||uid();
+  const existing=DB.masalas.find(m=>m.ID===id);
+  const data={ ID:id, Name:name,
+    BatchSizeG:parseFloat(document.getElementById('m-batch').value)||100,
+    SellingPrice:parseFloat(document.getElementById('m-price').value)||0,
+    Packaging:parseFloat(document.getElementById('m-pack').value)||0,
+    Labels:parseFloat(document.getElementById('m-label').value)||0,
+    Overhead:parseFloat(document.getElementById('m-ovh').value)||0,
+    Notes:document.getElementById('m-notes').value.trim(),
+    StockPacks:parseInt(existing?.StockPacks)||0 };
+
+  const rows=[];
+  const TO_G={g:1,kg:1000,tsp:3,tbsp:9,piece:5};
+  document.querySelectorAll('#m-recipe-rows .oi-row').forEach(r=>{
+    const sel=r.querySelectorAll('select'); const nm=sel[0].value, unit=sel[1].value;
+    const q=parseFloat(r.querySelector('input').value)||0;
+    if(nm&&q>0) rows.push({ID:uid(),MasalaName:name,RawMaterialName:nm,Quantity:q,Unit:unit,QuantityG:q*(TO_G[unit]||1)});
+  });
+
+  closeSheet(); setSaving(true);
+  try{
+    let r=await api({action:'saveMasala',data});
+    if(r.error) throw new Error(r.error);
+    r=await api({action:'deleteAllRecipeRows',masalaName:name});
+    if(r.error) throw new Error(r.error);
+    if(rows.length){ r=await api({action:'saveRecipeRows',rows}); if(r.error) throw new Error(r.error); }
+    toast('✓ '+name+' saved'); await loadData(true);
+  }catch(e){ toast('Error: '+e.message,'err'); }
+  finally{ setSaving(false); }
+}
+async function deleteMasala(){
+  const id=document.getElementById('m-id').value;
+  if(!id||!confirm('Delete this masala and its recipe?')) return;
+  closeSheet(); setSaving(true);
+  try{ const r=await api({action:'deleteMasala',id}); if(r.error) throw new Error(r.error); toast('Deleted'); await loadData(true); }
+  catch(e){ toast('Error: '+e.message,'err'); }
+  finally{ setSaving(false); }
+}
+
+// ═══════════════ BATCH MODE ═══════════════
+function initBatch(){
+  const sel=document.getElementById('b-masala');
+  sel.innerHTML='<option value="">— Select masala —</option>'+DB.masalas.map(m=>`<option value="${m.ID}">${esc(m.Name)}</option>`).join('');
+  renderBatchRecipe();
+}
+function setBatchSize(g,btn){
+  batchSize=g;
+  document.querySelectorAll('#b-size-chips .chip').forEach(c=>c.classList.remove('on'));
+  btn.classList.add('on');
+  renderBatchRecipe();
+}
+function setBatchSizeCustom(btn){
+  const v=parseFloat(prompt('Batch size in grams:',batchSize));
+  if(v>0){ batchSize=v; document.querySelectorAll('#b-size-chips .chip').forEach(c=>c.classList.remove('on')); btn.classList.add('on'); btn.textContent=v+'g'; renderBatchRecipe(); }
+}
+function renderBatchRecipe(){
+  const id=document.getElementById('b-masala').value;
+  const m=DB.masalas.find(x=>x.ID===id);
+  const card=document.getElementById('b-recipe-card'), fin=document.getElementById('b-finish-card');
+  if(!m){ card.style.display='none'; fin.style.display='none'; return; }
+  const rec=recipeOf(m.Name);
+  const packG=parseFloat(m.BatchSizeG)||100;
+  const mult=batchSize/packG;
+  card.style.display='block';
+  document.getElementById('b-recipe-title').textContent=`${m.Name} — ${batchSize}g (${mult.toFixed(1)}× recipe)`;
+
+  if(!rec.length){
+    document.getElementById('b-recipe-rows').innerHTML='<div class="note">⚠ No recipe saved for this masala. Add one from Products → tap the masala → Edit.</div>';
+    document.getElementById('b-summary').textContent='';
+    fin.style.display='none'; return;
   }
 
-  document.body.appendChild(banner);
-  // Auto-dismiss after 8s
-  setTimeout(() => banner.remove(), 8000);
+  document.getElementById('b-recipe-rows').innerHTML=rec.map((r,i)=>{
+    const q=(parseFloat(r.Quantity)||0)*mult, qG=(parseFloat(r.QuantityG)||0)*mult;
+    const ing=DB.inventory.find(x=>String(x.Name).trim().toLowerCase()===String(r.RawMaterialName).trim().toLowerCase());
+    const enough=(parseFloat(ing?.StockG)||0)>=qG;
+    return `<div class="rrow" id="brow-${i}">
+      <input type="checkbox" onchange="this.closest('.rrow').classList.toggle('ticked',this.checked)">
+      <span class="rn">${esc(r.RawMaterialName)}${enough?'':' <span class="tag tag-out" style="font-size:.62rem">short!</span>'}</span>
+      <span class="rq">${+q.toFixed(2)} ${esc(r.Unit)}${r.Unit!=='g'?` <span style="color:var(--muted);font-weight:400;font-size:.76rem">(${Math.round(qG)}g)</span>`:''}</span>
+    </div>`;
+  }).join('');
+
+  const rcCost=rawCost(m)*mult;
+  const packs=Math.floor(batchSize/packG);
+  document.getElementById('b-summary').innerHTML=`Makes <b>${packs} packet${packs!==1?'s':''}</b> of ${packG}g · Raw material cost ≈ <b>${fmt(rcCost)}</b>`;
+  document.getElementById('b-packs-hint').textContent=`e.g. if you deliver 1 packet and keep the rest, enter ${Math.max(0,packs-1)}`;
+  document.getElementById('b-extra-packs').value='';
+  fin.style.display='block';
 }
+async function completeBatch(){
+  const id=document.getElementById('b-masala').value;
+  const m=DB.masalas.find(x=>x.ID===id); if(!m){ toast('Select a masala','warn'); return; }
+  const extra=parseInt(document.getElementById('b-extra-packs').value)||0;
+  setSaving(true);
+  try{
+    const r=await api({action:'logBatch',data:{masalaName:m.Name,batchG:batchSize,extraPacks:extra}});
+    if(r.error) throw new Error(r.error);
+    toast(`✓ Batch logged — raw stock updated${extra?`, +${extra} packets ready`:''}`);
+    await loadData(true); renderBatchRecipe();
+  }catch(e){ toast('Error: '+e.message,'err'); }
+  finally{ setSaving(false); }
+}
+
+// ═══════════════ INVENTORY ═══════════════
+function renderInv(){
+  const el=document.getElementById('inv-list');
+  el.innerHTML=DB.inventory.length?DB.inventory.map(i=>{
+    const low=(parseFloat(i.StockG)||0)<=(parseFloat(i.LowStockAlertG)||100);
+    return `<div class="irow" onclick="editInv('${i.ID}')" style="cursor:pointer">
+      <span class="in">${esc(i.Name)}</span>
+      <span class="iq">${Math.round(i.StockG)}g · ${fmt(i.CostPer100G)}/100g</span>
+      ${low?'<span class="tag tag-low">Low</span>':'<span class="tag tag-ok">OK</span>'}
+    </div>`;
+  }).join(''):'<div class="note">No raw materials yet.</div>';
+}
+function openInvForm(){
+  document.getElementById('if-title').textContent='Add Raw Material';
+  ['i-id','i-name','i-stock','i-cost'].forEach(x=>document.getElementById(x).value='');
+  document.getElementById('i-alert').value=100;
+  document.getElementById('i-del-btn').style.display='none';
+  openSheet('sheet-inv');
+}
+function editInv(id){
+  const i=DB.inventory.find(x=>x.ID===id); if(!i) return;
+  document.getElementById('if-title').textContent=i.Name;
+  document.getElementById('i-id').value=i.ID;
+  document.getElementById('i-name').value=i.Name;
+  document.getElementById('i-stock').value=i.StockG;
+  document.getElementById('i-cost').value=i.CostPer100G;
+  document.getElementById('i-alert').value=i.LowStockAlertG||100;
+  document.getElementById('i-del-btn').style.display='block';
+  openSheet('sheet-inv');
+}
+async function saveInv(){
+  const name=document.getElementById('i-name').value.trim();
+  if(!name){ toast('Name needed','warn'); return; }
+  const data={ ID:document.getElementById('i-id').value||uid(), Name:name, Unit:'g',
+    StockG:parseFloat(document.getElementById('i-stock').value)||0,
+    CostPer100G:parseFloat(document.getElementById('i-cost').value)||0,
+    LowStockAlertG:parseFloat(document.getElementById('i-alert').value)||100 };
+  closeSheet(); setSaving(true);
+  try{ const r=await api({action:'saveRawMaterial',data}); if(r.error) throw new Error(r.error); toast('✓ Saved'); await loadData(true); }
+  catch(e){ toast('Error: '+e.message,'err'); }
+  finally{ setSaving(false); }
+}
+async function deleteInv(){
+  const id=document.getElementById('i-id').value;
+  if(!id||!confirm('Delete this raw material?')) return;
+  closeSheet(); setSaving(true);
+  try{ const r=await api({action:'deleteRawMaterial',id}); if(r.error) throw new Error(r.error); toast('Deleted'); await loadData(true); }
+  catch(e){ toast('Error: '+e.message,'err'); }
+  finally{ setSaving(false); }
+}
+
+// ═══════════════ CUSTOMERS ═══════════════
+function renderCust(){
+  const el=document.getElementById('cust-list');
+  el.innerHTML=DB.customers.length?DB.customers.map(c=>{
+    const orders=DB.orders.filter(o=>String(o.CustomerPhone)===String(c.Phone)).length;
+    return `<div class="irow"><span class="in">${esc(c.Name)}</span><span class="iq">${esc(c.Phone)} · ${orders} order${orders!==1?'s':''}</span></div>`;
+  }).join(''):'<div class="note">Customers appear here automatically after their first order.</div>';
+}
+
+// ═══════════════ SETTINGS ═══════════════
+function saveSettings(){
+  SCRIPT_URL=document.getElementById('set-url').value.trim();
+  UPI_ID=document.getElementById('set-upi').value.trim();
+  PAYEE=document.getElementById('set-payee').value.trim();
+  localStorage.setItem('mb_script_url',SCRIPT_URL);
+  localStorage.setItem('mb_upi',UPI_ID);
+  localStorage.setItem('mb_payee',PAYEE);
+  toast('✓ Settings saved'); loadData();
+}
+
+// ═══════════════ PWA + INIT ═══════════════
+if('serviceWorker' in navigator){
+  const sw=`self.addEventListener('install',e=>self.skipWaiting());self.addEventListener('activate',e=>e.waitUntil(clients.claim()));self.addEventListener('fetch',e=>{const u=new URL(e.request.url);if(e.request.method!=='GET'||u.hostname.includes('script.google.com'))return;if(u.hostname!==location.hostname){e.respondWith(caches.open('mb-v9').then(c=>c.match(e.request).then(r=>r||fetch(e.request).then(res=>{c.put(e.request,res.clone());return res}))))}});`;
+  navigator.serviceWorker.register(URL.createObjectURL(new Blob([sw],{type:'application/javascript'}))).catch(()=>{});
+}
+window.addEventListener('DOMContentLoaded',()=>{
+  document.getElementById('set-url').value=SCRIPT_URL;
+  document.getElementById('set-upi').value=UPI_ID;
+  document.getElementById('set-payee').value=PAYEE;
+  loadData();
+});
 </script>
 </body>
 </html>
