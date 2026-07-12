@@ -248,8 +248,8 @@ input:focus,select:focus,textarea:focus{border-color:var(--saffron)}
     ⚙️ <b>Setup needed:</b> add your Apps Script URL in <a href="#" onclick="go('more');return false" style="color:var(--saffron);font-weight:700">More → Settings</a>.
   </div>
 
-  <div class="stats">
-    <div class="stat hero"><div class="v" id="st-rev">₹0</div><div class="l">Revenue · this month</div></div>
+  <div class="stats" onclick="cycleRevPeriod()" style="cursor:pointer" title="Tap to change period">
+    <div class="stat hero"><div class="v" id="st-rev">₹0</div><div class="l" id="st-rev-label">Revenue · this month ⇄</div></div>
     <div class="stat"><div class="v" id="st-profit">₹0</div><div class="l">Profit</div></div>
     <div class="stat"><div class="v" id="st-orders">0</div><div class="l">Orders</div></div>
   </div>
@@ -570,14 +570,36 @@ function totalCost(m){ if(!m) return 0; return rawCost(m)+(parseFloat(m.Packagin
 // ═══════════════ RENDER ALL ═══════════════
 function renderAll(){ renderHome(); renderOrders(); renderProducts(); renderInv(); renderCust(); }
 
+let revPeriod = localStorage.getItem('rev_period') || 'month';
+function cycleRevPeriod(){
+  const order=['month','3mo','year','all'];
+  revPeriod=order[(order.indexOf(revPeriod)+1)%order.length];
+  localStorage.setItem('rev_period',revPeriod);
+  renderHome();
+}
+function periodOrders(){
+  const now=new Date();
+  const done=DB.orders.filter(o=>String(o.OrderType).toLowerCase()!=='pending');
+  if(revPeriod==='all') return {orders:done,label:'Revenue · all time ⇄'};
+  if(revPeriod==='year'){
+    const yr=now.getFullYear();
+    return {orders:done.filter(o=>new Date(o.Date).getFullYear()===yr),label:'Revenue · this year ⇄'};
+  }
+  if(revPeriod==='3mo'){
+    const cut=new Date(now.getFullYear(),now.getMonth()-2,1).getTime();
+    return {orders:done.filter(o=>new Date(o.Date).getTime()>=cut),label:'Revenue · 3 months ⇄'};
+  }
+  const mo=now.getMonth(),yr=now.getFullYear();
+  return {orders:done.filter(o=>{const d=new Date(o.Date);return d.getMonth()===mo&&d.getFullYear()===yr;}),label:'Revenue · this month ⇄'};
+}
 function renderHome() {
-  const now=new Date(), mo=now.getMonth(), yr=now.getFullYear();
-  const monthOrders=DB.orders.filter(o=>{const d=new Date(o.Date);return d.getMonth()===mo&&d.getFullYear()===yr&&String(o.OrderType).toLowerCase()!=='pending';});
-  const rev=monthOrders.reduce((s,o)=>s+(parseFloat(o.TotalRevenue)||0),0);
-  const cost=monthOrders.reduce((s,o)=>s+(parseFloat(o.TotalCost)||0),0);
+  const {orders:pOrders,label}=periodOrders();
+  const rev=pOrders.reduce((s,o)=>s+(parseFloat(o.TotalRevenue)||0),0);
+  const cost=pOrders.reduce((s,o)=>s+(parseFloat(o.TotalCost)||0),0);
   document.getElementById('st-rev').textContent=fmt(rev);
+  document.getElementById('st-rev-label').textContent=label;
   document.getElementById('st-profit').textContent=fmt(rev-cost);
-  document.getElementById('st-orders').textContent=monthOrders.length;
+  document.getElementById('st-orders').textContent=pOrders.length;
 
   // Pending
   const pend=DB.orders.filter(o=>String(o.OrderType).toLowerCase()==='pending');
